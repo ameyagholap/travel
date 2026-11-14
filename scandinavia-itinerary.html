@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scandinavia Trip: Sweden, Norway, Denmark</title>
+<style>
+:root{
+  --bg:#f6f4ef; --card:#ffffff; --ink:#1d2430; --muted:#5d6675; --line:#e3dfd5;
+  --se:#005b99; --se2:#f2b705; --no:#b3262e; --dk:#c8102e; --sea:#0f766e;
+  --chip:#eef1f5; --warn:#fff6dc; --warnline:#e8c766;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#12161c; --card:#1a2029; --ink:#e8ebf0; --muted:#9aa4b3; --line:#2a323f;
+    --chip:#242c38; --warn:#2c2616; --warnline:#6b5a1f; --se:#5aa9e6; --no:#ef6a70; --dk:#f2707f; --sea:#4fc3b8; }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:inherit}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+header.hero{padding:40px 0 24px;border-bottom:1px solid var(--line)}
+header.hero h1{margin:0 0 6px;font-size:clamp(1.8rem,5vw,2.8rem);letter-spacing:-.02em}
+header.hero p{margin:0;color:var(--muted)}
+.route{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:16px;font-weight:600;font-size:.92rem}
+.route span{background:var(--chip);padding:4px 10px;border-radius:999px}
+.route i{font-style:normal;color:var(--muted)}
+nav.top{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;gap:8px;overflow-x:auto;padding:8px 16px;scrollbar-width:thin}
+nav.top a{white-space:nowrap;text-decoration:none;font-size:.85rem;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--chip)}
+nav.top a:hover{background:var(--line)}
+section{padding:28px 0 4px}
+h2.country{display:flex;align-items:center;gap:10px;font-size:1.6rem;margin:0 0 4px}
+h2.country::before{content:"";width:6px;height:1.5em;border-radius:3px;background:var(--c)}
+.sub{color:var(--muted);margin:0 0 16px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0}
+.box h3{margin:0 0 8px;font-size:1.05rem}
+.box ul{margin:0;padding-left:20px}
+.warn{background:var(--warn);border-color:var(--warnline)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+td.d{font-weight:700;white-space:nowrap}
+.tblwrap{overflow-x:auto}
+.day{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:14px;padding:16px 18px;margin:14px 0}
+.day header{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline;margin-bottom:6px}
+.badge{background:var(--c);color:#fff;font-weight:700;font-size:.78rem;padding:3px 10px;border-radius:999px}
+.day h3{margin:0;font-size:1.2rem}
+.loc{color:var(--muted);font-size:.9rem}
+.how{background:var(--chip);border-radius:10px;padding:8px 12px;font-size:.92rem;margin:8px 0}
+.how b{color:var(--sea)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px}
+@media (max-width:700px){.cols{grid-template-columns:1fr}}
+.day h4{margin:12px 0 4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.day ul{margin:0;padding-left:20px}
+.day li{margin:2px 0}
+.tip{margin-top:10px;font-size:.92rem;border-top:1px dashed var(--line);padding-top:8px}
+details{margin-top:10px;background:var(--chip);border-radius:10px;padding:8px 12px;font-size:.92rem}
+summary{cursor:pointer;font-weight:600}
+.se{--c:var(--se)} .no{--c:var(--no)} .dk{--c:var(--dk)} .tr{--c:var(--sea)}
+.travel{border-style:dashed}
+footer{padding:32px 0 48px;color:var(--muted);font-size:.85rem}
+@media print{nav.top{display:none}.day,.box{break-inside:avoid}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <h1>Scandinavia: Sweden · Norway · Denmark</h1>
+  <p>19 days, day by day. Mumbai → Stockholm → Oslo → Bergen → overnight cruise → Copenhagen → Mumbai. Shoulder season (Apr–May / Sep–Nov).</p>
+  <div class="route"><span>Mumbai</span><i>✈</i><span>Stockholm</span><i>→</i><span>Dalarna</span><i>→</i><span>Stockholm</span><i>🚆</i><span>Oslo</span><i>🚆</i><span>Flåm</span><i>⛴</i><span>Bergen</span><i>✈</i><span>Oslo</span><i>🚢</i><span>Copenhagen</span><i>✈</i><span>Mumbai</span></div>
+</div></header>
+
+<nav class="top"><div class="wrap">
+  <a href="#glance">At a glance</a><a href="#sweden">Sweden</a><a href="#norway">Norway</a><a href="#cruise">Cruise</a><a href="#denmark">Denmark</a><a href="#essentials">Essentials</a>
+</div></nav>
+
+<main class="wrap">
+  <section id="glance">
+    <div class="box"><h3>At a glance</h3><div class="tblwrap"><table id="glanceTable"></table></div></div>
+    <div class="box warn"><h3>Check these before booking</h3>
+      <ul>
+        <li><b>Oslo Viking Ship Museum</b> (Bygdøy) is closed while it is rebuilt as the Museum of the Viking Age. The reopening was expected around 2027, so confirm on <b>khm.uio.no</b>. Day 8 has a Viking fallback.</li>
+        <li><b>Bergen → Copenhagen cruise:</b> none exists. The only sea link is Fjord Line Bergen → Hirtshals (about 18 h), then 4–5 h on to Copenhagen. This plan flies Bergen → Oslo and takes the Oslo → Copenhagen overnight ferry (about 17.5 h, departs around 16:30). The operator and timetable have changed recently, so confirm on the ferry company's site.</li>
+        <li><b>Seasonal openings:</b> Carl Larsson-gården (Sundborn), the Sognefjord express boat and Skansen/Gröna Lund hours vary or reduce in Nov–Apr. Tivoli runs Halloween and Christmas editions in autumn and is closed for some weeks in winter.</li>
+        <li><b>Daylight:</b> in Nov days are about 6–7 h long, so keep outdoor sights for the morning. Dec–Mar has snow; Apr–May is mild but fjord services are still ramping up.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="sweden"><h2 class="country" style="--c:var(--se)">Sweden · Days 1–6</h2><p class="sub">Stockholm, the archipelago and Dalarna. Currency: SEK.</p><div id="se"></div></section>
+  <section id="norway"><h2 class="country" style="--c:var(--no)">Norway · Days 7–13</h2><p class="sub">Oslo, Flåm, the fjords and Bergen. Currency: NOK. Expect prices well above Sweden and Denmark.</p><div id="no"></div></section>
+  <section id="cruise"><h2 class="country" style="--c:var(--sea)">Cruise · Day 13</h2><p class="sub">Overnight Oslo → Copenhagen.</p><div id="cr"></div></section>
+  <section id="denmark"><h2 class="country" style="--c:var(--dk)">Denmark · Days 14–19</h2><p class="sub">Copenhagen and North Zealand. Currency: DKK.</p><div id="dk"></div></section>
+
+  <section id="essentials">
+    <h2 class="country" style="--c:var(--sea)">Essentials</h2>
+    <div class="box"><h3>Getting there and away (Mumbai)</h3><ul>
+      <li>There is no nonstop flight from Mumbai to Stockholm. Common one-stop routes are via Helsinki, Doha, Dubai, Istanbul or a European hub.</li>
+      <li>Fly <b>into Stockholm (ARN)</b> and <b>out of Copenhagen (CPH)</b> as an open-jaw ticket. It saves doubling back.</li>
+      <li>A single <b>Schengen visa</b> covers all three countries. Apply to the country where you spend the most nights, which is Sweden or Norway here. Check requirements for your passport.</li>
+    </ul></div>
+    <div class="box"><h3>Money and getting around</h3><ul>
+      <li>Cards and Apple/Google Pay are accepted nearly everywhere. Carry very little cash.</li>
+      <li>City transport apps: <b>SL</b> (Stockholm), <b>Ruter</b> (Oslo), <b>Skyss</b> (Bergen), <b>DOT / Rejsekort</b> (Copenhagen).</li>
+      <li>Book in advance: Stockholm–Oslo train (<b>SJ</b>), Oslo–Myrdal (<b>Vy</b>), <b>Flåmsbana</b>, the Nærøyfjord cruise, the Bergen flight and the cruise cabin.</li>
+      <li>Tap water is excellent everywhere. Bring a refillable bottle.</li>
+    </ul></div>
+    <div class="box"><h3>Must-try food, quick list</h3><ul>
+      <li><b>Sweden:</b> köttbullar (meatballs with lingonberry), kanelbulle and kardemummabulle at fika, falukorv, Västerbotten cheese.</li>
+      <li><b>Norway:</b> fiskesuppe (fish soup), brunost (brown cheese on waffles), kjøttkaker, skillingsboller, fjord trout.</li>
+      <li><b>Denmark:</b> smørrebrød, wienerbrød (Danish pastry), pølser (hot dogs), flødeboller, frikadeller.</li>
+    </ul></div>
+  </section>
+</main>
+
+<footer><div class="wrap">Prices, opening hours and timetables change. Confirm anything you plan to book. Walking times and durations are approximate.</div></footer>
+
+<script>
+var D = {
+se:[
+{n:1,t:"Gamla Stan and Södermalm",loc:"Stockholm",how:"<b>Airport → city:</b> Arlanda Express to Stockholm Central (about 18 min), or the Flygbussarna bus (about 40 min, cheaper). Most Mumbai flights land mid-day or evening, so treat Day 1 as a gentle start.",
+ see:["<b>Gamla Stan</b> (Old Town): medieval cobbled alleys, <b>Stortorget</b> square and the <b>Nobel Museum</b>.","<b>Royal Palace</b> exterior. The guard change is usually around 12:00.","<b>Mårten Trotzigs gränd</b>: Stockholm's narrowest alley (about 90 cm wide).","<b>Storkyrkan</b> cathedral and the St George and the Dragon statue.","Late afternoon: <b>Monteliusvägen</b> on Södermalm for panoramic harbour views (about 10 min walk from T-bana Mariatorget). Sunset is the best time."],
+ eat:["<b>First fika:</b> kanelbulle (cinnamon bun) or kardemummabulle at <b>Vete-Katten</b> (Kungsgatan 55, since 1928) or <b>Café Saturnus</b> (Östermalm, huge buns).","<b>Meatballs:</b> <b>Meatballs for the People</b> (Södermalm) or <b>Pelikan</b> (classic beer hall).","<b>Den Gyldene Freden</b> in Gamla Stan, open since 1722."],
+ tip:"Buy an SL travel card in the app. Gamla Stan is compact and fully walkable."},
+{n:2,t:"Djurgården Island",loc:"Stockholm",how:"<b>Getting there:</b> Djurgården ferry from Slussen (included in SL ticket, about 10 min), or tram 7 from Norrmalmstorg.",
+ see:["<b>Vasa Museum</b>: a nearly intact 1628 warship that sank on its maiden voyage. Allow 2–3 h.","<b>Skansen</b>: the world's oldest open-air museum (1891), with historic Swedish farmsteads and Nordic animals such as elk, bear, wolverine and lynx.","<b>ABBA The Museum</b> (optional) and <b>Rosendals Trädgård</b> (garden walk).","<b>Gröna Lund</b> funfair: mostly closed in shoulder season apart from event periods."],
+ eat:["<b>Rosendals Trädgårdskafé</b>: garden lunch, bakery and apple cake.","<b>Skansen</b> has traditional kiosks and bakeries."],
+ tip:"Go to Vasa first thing, at opening, before the crowds. Pair Skansen with the afternoon light."},
+{n:3,t:"Archipelago day trip, or Sigtuna",loc:"Vaxholm / Grinda, or Sigtuna",how:"<b>Archipelago:</b> Waxholmsbolaget ferry from Strandvägen to <b>Vaxholm</b> (about 50 min). <b>Grinda</b> takes about 1.5 h. Timetables are limited in Nov–Apr.",
+ see:["<b>Vaxholm:</b> Vaxholm Fortress (Kastell), the wooden waterfront and harbour views.","<b>Grinda:</b> forest and coastal trails, rocky shores and seaside walks.","<b>Sigtuna</b> (fallback): Sweden's oldest town. Medieval church ruins (St Olof, St Per), runestones and lakeside cafés."],
+ eat:["<b>Vaxholm:</b> waterfront fish restaurants. Try Baltic herring or shrimp sandwiches.","<b>Sigtuna:</b> cafés on Stora Gatan, the main street."],
+ alt:"<b>Winter or no ferries?</b> Sigtuna: commuter train Stockholm C → Märsta (about 40 min), then bus 570 (about 15 min).",
+ tip:"Check the Waxholmsbolaget timetable the day before, especially in autumn."},
+{n:4,t:"Falun and Lake Siljan",loc:"Falun → Rättvik",how:"<b>Getting there:</b> SJ train Stockholm C → Falun (about 2–2.5 h). Then a local bus to Sundborn. Continue Falun → <b>Rättvik</b> or Mora by train/bus (about 45–60 min).",
+ see:["<b>Falun Mine</b> (Great Copper Mountain), UNESCO. Underground tours show the source of Falu red paint.","<b>Carl Larsson-gården</b> in Sundborn (about 12 km from Falun), the artist's colourful family home. Check seasonal opening.","Evening settle-in at Rättvik or Mora on Lake Siljan."],
+ eat:["<b>Falukorv</b> (Falun sausage) at a local lunch place.","Dalarna <b>tunnbröd</b> (thin bread), lingonberries and local cheeses at your Siljan stay."],
+ tip:"Carl Larsson-gården is often closed late autumn to spring. Have the mine as your fallback."},
+{n:5,t:"Lakeside villages and Dala horses",loc:"Rättvik · Nusnäs · Mora",how:"<b>Getting around:</b> local trains Rättvik ↔ Mora (about 30 min). Nusnäs is about 10 km from Mora, so take a taxi or bus. Check bus times, as rural services thin out.",
+ see:["<b>Nusnäs:</b> watch artisans hand-carve and paint traditional <b>Dala horses</b> (Dalahäst) at the workshops.","<b>Rättvik's Långbryggan:</b> a 628 m wooden pier into Siljan, the longest in Sweden.","<b>Mora:</b> Zorn Museum (painter Anders Zorn) and the Vasaloppet ski-race finish line.","<b>Lakeside wood-fired sauna.</b> Book through your lodging; many Siljan stays offer one.","<b>Fun fact:</b> Siljan sits in a meteor-impact crater, Europe's largest."],
+ eat:["<b>Palt / kroppkakor</b> (Dalarna potato dumplings), <b>tunnbrödsrulle</b> and lingonberry desserts.","<b>Fika</b> stops in Rättvik and Mora."],
+ tip:"Buy a Dala horse in Nusnäs, where the best ones are made. Autumn lake light is excellent."},
+{n:6,t:"Nature walk and return to Stockholm",loc:"Rättvik → Stockholm",how:"<b>Getting back:</b> direct SJ train Rättvik → Stockholm C (about 3–3.5 h). Book a late-afternoon departure.",
+ see:["<b>Spring–autumn:</b> hike <b>Styggforsen Nature Reserve</b> (gorge and waterfall near Rättvik), or rent bikes along the Siljan shore.","Back in Stockholm by evening. Sleep close to Stockholm Central for the next morning's train."],
+ eat:["Pack a picnic of bread, cheese and fika from a Rättvik bakery.","Dinner in Stockholm: <b>Östermalms Saluhall</b> (food hall) for a final Swedish meal."],
+ alt:"<b>If there is snow (late Nov to Apr):</b> ski at <b>Rättviksbacken</b> (view over Siljan) or <b>Romme Alpin</b> (near Borlänge, over 30 runs), then take the late train. Rent gear locally.",
+ tip:"Next morning is the early train to Oslo, so pack tonight and keep your passport handy. Doing the IKEA add-on? See the optional day below."},
+{n:6,badge:"Optional +1 day",t:"IKEA Museum, Älmhult (the original IKEA town)",loc:"Älmhult, Småland, southern Sweden",
+ how:"<b>Why not a half-day:</b> Älmhult is roughly 4.5–5 h from Stockholm by train each way, so it needs a full day plus an overnight. Check the journey on <b>sj.se</b> or <b>resrobot.se</b>. This plan adds it as one extra day. Slot it in place of the Day 6 return, or add it after Day 6. In both cases the rest of the trip shifts by one day.",
+ see:["<b>IKEA Museum</b>, housed in the very first IKEA store (opened 1958). It tells the story of IKEA from Ingvar Kamprad's farm to today, with room sets from every decade. Book a timed ticket online and allow 2–3 h.","<b>Today's IKEA Älmhult store</b> next door, for the Swedish Food Market and the full range at home-town prices.","<b>IKEA Hotel</b> (<b>Hotell Ikea Älmhult</b> / Concept Center): stay in IKEA-designed rooms for the full experience, and visit the town's small Kamprad sights.","<b>Älmhult town:</b> a small, quiet Småland town. Walk the lakeside near Möckeln."],
+ eat:["<b>Museum restaurant</b> and the store's food hall: köttbullar (meatballs), lingonberry jam, prinsesstårta and the classic IKEA hot dog.","Småland classics: <b>kroppkakor</b>, <b>blodpudding</b> or a lingonberry pancake at a local café."],
+ tip:"Opening days and hours of the museum vary by season, so confirm on <b>ikeamuseum.com</b> and book a ticket. If this costs too much travel time, skip it or pick the Stockholm-area IKEA Kungens Kurva as a quick half-day instead."}
+],
+no:[
+{n:7,t:"Stockholm → Oslo, then the Opera House",loc:"Oslo · Norway Day 1",how:"<b>Getting there:</b> direct SJ train Stockholm C → Oslo S (about 6 h). Book early for cheaper fares. In Oslo, everything below is a walk from Oslo S.",
+ see:["<b>Operahuset</b> (Opera House) in Bjørvika: climb the white marble sloping roof for the harbour and city view. It is free, and the roof is open to walk on.","<b>Akershus Fortress</b>: medieval fortress, with views from its walls.","<b>Karl Johans gate</b>: Oslo's main boulevard, leading to the Royal Palace.","<b>Munch Museum</b> (Bjørvika, nearby, if you have energy)."],
+ eat:["<b>Mathallen Oslo</b> food hall (Vulkan, Grünerløkka): Norwegian salmon, seafood, cheese and street food.","<b>Fuglen</b> (Tordenskiolds gate 8–10) for coffee.","Try <b>kjøttkaker</b> (meatballs in brown gravy) or <b>fiskesuppe</b>."],
+ tip:"Stay near Oslo S for easy train connections on Day 9. An Oslo Pass can pay off only if you do many museums."},
+{n:8,t:"Oslo museums and Viking history",loc:"Oslo · Norway Day 2",how:"<b>Bygdøy peninsula:</b> bus 30 from Jernbanetorget year-round (about 20 min). A seasonal ferry runs from the City Hall pier.",
+ see:["<b>Viking Ship Museum</b>: currently closed for rebuild. Verify before you go (see the checklist at the top).","<b>Viking fallback:</b> <b>Norsk Folkemuseum</b> (includes the 13th-century Gol stave church) and the <b>Historical Museum</b> collection if open.","<b>Fram Museum</b>: the polar ship that carried Nansen and Amundsen. <b>Kon-Tiki Museum</b> and the <b>Norwegian Maritime Museum</b> are next door.","<b>Vigeland Sculpture Park</b> (Frogner): 200+ granite sculptures, free, and open all day.","<b>Street walk:</b> Aker Brygge waterfront → City Hall (Nobel Peace Prize ceremony venue) → Nobel Peace Center."],
+ eat:["<b>Fiskeriet Youngs</b> (Youngstorget) for fish and chips or fish soup.","<b>Pølse med lompe</b> (hot dog wrapped in potato flatbread) from a street kiosk.","Waffles with brunost at a café."],
+ tip:"Group Bygdøy's museums together: Fram, Kon-Tiki and Maritime are a few minutes' walk apart."},
+{n:9,t:"Oslo → Flåm by the Flåmsbana",loc:"Oslo → Myrdal → Flåm · Norway Day 3",how:"<b>Getting there:</b> Vy train Oslo S → <b>Myrdal</b> (about 4.5 h), then the <b>Flåmsbana</b> (20 km, about 1 h) down to Flåm. Reserve a seat in advance. Reduced timetable in winter.",
+ see:["<b>Flåmsbana:</b> one of the world's steepest standard-gauge railways. It drops 864 m through 20 tunnels, and the train stops at <b>Kjosfossen waterfall</b>.","<b>Flåm Railway Museum</b> (free) at the station.","Evening walk along the Aurlandsfjord quay and to the small <b>Flåm church</b> (1667)."],
+ eat:["<b>Ægir Brewpub</b> in Flåm: Viking-longhouse style building, local craft beer and fish dishes.","<b>Fjord trout</b> and local lamb at a Flåm restaurant."],
+ tip:"Sit on the right-hand side going down for views. Sleep in Flåm to catch the morning cruise."},
+{n:10,t:"Nærøyfjord and Sognefjord, then Bergen",loc:"Flåm → Gudvangen → Voss → Bergen · Norway Day 4",how:"<b>Route:</b> Nærøyfjord cruise Flåm → Gudvangen (about 2 h) → bus to Voss (about 1 h) → train Voss → Bergen (about 1 h 20). A fully included combination ticket is sold as <b>Norway in a Nutshell</b>.",
+ see:["<b>Nærøyfjord</b> (UNESCO): one of Europe's narrowest fjords, with waterfalls and steep walls.","You start on the <b>Aurlandsfjord</b>, an arm of <b>Sognefjord</b>, Norway's longest (205 km) and deepest (1,308 m) fjord.","<b>Gudvangen:</b> stop at the Viking village if open. Voss is a winter-sports town.","<b>Optional, before the boat:</b> Stegastein viewing platform near Aurland, a long platform jutting from a cliff about 650 m above the fjord (30 min each way from Flåm)."],
+ eat:["Pack lunch from Flåm. Boat kiosks are limited.","In Bergen, <b>Bryggeloftet and Stuene</b> or <b>Enhjørningen</b> on Bryggen for fish soup."],
+ alt:"<b>Direct to Bergen by boat:</b> the Fjord1 express boat Flåm → Balestrand → Bergen (about 5.5 h) runs seasonally, so check whether it operates when you travel.",
+ tip:"Book the combo in advance. Cruise sailings are fewer in Nov–Apr, so confirm the day's schedule."},
+{n:11,t:"Bergen: Bryggen",loc:"Bergen · Norway Day 5",how:"<b>Getting around:</b> the city centre is walkable. Fly-in from Flesland airport is the Bybanen light rail (about 45 min). Bergen is very rainy, so pack waterproofs.",
+ see:["<b>Bryggen</b> (UNESCO): the colourful Hanseatic wooden wharf buildings, plus the <b>Hanseatic Museum</b> and <b>Bryggens Museum</b>.","<b>Fisketorget</b> (Fish Market) on the harbour.","<b>Bergenhus Fortress</b> with <b>Håkonshallen</b> (13th-century royal hall).","Nordnes and Sandviken lanes for old white wooden houses."],
+ eat:["<b>Fish soup</b> (fiskesuppe) at <b>Bryggeloftet and Stuene</b> or <b>Enhjørningen</b>.","<b>Fish Me</b> at the Fish Market for casual seafood and fish and chips.","<b>Skillingsbolle</b> (Bergen cinnamon bun): try one at a bakery and compare it with the Swedish version."],
+ tip:"Visit Bryggen in the morning before groups arrive. Go back after dark for the lit-up wharf."},
+{n:12,t:"Fløibanen and fly to Oslo",loc:"Bergen → Oslo · Norway Day 6",how:"<b>Fløibanen funicular:</b> lower station at Vetrlidsallmenningen (5 min from the Fish Market), 8 min up to <b>Fløyen</b> (320 m). Evening: Bybanen to Bergen airport and a flight to Oslo Gardermoen (about 50 min).",
+ see:["<b>Fløyen viewpoint:</b> Bergen's seven mountains, the harbour and the fjord.","<b>Trolls and forest trails:</b> the troll forest and the Skomakerdiket lake trail.","Optional: walk down from Fløyen to town (about 40 min) via Skansemyren."],
+ eat:["<b>Fløien Folkerestaurant</b> at the top for waffles and coffee.","Last Bergen lunch: seafood at the Fish Market."],
+ tip:"Fly out Bergen → Oslo (late afternoon or evening). From Gardermoen the <b>Flytoget</b> reaches Oslo S in about 20 min. Sleep in Oslo.",
+ alt:"<b>Sea option:</b> Fjord Line Bergen → Hirtshals takes about 18 h and then 4–5 h on to Copenhagen. It is long, so this plan doesn't use it."}
+],
+cr:[
+{n:13,t:"Oslo morning, then board the overnight ferry",loc:"Oslo · Day 13",how:"<b>Terminal:</b> the Oslo ferry terminal is near Vippetangen at the foot of Akershus Fortress (tram or taxi from Oslo S). Arrive about 90 min before the 16:30 departure (check ticket). Passport needed.",
+ see:["<b>Morning free:</b> Vigeland Park if you skipped it, or Akershus Fortress.","<b>Oslofjord at sunset:</b> the ship leaves the harbour past islands and Drøbak narrows, a pretty departure.","<b>On board:</b> restaurants, duty-free shop and deck views. Book a cabin with a window."],
+ eat:["<b>Onboard buffet dinner:</b> Scandinavian seafood buffet is the typical offer.","Breakfast buffet is included or sold with some cabins. Check your ticket."],
+ tip:"Stock up on snacks beforehand, as onboard prices are high. Duty-free is useful for Norwegian goods."},
+{n:14,t:"Arrive Copenhagen, Nyhavn and canals",loc:"Copenhagen · Denmark Day 1",how:"<b>Arrival:</b> the ship docks around 09:00–10:00 at the terminal in the Freeport area. Bus or taxi to the centre takes 10–15 min. Drop bags at your hotel.",
+ see:["<b>Nyhavn:</b> bright 17th-century townhouses, historic wooden ships and outdoor cafés.","<b>Canal boat tour</b> from Nyhavn (about 1 h): historic spires and modern architecture.","<b>Strøget:</b> Copenhagen's long pedestrian street."],
+ eat:["<b>Smørrebrød</b> (open sandwiches): <b>Restaurant Schønnemann</b> (Hauser Plads 16, since 1877) or <b>Told & Snaps</b> near Nyhavn.","<b>Wienerbrød</b> (Danish pastry) at a Lagkagehuset bakery."],
+ tip:"Eat one street away from the Nyhavn waterfront for better value."},
+],
+dk:[
+{n:14,t:"Arrive and Nyhavn",loc:"Copenhagen · Denmark Day 1",ref:"cr13"},
+{n:15,t:"Royal Palaces and Gardens",loc:"Copenhagen · Denmark Day 2",how:"<b>Getting around:</b> Metro M1/M2 to Kongens Nytorv, or walk. All stops are in a compact area. Day pass for DOT transport is optional.",
+ see:["<b>Amalienborg Palace:</b> four identical rococo palaces around an octagonal courtyard. The Changing of the Guard is at noon.","<b>Rosenborg Castle</b> and its royal treasury, with the Danish crown jewels, in Kongens Have garden.","<b>The Little Mermaid</b> on the Langelinie promenade, from the Hans Christian Andersen tale.","<b>Kastellet</b> star-shaped fortress and harbour walk nearby."],
+ eat:["<b>Torvehallerne</b> food market (Israels Plads, near Nørreport) for lunch.","<b>Aamanns</b> (Øster Farimagsgade) for modern smørrebrød.","Pølser (hot dogs) from a pølsevogn cart."],
+ tip:"Start at Rosenborg in the morning, then Amalienborg at noon, and walk to Langelinie in the afternoon."},
+{n:16,t:"Canals, Christiania and Tivoli",loc:"Copenhagen · Denmark Day 3",how:"<b>Getting around:</b> Slotsholmen and Christianshavn are walkable from the centre. Tivoli is next to Copenhagen Central station.",
+ see:["<b>Christiansborg Palace:</b> Parliament, Supreme Court and Royal Reception Rooms. Climb the <b>tower</b> (free) for the best rooftop view.","<b>Christianshavn:</b> canals like Amsterdam's, houseboats, and the <b>Church of Our Saviour</b> with its outside spiral tower (about 400 steps).","<b>Freetown Christiania:</b> self-governing enclave with murals and a bohemian vibe. No photos on Pusher Street.","<b>Tivoli Gardens</b> (1843): gardens, a wooden roller coaster, stages and evening lights."],
+ eat:["<b>Barr</b> (Strandgade 4, Christianshavn) for Danish pub food.","<b>Tivoli restaurants</b> and food stalls for dinner."],
+ tip:"Tivoli runs Halloween and Christmas editions in autumn. Check dates, as winter periods may close it."},
+{n:17,t:"North Zealand: castles and Louisiana",loc:"Hillerød · Helsingør · Humlebæk · Denmark Day 4",how:"<b>Getting there:</b> S-train line A, Copenhagen → Hillerød (about 40 min), then walk or take a bus to the castle. Hillerød → Helsingør by local train (about 25 min). Helsingør → Humlebæk (about 10 min), then walk 10–15 min to Louisiana. Return via the coast line to Copenhagen (about 35 min).",
+ see:["<b>Frederiksborg Castle</b> (Hillerød): Renaissance palace on three islets, with the Museum of National History, the Knights' Hall and Baroque gardens.","<b>Kronborg Castle</b> (Helsingør): Shakespeare's <i>Hamlet</i> setting. See the underground casemates and Holger Danske. Sweden is visible across the strait.","<b>Louisiana Museum of Modern Art</b> (Humlebæk): world-class modern art, sculpture park and sea views."],
+ eat:["<b>Louisiana Café</b> overlooking the water.","Grab a smørrebrød lunch in Helsingør's old town."],
+ tip:"Days are short in Nov. If time is tight, drop one of the three, and note Louisiana stays open late on some evenings. This trip goes beyond central Copenhagen, so buy a multi-zone ticket in the DOT app."},
+{n:18,t:"Roskilde: Vikings and royal tombs",loc:"Roskilde · Denmark Day 5",how:"<b>Getting there:</b> regional train København H → Roskilde (about 25 min). The Viking Ship Museum is about 1.5 km (20 min) walk from the station.",
+ see:["<b>Roskilde Cathedral</b> (UNESCO): 12th-century brick Gothic, burial place of Danish monarchs.","<b>Viking Ship Museum:</b> five original 11th-century Viking ships salvaged from Roskilde Fjord, and a boatyard where traditional builders work.","<b>Fjord walk</b> along the water between the cathedral and the museum."],
+ eat:["The museum's waterfront café and Roskilde old-town cafés.","Try <b>frikadeller</b> (Danish meatballs) for lunch."],
+ tip:"Viking boat sailings are only in summer. Check the museum for winter activities."},
+{n:19,t:"Design, markets and departure",loc:"Copenhagen · Denmark Day 6",how:"<b>To the airport:</b> Metro M2 to Lufthavnen (about 15 min), or the Øresund train. Leave at least 3 h before an international flight to Mumbai.",
+ see:["<b>Design:</b> Illums Bolighus (Amagertorv), HAY House (Østergade) and Designmuseum Danmark (Bredgade).","<b>Torvehallerne</b> food market for gifts and a final lunch.","Waterfront walk along Nyhavn, or Islands Brygge harbour baths if the weather is fine."],
+ eat:["<b>Torvehallerne:</b> smørrebrød, pastries and coffee.","Last <b>flødeboller</b> (chocolate-coated marshmallow treats) for the flight home."],
+ tip:"Pack cabin bags early. Most Mumbai flights depart in the afternoon or evening via a Gulf, Istanbul or European hub."}
+]};
+
+function card(d, cls){
+  var h='<article class="day '+cls+'"><header><span class="badge">'+(d.badge||'Day '+d.n)+'</span><h3>'+d.t+'</h3><span class="loc">'+d.loc+'</span></header>';
+  if(d.how) h+='<div class="how">'+d.how+'</div>';
+  if(d.see||d.eat){
+    h+='<div class="cols">';
+    if(d.see) h+='<div><h4>See &amp; do</h4><ul>'+d.see.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul></div>';
+    if(d.eat) h+='<div><h4>Eat</h4><ul>'+d.eat.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul></div>';
+    h+='</div>';
+  }
+  if(d.alt) h+='<details><summary>Alternative</summary><p>'+d.alt+'</p></details>';
+  if(d.tip) h+='<div class="tip"><b>Tip:</b> '+d.tip+'</div>';
+  return h+'</article>';
+}
+
+// Day 14 appears under both Cruise (arrival) and Denmark; Denmark entry reuses the cruise card
+var cr14 = D.cr[1];
+D.dk[0] = Object.assign({}, cr14, {n:14});
+D.cr = [D.cr[0]];
+
+[['se','se'],['no','no'],['cr','tr travel'],['dk','dk']].forEach(function(p){
+  var el=document.getElementById(p[0]);
+  el.innerHTML=D[p[0]].map(function(d){return card(d,p[1])}).join('');
+});
+
+var rows=[
+ ['1','Stockholm','Arrive from Mumbai, Gamla Stan, Södermalm'],
+ ['2','Stockholm','Djurgården: Vasa, Skansen'],
+ ['3','Archipelago / Sigtuna','Vaxholm or Grinda ferry'],
+ ['4','Falun → Rättvik','Copper mine, Carl Larsson home'],
+ ['5','Lake Siljan','Dala horses, Långbryggan pier, sauna'],
+ ['6','Rättvik → Stockholm','Styggforsen hike (or ski), train back'],
+ ['+1','Älmhult (optional)','IKEA Museum and IKEA Hotel. Adds one day, so later days shift'],
+ ['7','Stockholm → Oslo','Train (about 6 h), Opera House'],
+ ['8','Oslo','Museums, Viking history, street walk'],
+ ['9','Oslo → Flåm','Train via Myrdal, Flåmsbana'],
+ ['10','Flåm → Bergen','Nærøyfjord and Sognefjord cruise'],
+ ['11','Bergen','Bryggen, Fish Market'],
+ ['12','Bergen → Oslo','Fløibanen, evening flight'],
+ ['13','Oslo → cruise','Board the overnight ferry (about 16:30)'],
+ ['14','Copenhagen','Arrive, Nyhavn, canal boat'],
+ ['15','Copenhagen','Amalienborg, Rosenborg, Little Mermaid'],
+ ['16','Copenhagen','Christiansborg, Christiania, Tivoli'],
+ ['17','North Zealand','Frederiksborg, Kronborg, Louisiana'],
+ ['18','Roskilde','Cathedral, Viking ships'],
+ ['19','Copenhagen → Mumbai','Design shopping, airport']
+];
+document.getElementById('glanceTable').innerHTML='<tr><th>Day</th><th>Where</th><th>Highlights</th></tr>'+
+ rows.map(function(r){return'<tr><td class="d">'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>'}).join('');
+</script>
+</body>
+</html>
