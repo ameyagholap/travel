@@ -7,12 +7,12 @@
 <style>
 :root{
   --bg:#f6f4ef; --card:#ffffff; --ink:#1d2430; --muted:#5d6675; --line:#e3dfd5;
-  --se:#005b99; --se2:#f2b705; --no:#b3262e; --dk:#c8102e; --sea:#0f766e;
-  --chip:#eef1f5; --warn:#fff6dc; --warnline:#e8c766;
+  --se:#005b99; --se2:#f2b705; --no:#b3262e; --dk:#c8102e; --sea:#0f766e; --ic:#6a4fc7;
+  --side-bg:#1e3a4c;--side-ink:#e8f0f5;--side-muted:#9fb6c4;--side-hover:rgba(255,255,255,.09);--se-l:#7cc4f5;--no-l:#ff8f94;--dk-l:#ff8f9c;--sea-l:#6fd9cc;--ic-l:#b9a8ff;--chip:#eef1f5; --warn:#fff6dc; --warnline:#e8c766;
 }
 @media (prefers-color-scheme: dark){
   :root{ --bg:#12161c; --card:#1a2029; --ink:#e8ebf0; --muted:#9aa4b3; --line:#2a323f;
-    --chip:#242c38; --warn:#2c2616; --warnline:#6b5a1f; --se:#5aa9e6; --no:#ef6a70; --dk:#f2707f; --sea:#4fc3b8; }
+    --chip:#242c38;--side-bg:#0b1118;--side-ink:#e2e8ef;--side-muted:#8a97a6; --warn:#2c2616; --warnline:#6b5a1f; --se:#5aa9e6; --no:#ef6a70; --dk:#f2707f; --sea:#4fc3b8; --ic:#a794ff; }
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -57,8 +57,55 @@ td.d{font-weight:700;white-space:nowrap}
 .tip{margin-top:10px;font-size:.92rem;border-top:1px dashed var(--line);padding-top:8px}
 details{margin-top:10px;background:var(--chip);border-radius:10px;padding:8px 12px;font-size:.92rem}
 summary{cursor:pointer;font-weight:600}
-.se{--c:var(--se)} .no{--c:var(--no)} .dk{--c:var(--dk)} .tr{--c:var(--sea)}
+.se{--c:var(--se)} .no{--c:var(--no)} .dk{--c:var(--dk)} .tr{--c:var(--sea)} .ic{--c:var(--ic)}
 .travel{border-style:dashed}
+.day{scroll-margin-top:70px}
+.day>header{cursor:pointer;margin-bottom:0;user-select:none}
+.day>header:hover h3{text-decoration:underline}
+.chev{display:inline-block;width:1em;transition:transform .15s;color:var(--c);font-weight:700}
+.day:not(.collapsed)>header{margin-bottom:6px}
+.day:not(.collapsed) .chev{transform:rotate(90deg)}
+.day.collapsed .dbody{display:none}
+.toolbar{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.toolbar button,#side .tb button{font:inherit;font-size:.82rem;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--chip);color:var(--ink);cursor:pointer}
+.toolbar button:hover{border-color:var(--sea)}
+#side .tb button{background:var(--side-hover);color:var(--side-ink);border-color:rgba(255,255,255,.18)}
+#side .tb button:hover{border-color:var(--sea-l)}
+#side{display:none}
+@media (min-width:1100px){
+  body{padding-left:360px}
+  nav.top{display:none}
+  #side{display:block;position:fixed;left:0;top:0;bottom:0;width:360px;overflow-y:auto;background:var(--side-bg);color:var(--side-ink);border-right:1px solid rgba(255,255,255,.08);padding:16px 14px 28px;z-index:20;font-size:.88rem}
+}
+#side .brand{color:#fff;font-weight:800;font-size:1rem;margin:0 0 10px}
+#side .tb{display:flex;gap:6px;margin-bottom:12px}
+#side h5{margin:14px 0 4px;font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--c)}
+#side a{display:block;text-decoration:none;padding:5px 8px;border-radius:8px;color:var(--side-ink);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#side a:hover{background:var(--side-hover)}
+#side a.active{background:var(--side-hover);font-weight:700;box-shadow:inset 3px 0 0 var(--c)}
+#side a .n{display:inline-block;min-width:2.1em;color:var(--side-muted);font-weight:600}
+#side a.cty{font-weight:700;padding-left:0}
+@media print{.day.collapsed .dbody{display:block}#side{display:none}body{padding-left:0}}
+.mapbox{margin:12px 0 18px}
+.mapbox h4{margin:0 0 6px;font-size:.9rem}
+.mapbox iframe{width:100%;height:380px;border:1px solid var(--line);border-radius:14px;background:var(--chip)}
+.mapbox .stops{font-size:.85rem;color:var(--muted);margin:6px 0}
+.btn{display:inline-block;text-decoration:none;font-weight:600;font-size:.85rem;padding:7px 12px;border-radius:999px;background:var(--c,var(--sea));color:#fff;border:0;cursor:pointer}
+.sights{margin-top:12px}
+.chip{font:inherit;font-size:.85rem;font-weight:600;color:var(--ink);background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:5px 12px;margin:0 6px 6px 0;cursor:pointer}
+.chip:hover{border-color:var(--c)}
+#pane{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--card);border-left:1px solid var(--line);box-shadow:-8px 0 30px rgba(0,0,0,.18);transform:translateX(105%);transition:transform .25s ease;z-index:30;overflow-y:auto;padding:16px 18px 32px}
+#pane.open{transform:none}
+#pane .ph{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+#pane h3{margin:0 0 4px;font-size:1.35rem}
+#pane .x{font-size:1.5rem;line-height:1;background:var(--chip);color:var(--ink);border:0;border-radius:50%;width:36px;height:36px;cursor:pointer;flex:none}
+#pane .gal{display:grid;gap:8px;margin:12px 0}
+#pane .gal img{width:100%;border-radius:10px;display:block;background:var(--chip);object-fit:cover;max-height:260px}
+#pane .gal img:not(:first-child){max-height:170px}
+#pane h4{margin:14px 0 4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+#pane p{margin:0 0 6px}
+#pane .src{font-size:.78rem;color:var(--muted);margin-top:12px}
+#pane .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 footer{padding:32px 0 48px;color:var(--muted);font-size:.85rem}
 @media print{nav.top{display:none}.day,.box{break-inside:avoid}body{background:#fff}}
 </style>
@@ -66,22 +113,36 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.85rem}
 <body>
 <header class="hero"><div class="wrap">
   <h1>Scandinavia: Sweden · Norway · Denmark</h1>
-  <p>19 days, day by day. Mumbai → Stockholm → Oslo → Bergen → overnight cruise → Copenhagen → Mumbai. Shoulder season (Apr–May / Sep–Nov).</p>
-  <div class="route"><span>Mumbai</span><i>✈</i><span>Stockholm</span><i>→</i><span>Dalarna</span><i>→</i><span>Stockholm</span><i>🚆</i><span>Oslo</span><i>🚆</i><span>Flåm</span><i>⛴</i><span>Bergen</span><i>✈</i><span>Oslo</span><i>🚢</i><span>Copenhagen</span><i>✈</i><span>Mumbai</span></div>
+  <p>24 days, day by day. Mumbai → Stockholm → Oslo → Bergen → overnight cruise → Copenhagen → Reykjavik → Mumbai. Shoulder season (Apr–May / Sep–Nov).</p>
+  <div class="route"><span>Mumbai</span><i>✈</i><span>Stockholm</span><i>→</i><span>Dalarna</span><i>→</i><span>Stockholm</span><i>🚆</i><span>Oslo</span><i>🚆</i><span>Flåm</span><i>⛴</i><span>Bergen</span><i>✈</i><span>Oslo</span><i>🚢</i><span>Copenhagen</span><i>✈</i><span>Reykjavik</span><i>✈</i><span>Mumbai</span></div>
+<div class="toolbar"><button type="button" data-expand="all">Expand all days</button><button type="button" data-expand="none">Collapse all days</button></div>
 </div></header>
 
+<aside id="side" aria-label="Page navigation"></aside>
 <nav class="top"><div class="wrap">
-  <a href="#glance">At a glance</a><a href="#sweden">Sweden</a><a href="#norway">Norway</a><a href="#cruise">Cruise</a><a href="#denmark">Denmark</a><a href="#essentials">Essentials</a>
+  <a href="#glance">At a glance</a><a href="#sweden">Sweden</a><a href="#norway">Norway</a><a href="#cruise">Cruise</a><a href="#denmark">Denmark</a><a href="#iceland">Iceland</a><a href="#essentials">Essentials</a>
 </div></nav>
 
 <main class="wrap">
   <section id="glance">
     <div class="box"><h3>At a glance</h3><div class="tblwrap"><table id="glanceTable"></table></div></div>
+    <div class="box"><b>★ = world-famous.</b> These are the sights people back home will recognise. Look for the star in each day's See &amp; do list.</div>
+    <div class="box"><h3>Famous, but left out (too far for this route)</h3><ul>
+  <li><b>Preikestolen (Pulpit Rock)</b> and <b>Trolltunga</b>: each needs a full extra day from Bergen/Stavanger.</li>
+  <li><b>Geirangerfjord / Trollstigen</b> (needs a long drive) and <b>northern lights in Tromsø</b> (needs a northern flight).</li>
+  <li><b>LEGO House (Billund)</b>: 3+ h each way from Copenhagen. Use the LEGO Store on Strøget instead.</li>
+  <li><b>Gothenburg / Malmö</b> in Sweden and <b>Stockholm's Gripsholm Castle</b>: not on the path of this route.</li>
+  <li><b>World-famous brands, Sweden.</b> <i>Too far or no public visit:</i> <b>Volvo</b> (Volvo Museum, Gothenburg), <b>Saab</b> (Saab Car Museum, Trollhättan), <b>Absolut Vodka</b> (distillery in Åhus, far south), <b>Oatly</b> and <b>Tetra Pak</b> (Malmö and Lund), plus <b>Spotify</b>, <b>Ericsson</b> and <b>Electrolux</b> (Stockholm HQs, no public tour). <i>Easy shop stops:</i> <b>H&amp;M</b> flagships on Drottninggatan and Hamngatan, <b>Acne Studios</b> and <b>Fjällräven</b> stores in central Stockholm.</li>
+  <li><b>World-famous brands, Norway.</b> <i>Too far:</i> <b>Hurtigruten</b> (the Bergen → Kirkenes coastal voyage, 6+ days), <b>Equinor</b> (Stavanger HQ, no tour). <i>Easy shop stops:</i> <b>Helly Hansen</b> and <b>Norrøna</b> outdoor wear (Oslo and Bergen stores), <b>Dale of Norway</b> knitwear (factory in Dale, about 30 min by train from Bergen), <b>Freia</b> chocolate and <b>Jarlsberg</b> cheese from any supermarket.</li>
+  <li><b>World-famous brands, Denmark.</b> <i>Too far:</i> <b>LEGO House</b> (Billund, 3+ h each way). <i>No public tour:</i> <b>Maersk</b> and <b>Novo Nordisk</b> HQs. <i>Easy shop stops, central Copenhagen (Strøget and Østergade):</i> <b>Royal Copenhagen</b> porcelain, <b>Georg Jensen</b> silver, <b>Bang &amp; Olufsen</b>, <b>Pandora</b> jewellery, <b>Flying Tiger Copenhagen</b>, <b>ECCO</b> shoes and <b>Joe &amp; the Juice</b>. Take home the blue tin of <b>Royal Dansk</b> butter cookies and <b>Lurpak</b> butter.</li>
+  <li><b>World-famous brands, Iceland.</b> <i>Easy shop stops in Reykjavik:</i> <b>66°North</b> outerwear (Laugavegur), the <b>Handknitting Association of Iceland</b> for lopapeysa sweaters (Skólavörðustígur), <b>Omnom</b> chocolate (factory shop and tour at the Grandi harbour) and the pink-pig <b>Bónus</b> supermarket. <i>Detour:</i> <b>Reyka</b> vodka distillery in Borgarnes, a good stop on the Snæfellsnes drive on Day 23.</li>
+  <li><i>Already covered:</i> IKEA (Älmhult), LEGO (Store on Strøget, Day 19), Carlsberg (Valby), ABBA, Nobel and the Blue Lagoon.</li>
+</ul></div>
     <div class="box warn"><h3>Check these before booking</h3>
       <ul>
         <li><b>Oslo Viking Ship Museum</b> (Bygdøy) is closed while it is rebuilt as the Museum of the Viking Age. The reopening was expected around 2027, so confirm on <b>khm.uio.no</b>. Day 8 has a Viking fallback.</li>
-        <li><b>Bergen → Copenhagen cruise:</b> none exists. The only sea link is Fjord Line Bergen → Hirtshals (about 18 h), then 4–5 h on to Copenhagen. This plan flies Bergen → Oslo and takes the Oslo → Copenhagen overnight ferry (about 17.5 h, departs around 16:30). The operator and timetable have changed recently, so confirm on the ferry company's site.</li>
         <li><b>Seasonal openings:</b> Carl Larsson-gården (Sundborn), the Sognefjord express boat and Skansen/Gröna Lund hours vary or reduce in Nov–Apr. Tivoli runs Halloween and Christmas editions in autumn and is closed for some weeks in winter.</li>
+        <li><b>Iceland:</b> the Reykjanes peninsula (Blue Lagoon, Grindavík) has had repeated volcanic eruptions since 2021, and the Blue Lagoon has closed temporarily. Check bluelagoon.com and safetravel.is before Day 24 and keep Sky Lagoon as a backup. Dyrhólaey is usually closed for bird nesting from about May to mid-June.</li>
         <li><b>Daylight:</b> in Nov days are about 6–7 h long, so keep outdoor sights for the morning. Dec–Mar has snow; Apr–May is mild but fjord services are still ramping up.</li>
       </ul>
     </div>
@@ -92,12 +153,23 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.85rem}
   <section id="cruise"><h2 class="country" style="--c:var(--sea)">Cruise · Day 13</h2><p class="sub">Overnight Oslo → Copenhagen.</p><div id="cr"></div></section>
   <section id="denmark"><h2 class="country" style="--c:var(--dk)">Denmark · Days 14–19</h2><p class="sub">Copenhagen and North Zealand. Currency: DKK.</p><div id="dk"></div></section>
 
+  <section id="iceland"><h2 class="country" style="--c:var(--ic)">Iceland · Days 20–24</h2><p class="sub">Reykjavik and three self-drive loops: Golden Circle, South Coast, Snæfellsnes. Currency: ISK. Fly in on the evening of Day 19.</p>
+    <div class="box"><h3>Self-drive essentials (Apr–May)</h3><ul>
+      <li><b>Licence:</b> carry your Indian driving licence plus an <b>International Driving Permit</b>. Rental companies commonly ask for it, so confirm with yours. Drive on the right.</li>
+      <li><b>Insurance:</b> add gravel (GP) and sand and ash (SAAP) cover. Wind damage to car doors is common and is usually not covered, so park facing the wind and hold the door with both hands.</li>
+      <li><b>Check daily:</b> road.is (road conditions), vedur.is (weather and wind) and safetravel.is. Highland F-roads are closed in spring, and off-road driving is illegal. A 2WD is fine on the routes below.</li>
+      <li><b>Daylight:</b> about 14 h in mid-April and 18–20 h by late May, so long driving days work. Headlights stay on at all times. Fuel up when the tank is half empty.</li>
+      <li><b>Pools:</b> everyone showers with soap, without a swimsuit, before entering any pool or lagoon. It is strictly enforced.</li>
+      <li><b>Northern Lights</b> end around mid-April (nights get too bright). <b>Puffins</b> arrive from about mid-April, with tours from Reykjavik in May.</li>
+      <li><b>Money:</b> Iceland is one of Europe's most expensive countries. Cards work everywhere, tap water is excellent, and supermarkets (Bónus, Krónan) help for packed lunches.</li>
+    </ul></div>
+    <div id="ic"></div></section>
   <section id="essentials">
     <h2 class="country" style="--c:var(--sea)">Essentials</h2>
     <div class="box"><h3>Getting there and away (Mumbai)</h3><ul>
       <li>There is no nonstop flight from Mumbai to Stockholm. Common one-stop routes are via Helsinki, Doha, Dubai, Istanbul or a European hub.</li>
-      <li>Fly <b>into Stockholm (ARN)</b> and <b>out of Copenhagen (CPH)</b> as an open-jaw ticket. It saves doubling back.</li>
-      <li>A single <b>Schengen visa</b> covers all three countries. Apply to the country where you spend the most nights, which is Sweden or Norway here. Check requirements for your passport.</li>
+      <li>Fly <b>into Stockholm (ARN)</b> and <b>out of Keflavik (KEF), Reykjavik</b> as an open-jaw ticket, with the Copenhagen → Reykjavik hop in between. There is no nonstop to Mumbai, so connect via a European hub.</li>
+      <li>A single <b>Schengen visa</b> covers all four countries (Sweden, Norway, Denmark and Iceland are all in the Schengen area). Apply to the country where you spend the most nights, which is Sweden or Norway here. Check requirements for your passport.</li>
     </ul></div>
     <div class="box"><h3>Money and getting around</h3><ul>
       <li>Cards and Apple/Google Pay are accepted nearly everywhere. Carry very little cash.</li>
@@ -108,31 +180,139 @@ footer{padding:32px 0 48px;color:var(--muted);font-size:.85rem}
     <div class="box"><h3>Must-try food, quick list</h3><ul>
       <li><b>Sweden:</b> köttbullar (meatballs with lingonberry), kanelbulle and kardemummabulle at fika, falukorv, Västerbotten cheese.</li>
       <li><b>Norway:</b> fiskesuppe (fish soup), brunost (brown cheese on waffles), kjøttkaker, skillingsboller, fjord trout.</li>
+      <li><b>Iceland:</b> kjötsúpa (lamb soup), skyr, plokkfiskur (fish stew), the Icelandic hot dog (pylsur), geothermal rye bread, and for the brave, hákarl (fermented shark). Reykjavik has Indian restaurants such as Austur-Indíafjelagið (check it is open).</li>
       <li><b>Denmark:</b> smørrebrød, wienerbrød (Danish pastry), pølser (hot dogs), flødeboller, frikadeller.</li>
     </ul></div>
   </section>
 </main>
 
+<aside id="pane" aria-label="Sight details" aria-hidden="true"></aside>
 <footer><div class="wrap">Prices, opening hours and timetables change. Confirm anything you plan to book. Walking times and durations are approximate.</div></footer>
 
+<script>
+/* Sights: name, q = Google Maps query, w = Wikipedia title (photos and summary are embedded live), why, how */
+var S = {
+gamlastan:{name:"Gamla Stan",q:"Gamla Stan, Stockholm",w:"Gamla stan",why:"Stockholm's medieval core, founded in the 13th century on a small island. It is one of Europe's best-preserved old towns, with crooked lanes, ochre facades and the Nobel Museum on Stortorget.",how:"Come early, before the cruise-ship crowds. Walk Västerlånggatan for shops, then lose yourself in Prästgatan and Mårten Trotzigs gränd. Stop at a café in a vaulted cellar."},
+royalpalace:{name:"Royal Palace",q:"Royal Palace, Stockholm",w:"Stockholm Palace",why:"One of the largest palaces in Europe still in use as a royal office, with over 600 rooms. The Baroque exterior is the main draw even if you skip the interior.",how:"Watch the Changing of the Guard in the outer courtyard, usually around 12:00. Then step into Storkyrkan next door."},
+monteliusvagen:{name:"Monteliusvägen",q:"Monteliusvägen, Stockholm",w:"",why:"A short clifftop path on Södermalm with the classic postcard view over Riddarfjärden, Gamla Stan and City Hall.",how:"Go at sunset with a takeaway coffee and a cinnamon bun. The walk is only about 500 m, so pair it with a fika in Södermalm."},
+vasa:{name:"Vasa Museum",q:"Vasa Museum, Stockholm",w:"Vasa Museum",why:"A 69 m warship from 1628 that sank within minutes of launching and was raised in 1961. About 98% of it is original, making it the best-preserved 17th-century ship in the world.",how:"Arrive at opening. Walk around all the decks, then see the exhibits on life aboard and the divers who raised her. Allow 2–3 h and join the short guided tour."},
+skansen:{name:"Skansen",q:"Skansen, Stockholm",w:"Skansen",why:"The world's first open-air museum (1891). Farmsteads, a town quarter and craftspeople show Sweden across the centuries, next to a zoo of Nordic animals.",how:"Take the funicular up, then wander downhill. Look for the elk, bears, wolverines and lynx. Watch the glassblowers, and try a pastry at the bakery."},
+vaxholm:{name:"Vaxholm",q:"Vaxholm, Sweden",w:"Vaxholm",why:"The 'capital of the archipelago', reached by an old-style ferry through the skerries. It has wooden harbour houses and a 19th-century fortress on its own islet.",how:"Take the ferry from Strandvägen, walk the harbour, and visit Vaxholm Fortress (a short boat hop). Have a fish lunch by the water."},
+sigtuna:{name:"Sigtuna",q:"Sigtuna, Sweden",w:"Sigtuna",why:"Sweden's oldest town (founded around 980). It has ruined medieval churches, runestones and Sweden's smallest town hall, on the shore of Lake Mälaren.",how:"Walk Stora Gatan, Sweden's oldest main street. See the St Olof and St Per ruins and finish with a lakeside fika."},
+falun:{name:"Falun Mine",q:"Falun Mine, Falun",w:"Falun Mine",why:"A UNESCO-listed copper mine that funded Sweden's 17th-century power. Its waste produced the iron-oxide pigment behind the red paint on Swedish cottages.",how:"Join the underground tour (warm clothes, about 2 h). Look at the huge Stora Stöten pit and the red buildings around it."},
+carllarsson:{name:"Carl Larsson-gården",q:"Carl Larsson-gården, Sundborn",w:"Carl Larsson-gården",why:"The painter Carl Larsson's family home. It is the basis of Swedish 'country-house style', with bright rooms and hand-painted furniture.",how:"Book a guided tour (opening varies by season). Pair it with the local bakery in Sundborn."},
+nusnas:{name:"Nusnäs Dala horses",q:"Nusnäs, Mora, Sweden",w:"Nusnäs",why:"The village where the Dala horse, Sweden's best-known souvenir, is still carved and hand-painted.",how:"Visit the workshop and watch each horse being carved and painted by hand. Buy a small one as a gift."},
+rattvik:{name:"Rättvik & Långbryggan",q:"Långbryggan, Rättvik",w:"Rättvik",why:"A lakeside town on Lake Siljan with a 628 m wooden pier, the longest in Sweden.",how:"Walk to the end of the pier at golden hour. Then warm up in a wood-fired lakeside sauna and swim if it's warm enough."},
+styggforsen:{name:"Styggforsen Nature Reserve",q:"Styggforsen, Rättvik",w:"Styggforsen",why:"A rocky gorge with rapids and a waterfall near Rättvik, a quiet nature stop before the train back to Stockholm.",how:"Take the short trail along the gorge to the falls and wear shoes with grip. Check trail conditions locally in autumn."},
+ikeamuseum:{name:"IKEA Museum, Älmhult",q:"IKEA Museum, Älmhult",w:"IKEA Museum",why:"IKEA's story, told inside the original 1958 store in the town where the company began.",how:"Book a timed ticket. Walk through the decades of room sets, then eat meatballs in the restaurant and shop next door."},
+opera:{name:"Oslo Opera House",q:"Oslo Opera House",w:"Oslo Opera House",why:"A white marble-and-glass building that seems to rise from the fjord. You can walk up its sloping roof for a free harbour view.",how:"Walk up to the roof at sunset. Look inside the foyer, then continue along the waterfront to the Munch Museum."},
+akershus:{name:"Akershus Fortress",q:"Akershus Fortress, Oslo",w:"Akershus Fortress",why:"A medieval castle and fortress from around 1300, overlooking the harbour. It also holds the Resistance Museum.",how:"Walk the ramparts for the fjord view. Free to enter the grounds, and it's good at sunset."},
+fram:{name:"Fram Museum",q:"Fram Museum, Oslo",w:"Fram Museum",why:"Home of the polar ship Fram, which carried Nansen and Amundsen toward the Arctic and Antarctic. You can walk aboard.",how:"Climb through the cabins and the deck, then see the polar exploration exhibits. Allow about 1.5 h."},
+vigeland:{name:"Vigeland Sculpture Park",q:"Vigeland Park, Oslo",w:"Vigeland sculpture park",why:"More than 200 granite and bronze sculptures by Gustav Vigeland, a whole park of human life from birth to death. It is free and always open.",how:"Walk the main axis from the bridge to the Monolith. Go in the morning for quieter paths."},
+flam:{name:"Flåm",q:"Flåm, Norway",w:"Flåm",why:"A small village at the end of Aurlandsfjord, surrounded by steep mountains, a classic fjord base.",how:"Walk the quay and the church, visit the railway museum, and have a drink at the Ægir brewpub."},
+flamsbana:{name:"Flåmsbana railway",q:"Flåm railway station",w:"Flåm Line",why:"A 20 km line that drops 864 m through tunnels past waterfalls and steep valleys, one of the world's steepest standard-gauge railways.",how:"Reserve a seat on the right-hand side going down. Get out at Kjosfossen to see the waterfall and the Huldra figures."},
+naeroyfjord:{name:"Nærøyfjord",q:"Nærøyfjord, Norway",w:"Nærøyfjord",why:"A UNESCO-listed arm of the Sognefjord, one of Europe's narrowest fjords, with walls rising over 1,700 m and waterfalls.",how:"Take the cruise from Flåm to Gudvangen. Stay on deck in a warm layer; the quiet electric boats are a highlight."},
+sognefjord:{name:"Sognefjord",q:"Sognefjord, Norway",w:"Sognefjord",why:"Norway's longest and deepest fjord, 205 km long and up to 1,308 m deep, called the 'King of the Fjords'.",how:"You sail one of its arms from Flåm. If you have time, plan a day on the Sognefjord proper (Balestrand)."},
+stegastein:{name:"Stegastein viewpoint",q:"Stegastein Viewpoint, Aurland",w:"Stegastein",why:"A wooden platform that juts out 30 m from a mountainside, about 650 m above the Aurlandsfjord.",how:"Ride up in the morning for the best light. It's a short stop of 30–45 min."},
+bryggen:{name:"Bryggen",q:"Bryggen, Bergen",w:"Bryggen",why:"The old Hanseatic wharf, a UNESCO site of colourful timber buildings used by German merchants from the 14th century.",how:"Explore the narrow wooden alleys behind the front row, then see the Hanseatic Museum. Go early or at dusk."},
+fisketorget:{name:"Bergen Fish Market",q:"Fisketorget, Bergen",w:"",why:"Bergen's famous harbour market, selling seafood, king crab, and local foods since the 1200s.",how:"Try a fish sandwich, smoked salmon or fresh shrimp. Eat outside by the harbour, and visit before lunch for the freshest stalls."},
+haakon:{name:"Håkonshallen",q:"Håkonshallen, Bergen",w:"Håkonshallen",why:"A 13th-century royal banquet hall at the Bergenhus Fortress, once the seat of Norway's kings.",how:"Visit the hall and the Rosenkrantz Tower next door. It is near the entrance to Bryggen."},
+floyen:{name:"Fløyen & Fløibanen",q:"Fløibanen, Bergen",w:"Fløyen",why:"A 320 m mountain with a funicular that takes about 8 minutes, giving a full view of Bergen, the harbour and islands.",how:"Ride up, walk the trails to Skomakerdiket lake and the troll forest, and walk down if the weather is good."},
+nyhavn:{name:"Nyhavn",q:"Nyhavn, Copenhagen",w:"Nyhavn",why:"A 17th-century canal harbour lined with bright townhouses. Hans Christian Andersen lived at No. 20 and No. 67.",how:"Walk the sunny side, then take a canal boat from the pier. Eat one street back for lower prices."},
+amalienborg:{name:"Amalienborg Palace",q:"Amalienborg, Copenhagen",w:"Amalienborg",why:"The royal family's winter residence, four rococo palaces around an octagonal square, with the Marble Church beyond.",how:"Be there for the noon Changing of the Guard. Look through the museum rooms and photograph the square from the harbour side."},
+rosenborg:{name:"Rosenborg Castle",q:"Rosenborg Castle, Copenhagen",w:"Rosenborg Castle",why:"A Renaissance castle from 1606 that holds the Danish crown jewels and the royal treasury.",how:"Book the treasury, then relax in Kongens Have. Combine with lunch at Torvehallerne nearby."},
+mermaid:{name:"The Little Mermaid",q:"The Little Mermaid statue, Copenhagen",w:"The Little Mermaid (statue)",why:"The small 1913 bronze statue based on Hans Christian Andersen's story, and a Copenhagen icon.",how:"Pair it with a walk through Kastellet and the Langelinie promenade. Visit early to avoid crowds; the statue is small."},
+christiansborg:{name:"Christiansborg Palace",q:"Christiansborg Palace, Copenhagen",w:"Christiansborg Palace",why:"The seat of the Danish Parliament, Supreme Court and Prime Minister's office, with royal reception rooms.",how:"Take the free lift up the tower for the best rooftop view. Add the Royal Reception Rooms if you like."},
+christiania:{name:"Freetown Christiania",q:"Freetown Christiania, Copenhagen",w:"Freetown Christiania",why:"A self-governing community since 1971, with murals, workshops, and a relaxed alternative atmosphere.",how:"Walk the main paths and respect the no-photo rule on Pusher Street. Eat at a local café or food stall."},
+tivoli:{name:"Tivoli Gardens",q:"Tivoli Gardens, Copenhagen",w:"Tivoli Gardens",why:"One of the world's oldest amusement parks (1843), mixing gardens, a wooden roller coaster and lights.",how:"Visit at dusk for the lights, check the seasonal Halloween or Christmas editions, and have dinner inside."},
+saviour:{name:"Church of Our Saviour",q:"Church of Our Saviour, Copenhagen",w:"Church of Our Saviour, Copenhagen",why:"A Baroque church with an outdoor spiral tower of about 400 steps, giving a view over Christianshavn.",how:"Climb up on a clear day. The top is narrow, so avoid busy times."},
+frederiksborg:{name:"Frederiksborg Castle",q:"Frederiksborg Castle, Hillerød",w:"Frederiksborg Castle",why:"A Renaissance castle on three islets in a lake, home to the Museum of National History.",how:"Tour the Knights' Hall and the chapel, then walk the Baroque gardens."},
+kronborg:{name:"Kronborg Castle",q:"Kronborg Castle, Helsingør",w:"Kronborg",why:"The Renaissance castle that inspired Shakespeare's Elsinore in Hamlet, guarding the Øresund strait.",how:"Go down to the casemates to see Holger Danske. Look across the water to Sweden."},
+louisiana:{name:"Louisiana Museum of Modern Art",q:"Louisiana Museum of Modern Art, Humlebæk",w:"Louisiana Museum of Modern Art",why:"A modern art museum in a seaside park, known for its architecture, sculpture garden and sea views.",how:"Spend 2–3 h. Have coffee in the café overlooking the Øresund, and walk the sculpture park to the water."},
+roskildecath:{name:"Roskilde Cathedral",q:"Roskilde Cathedral",w:"Roskilde Cathedral",why:"A UNESCO-listed Gothic brick cathedral and the burial place of Danish monarchs for centuries.",how:"Look at the royal chapels and tombs, and climb the tower if open."},
+vikingship:{name:"Viking Ship Museum, Roskilde",q:"Viking Ship Museum, Roskilde",w:"",why:"Five original Viking ships (about 1070) raised from the fjord, with a working boatyard of traditional craftspeople.",how:"See the ships in the hall and then the boatyard. Check for seasonal fjord sailings."},
+torvehallerne:{name:"Torvehallerne",q:"Torvehallerne, Copenhagen",w:"",why:"Two glass halls of food stalls near Nørreport, offering smørrebrød, pastries, coffee and seafood.",how:"Go hungry, at lunch time, and share small plates. Good for last-day gifts."},
+designmuseum:{name:"Designmuseum Danmark",q:"Designmuseum Danmark, Copenhagen",w:"Designmuseum Danmark",why:"Denmark's design museum in a former royal hospital, home to classic Danish chairs and design.",how:"Allow about 2 h. Pair it with a walk along Bredgade."}
+};
+S.boattour={name:"Gamla Stan boat tour",q:"Strömkajen, Stockholm",w:"",why:"Stockholm is built on 14 islands, and the water is the best way to understand it. The tour passes Gamla Stan, the Royal Palace, City Hall, Södermalm and Djurgården with commentary.",how:"Pick the 50-min Royal Canal Tour for a short intro or the 2-h Under the Bridges tour for more. Book ahead in season, sit on the open deck side, and take it on your first sunny day."};
+S.nobelmuseum={name:"Nobel Museum",q:"Nobel Prize Museum, Stortorget, Stockholm",w:"Nobel Prize Museum",why:"Housed in the old Stock Exchange on Stortorget. It tells the stories of the laureates and Alfred Nobel, including Indian winners Tagore, Raman and Sen.",how:"Allow 1 h. Look at the laureates' everyday objects, then have a fika in the museum café, where chairs carry laureates' signatures."};
+S.stadshuset={name:"Stockholm City Hall",q:"Stockholm City Hall",w:"Stockholm City Hall",why:"Home of the Nobel Prize banquet every 10 December in the Blue Hall, with the Golden Hall mosaics. A famous red-brick landmark on Riddarfjärden.",how:"Take the guided tour (in English, several times a day), and climb the tower in season for views of Gamla Stan."};
+S.konserthuset={name:"Stockholm Concert Hall",q:"Stockholm Concert Hall, Hötorget",w:"Stockholm Concert Hall",why:"This is where the Nobel Prize award ceremony takes place every 10 December (the Peace Prize is awarded in Oslo). The blue facade with Corinthian columns stands on Hötorget.",how:"See the building from outside at Hötorget, and visit the market stalls on the square. Inside is accessible only for concerts."};
+S.nobelpeace={name:"Nobel Peace Center",q:"Nobel Peace Center, Oslo",w:"Nobel Peace Center",why:"A museum by the harbour, next to City Hall where the Nobel Peace Prize is awarded each 10 December. It features laureates including Mother Teresa and Kailash Satyarthi.",how:"Allow 1–1.5 h. Watch the laureate films, then walk to City Hall next door."};
+
+S.fotografiska={name:"Fotografiska",q:"Fotografiska, Stockholm",w:"Fotografiska",why:"One of the world's best-known photography museums, in a harbour-side customs-house building on Södermalm, with a rooftop restaurant view over Stockholm.",how:"Open late into the evening, so go after dinner on Day 1 or Day 2. Book the café or restaurant for the view."};
+S.metroart={name:"Stockholm Metro art",q:"Kungsträdgården metro station, Stockholm",w:"Stockholm Metro",why:"Called the world's longest art gallery. Over 90 of the 100 stations carry sculptures, mosaics and painted rock caves.",how:"Ride the blue line to Kungsträdgården (red-lit cave), T-Centralen (blue) and Solna centrum. A normal ticket is all you need."};
+S.abba={name:"ABBA The Museum",q:"ABBA The Museum, Stockholm",w:"ABBA The Museum",why:"The interactive museum of Sweden's most famous pop group, on Djurgården, with costumes, a recording studio and a sing-along stage.",how:"Buy a timed ticket online and avoid weekends. It is next to Gröna Lund, so it fits easily into Day 2."};
+S.drottningholm={name:"Drottningholm Palace",q:"Drottningholm Palace, Stockholm",w:"Drottningholm Palace",why:"A UNESCO-listed royal residence called 'Sweden's Versailles', with Baroque gardens, a Chinese Pavilion and a 1766 theatre.",how:"Take the boat from Stockholm City Hall in summer (about 1 h) or the metro and bus (about 45 min). Walk the gardens and tour the palace."};
+S.uppsala={name:"Uppsala Cathedral",q:"Uppsala Cathedral, Uppsala",w:"Uppsala Cathedral",why:"The tallest church in Scandinavia, burial place of Gustav Vasa and Carl Linnaeus, in Sweden's historic university city.",how:"Take the train from Stockholm C (about 40 min). Add the Linnaeus Garden and Gamla Uppsala's Viking burial mounds."};
+S.munch={name:"Munch Museum",q:"Munch Museum, Oslo",w:"Munch Museum",why:"Home of Edvard Munch's art, including a version of The Scream, one of the most famous paintings in the world. It is a modern museum on the Bjørvika waterfront.",how:"Allow 2 h. Go up to the top-floor restaurant or terrace, and book a timed ticket."};
+S.holmenkollen={name:"Holmenkollen Ski Jump",q:"Holmenkollen Ski Museum, Oslo",w:"Holmenkollen",why:"Norway's iconic ski jump above Oslo, rebuilt in 2010, with the world's oldest ski museum beneath it. A symbol of Norwegian winter sport.",how:"Take metro line 1 to Holmenkollen (about 30 min), enter the museum and ride the lift up the jump for the city and fjord view. Plan about 2 h."};
+S.nationalmuseet={name:"National Museum, Oslo",q:"National Museum, Oslo",w:"National Museum of Art, Architecture and Design",why:"Norway's biggest art museum, with the 1893 'The Scream' by Edvard Munch on display, as well as Norwegian landscapes and design.",how:"Allow 2 h in the central Oslo museum near City Hall. See the Munch rooms first."};
+S.borgund={name:"Borgund Stave Church",q:"Borgund Stave Church, Lærdal",w:"Borgund Stave Church",why:"The best-preserved medieval wooden stave church in Norway (around 1200), with carved dragon heads on its roof, a classic image of Norway.",how:"Reach it by organised tour from Flåm (about 1 h each way) or a rental car. It's a half-day add-on, so treat it as optional."};
+S.undredal={name:"Undredal village",q:"Undredal, Norway",w:"Undredal",why:"A tiny fjord village known for its brown goat cheese (geitost) and one of Norway's smallest stave churches.",how:"Take a Flåm boat or bus (about 30 min). Taste the goat cheese at the village shop."};
+S.ulriken={name:"Mount Ulriken",q:"Ulriken643, Bergen",w:"Ulriken",why:"Bergen's highest of the seven mountains (643 m), reached by cable car, with views over the city, fjords and islands.",how:"Take the Ulriken643 cable car from Haukeland (bus 2 from the centre). Walk the top path and have lunch at the Sky:skraperen restaurant. Pick a clear day; Fløyen is an easier alternative."};
+S.troldhaugen={name:"Troldhaugen (Grieg's home)",q:"Troldhaugen, Bergen",w:"Troldhaugen",why:"The lakeside home of the composer Edvard Grieg ('Peer Gynt', 'In the Hall of the Mountain King'), with a concert hall and his composing hut.",how:"Take the Bybanen light rail to Hop, then walk about 10 min. Catch a short lunchtime concert in season."};
+S.carlsberg={name:"Carlsberg (Visit Carlsberg)",q:"Visit Carlsberg, Gamle Carlsberg Vej 11, Copenhagen",w:"",why:"One of the world's best-known beer brands, founded in Copenhagen in 1847. The old brewery in Valby has museum exhibits, the Elephant Gate, the world's biggest Carlsberg bottle collection and tastings.",how:"Take the S-train from Copenhagen H to Carlsberg station (about 5 min). Allow about 2 h with the tasting. Book online. Combine with the Ny Carlsberg Glyptotek, a separate art museum funded by the same family."};
+S.rundetaarn={name:"Round Tower (Rundetårn)",q:"Rundetårn, Copenhagen",w:"Round Tower, Copenhagen",why:"A 17th-century observatory tower reached by a spiral ramp instead of stairs, with a view over the old town. It sits on Strøget.",how:"Walk the ramp up (about 15 min), then see the view over the rooftops. Combine with a Strøget walk."};
+S.glyptotek={name:"Ny Carlsberg Glyptotek",q:"Ny Carlsberg Glyptotek, Copenhagen",w:"Ny Carlsberg Glyptotek",why:"A beautiful art museum with a palm-filled winter garden, Egyptian and Roman antiquities and French Impressionists, funded by the Carlsberg family.",how:"Allow 1.5–2 h. It is next to Tivoli, so it's easy to combine on Day 16."};
+S.marblechurch={name:"Marble Church (Frederik's Church)",q:"Frederik's Church, Copenhagen",w:"Frederik's Church, Copenhagen",why:"A grand domed church with one of Europe's largest church domes, right beside Amalienborg.",how:"Look inside and, if open, climb the dome. It takes about 20 minutes beside the noon guard change."};
+S.radhus={name:"Copenhagen City Hall",q:"Copenhagen City Hall",w:"Copenhagen City Hall",why:"A 1905 red-brick city hall with a 106 m tower and a famous Hans Christian Andersen statue nearby, on the main Rådhuspladsen square.",how:"Take the tower tour (check opening) for a rooftop view. Buy a classic pølse (hot dog) from a stand on the square."};
+S.bakken={name:"Dyrehavsbakken (Bakken)",q:"Dyrehavsbakken, Klampenborg",w:"Dyrehavsbakken",why:"The world's oldest operating amusement park (1583), inside the Dyrehaven deer park (UNESCO-listed), north of Copenhagen.",how:"Take the S-train to Klampenborg (about 20 min), then walk through the deer park. It runs mainly spring to summer, so check before you go."};
+
+S.hallgrimskirkja={name:"Hallgrímskirkja",q:"Hallgrímskirkja, Reykjavik",w:"Hallgrímskirkja",why:"Reykjavik's landmark church, 74 m tall and designed to echo Iceland's basalt lava columns. The tower lift gives the best rooftop view of the colourful city.",how:"Go up the tower in the morning or at golden hour, and see the Leif Erikson statue outside. Check the opening hours, as the tower closes for services and concerts."};
+S.sunvoyager={name:"Sun Voyager and Harpa",q:"Sólfar Sun Voyager, Reykjavik",w:"Sun Voyager",why:"A steel sculpture shaped like a Viking ship on the waterfront, with the glass-fronted Harpa concert hall a few minutes away.",how:"Visit at sunset, then step inside Harpa to see its honeycomb glass facade, and walk the harbour promenade."};
+S.perlan={name:"Perlan",q:"Perlan, Reykjavik",w:"Perlan",why:"A glass dome on a hill with an indoor ice cave, glacier exhibits and a planetarium show about the Northern Lights. It's a good wet-weather stop.",how:"Allow 2 h. Walk the observation deck for a 360° view of the city and buy a timed ticket online."};
+S.thingvellir={name:"Þingvellir National Park",q:"Þingvellir National Park, Iceland",w:"Þingvellir",why:"A UNESCO World Heritage site where the North American and Eurasian plates drift apart, and where Iceland's parliament first met in 930 AD.",how:"Walk the Almannagjá gorge to the Law Rock and Öxarárfoss. Optional: snorkel or dive in Silfra's glacial water (book a guide)."};
+S.geysir={name:"Geysir and Strokkur",q:"Strokkur geyser, Iceland",w:"Geysir",why:"Iceland's famous geothermal field. The original Geysir gave its name to every geyser in the world, and Strokkur erupts every 5–10 minutes.",how:"Stand upwind, watch several eruptions and have your camera ready 30 seconds before each. Walk the ground paths and stay behind the ropes."};
+S.gullfoss={name:"Gullfoss",q:"Gullfoss, Iceland",w:"Gullfoss",why:"The 'Golden Falls': a two-step waterfall plunging into a canyon on the Hvítá river, with a rainbow on sunny days.",how:"Walk the lower path for the spray and the upper path for the view. Wear waterproofs and grips, as paths are slippery in spring."};
+S.seljalandsfoss={name:"Seljalandsfoss",q:"Seljalandsfoss, Iceland",w:"Seljalandsfoss",why:"A 60 m waterfall you can walk behind. Next door is Gljúfrabúi, a waterfall hidden in a canyon.",how:"Wear waterproofs and shoes with grip. The path behind the fall can be closed for ice, so check at the site. Visit in the evening light for the best photos."};
+S.skogafoss={name:"Skógafoss",q:"Skógafoss, Iceland",w:"Skógafoss",why:"A 60 m wide waterfall that often makes a double rainbow in sunshine. The cliff path leads to the start of the Fimmvörðuháls hiking trail.",how:"Walk to the base for the spray, then climb the steps to the viewing platform at the top."};
+S.solheimajokull={name:"Sólheimajökull glacier",q:"Sólheimajökull, Iceland",w:"Sólheimajökull",why:"An easily reached glacier tongue where you can walk on ancient ice with a guide, with blue ice and crevasses.",how:"Book a guided glacier walk (about 3 h, crampons provided). Don't go on the ice without a guide."};
+S.reynisfjara={name:"Reynisfjara black beach",q:"Reynisfjara, Iceland",w:"Reynisfjara",why:"One of the world's most striking beaches, with black volcanic sand, basalt columns, the Hálsanefshellir cave and the Reynisdrangar sea stacks.",how:"Go early and keep well back from the water. Sneaker waves have killed visitors, so obey the warning light and signs."};
+S.kirkjufell={name:"Kirkjufell",q:"Kirkjufell, Grundarfjörður",w:"Kirkjufell",why:"A 463 m cone-shaped mountain with a waterfall in front, Iceland's most photographed mountain and a Game of Thrones location.",how:"Photograph it from the Kirkjufellsfoss viewing spot. Go at sunrise or sunset to avoid crowds."};
+S.arnarstapi={name:"Arnarstapi and Hellnar",q:"Arnarstapi, Iceland",w:"Arnarstapi",why:"Two coastal villages linked by a path along basalt cliffs, sea arches (Gatklettur) and seabird colonies.",how:"Walk the 2.5 km trail between the villages (about 1 h) and finish with soup at Fjöruhúsið in Hellnar."};
+S.djupalon={name:"Djúpalónssandur",q:"Djúpalónssandur, Iceland",w:"Djúpalónssandur",why:"A black pebble beach with the lifting stones that fishermen once tested their strength on, and the rusted remains of a shipwreck.",how:"Walk down to the beach, try the stones if you like and respect the ban on taking pebbles."};
+S.bluelagoon={name:"Blue Lagoon",q:"Blue Lagoon, Iceland",w:"Blue Lagoon (geothermal spa)",why:"Iceland's best-known attraction: milky-blue geothermal seawater at 37–39 °C in a lava field, with silica mud masks and an in-water bar.",how:"Pre-book a slot, shower first and put conditioner in your hair, as the silica dries it out. Allow 2–3 h and check the eruption status before travel."};
+S.skylagoon={name:"Sky Lagoon",q:"Sky Lagoon, Kópavogur",w:"Sky Lagoon",why:"A seaside geothermal lagoon in Kópavogur with a famous infinity edge and a seven-step spa ritual.",how:"Book a time slot and allow 2–3 h. A good backup if the Blue Lagoon is closed."};
+S.kerid={name:"Kerið crater",q:"Kerið, Iceland",w:"Kerið",why:"A 3,000-year-old volcanic crater with a bright blue lake, on the Golden Circle.",how:"Walk around the rim (about 20 min). Small entry fee."};
+S.jokulsarlon={name:"Jökulsárlón glacier lagoon",q:"Jökulsárlón, Iceland",w:"Jökulsárlón",why:"A glacier lagoon with floating icebergs, next to Diamond Beach, where ice chunks wash up on black sand. One of Iceland's most famous sights.",how:"It's 380 km from Reykjavik, so stay a night near Vík or Kirkjubæjarklaustur. Take a zodiac or amphibian boat tour, then see the ice on Diamond Beach."};
+S.hraunfossar={name:"Hraunfossar and Barnafoss",q:"Hraunfossar, Iceland",w:"Hraunfossar",why:"Waterfalls that flow out of a lava field into the Hvítá river, a tranquil alternative in West Iceland.",how:"Take the short paths to the viewpoints, and combine with Deildartunguhver, Europe's most powerful hot spring."};
+S.legostore={name:"LEGO Store, Strøget",q:"LEGO Store, Strøget, Copenhagen",w:"Lego",why:"LEGO is Denmark's most famous brand, started in Billund in 1932 (the name comes from 'leg godt', Danish for 'play well'). The central Copenhagen store has large display models, exclusive items and a build-your-own wall.",how:"Visit in the morning of Day 19 and pack sets in your cabin bag. Allow about an hour. Compare prices with home first, as some sets are cheaper in Denmark."};
+S.solheimasandur={name:"Sólheimasandur plane wreck",q:"Sólheimasandur plane wreck, Iceland",w:"",why:"The wreck of a US Navy DC-3 that made an emergency landing on the black sand plain in November 1973. Everyone survived, and the stripped fuselage has become one of Iceland's most photographed sights, especially in moody weather.",how:"Walk about 4 km each way on a flat path from the car park (about 1 h each way), or take the paid shuttle if it is operating. Go early or late to avoid crowds, wear windproof clothing, and do not climb on the fuselage. Driving on the sand is banned."};
+var DS = {1:["gamlastan","royalpalace","boattour","nobelmuseum","monteliusvagen"],2:["vasa","skansen"],3:["vaxholm","sigtuna","stadshuset","konserthuset"],4:["falun","carllarsson"],5:["nusnas","rattvik"],6:["styggforsen"],alm:["ikeamuseum"],
+7:["opera","akershus"],8:["fram","vigeland","nobelpeace"],9:["flam","flamsbana"],10:["naeroyfjord","sognefjord","stegastein"],11:["bryggen","fisketorget","haakon"],12:["floyen"],
+14:["nyhavn"],15:["amalienborg","rosenborg","mermaid"],16:["christiansborg","christiania","tivoli","saviour"],17:["frederiksborg","kronborg","louisiana"],18:["roskildecath","vikingship"],19:["legostore","torvehallerne","designmuseum"],20:["hallgrimskirkja","sunvoyager","perlan"],21:["thingvellir","geysir","gullfoss"],22:["seljalandsfoss","skogafoss","solheimajokull","solheimasandur","reynisfjara"],23:["kirkjufell","arnarstapi","djupalon"],24:["bluelagoon"]};
+var MAPS = {
+se:[{label:"Stockholm sights",mode:"",stops:["Gamla Stan, Stockholm","Monteliusvägen, Stockholm","Vasa Museum, Stockholm","Skansen, Stockholm","Stockholm Concert Hall, Hötorget","Stockholm City Hall"]},
+    {label:"Dalarna: Falun and Lake Siljan",mode:"",stops:["Falun Mine, Falun","Carl Larsson-gården, Sundborn","Långbryggan, Rättvik","Nusnäs, Mora","Styggforsen, Rättvik"]}],
+no:[{label:"Norway route",mode:"",stops:["Oslo Opera House","Akershus Fortress, Oslo","Vigeland Park, Oslo","Fram Museum, Oslo","Flåm, Norway","Gudvangen, Norway","Bryggen, Bergen","Fløibanen, Bergen"]}],
+dk:[{label:"Copenhagen city sights (walkable)",mode:"w",stops:["Nyhavn, Copenhagen","Amalienborg, Copenhagen","The Little Mermaid statue, Copenhagen","Rosenborg Castle, Copenhagen","Christiansborg Palace, Copenhagen","Freetown Christiania, Copenhagen","Tivoli Gardens, Copenhagen"]},
+    {label:"Day trips: North Zealand and Roskilde (train)",mode:"",stops:["Frederiksborg Castle, Hillerød","Kronborg Castle, Helsingør","Louisiana Museum of Modern Art, Humlebæk","Roskilde Cathedral","Viking Ship Museum, Roskilde"]}],
+ic:[{label:"Reykjavik sights (walkable)",mode:"w",stops:["Hallgrímskirkja, Reykjavik","Sun Voyager sculpture, Reykjavik","Harpa, Reykjavik","Old Harbour, Reykjavik","Perlan, Reykjavik"]},
+    {label:"Golden Circle (drive)",mode:"",stops:["Reykjavik, Iceland","Þingvellir National Park","Geysir, Iceland","Gullfoss, Iceland","Kerið crater, Iceland"]},
+    {label:"South Coast (drive)",mode:"",stops:["Reykjavik, Iceland","Seljalandsfoss, Iceland","Skógafoss, Iceland","Sólheimajökull, Iceland","Sólheimasandur plane wreck, Iceland","Reynisfjara, Iceland","Vík í Mýrdal, Iceland"]},
+    {label:"Snæfellsnes (drive)",mode:"",stops:["Reykjavik, Iceland","Kirkjufell, Grundarfjörður","Arnarstapi, Iceland","Djúpalónssandur, Iceland"]},
+    {label:"Blue Lagoon and the airport",mode:"",stops:["Reykjavik, Iceland","Blue Lagoon, Iceland","Keflavik International Airport"]}]
+};
+</script>
 <script>
 var D = {
 se:[
 {n:1,t:"Gamla Stan and Södermalm",loc:"Stockholm",how:"<b>Airport → city:</b> Arlanda Express to Stockholm Central (about 18 min), or the Flygbussarna bus (about 40 min, cheaper). Most Mumbai flights land mid-day or evening, so treat Day 1 as a gentle start.",
- see:["<b>Gamla Stan</b> (Old Town): medieval cobbled alleys, <b>Stortorget</b> square and the <b>Nobel Museum</b>.","<b>Royal Palace</b> exterior. The guard change is usually around 12:00.","<b>Mårten Trotzigs gränd</b>: Stockholm's narrowest alley (about 90 cm wide).","<b>Storkyrkan</b> cathedral and the St George and the Dragon statue.","Late afternoon: <b>Monteliusvägen</b> on Södermalm for panoramic harbour views (about 10 min walk from T-bana Mariatorget). Sunset is the best time."],
+ see:["★ <b>Gamla Stan</b> (Old Town): medieval cobbled alleys, <b>Stortorget</b> square and the <b>Nobel Museum</b>.","★ <b>Royal Palace</b> exterior. The guard change is usually around 12:00.","<b>Mårten Trotzigs gränd</b>: Stockholm's narrowest alley (about 90 cm wide).","<b>Storkyrkan</b> cathedral and the St George and the Dragon statue.","★ <b>Boat tour around Gamla Stan</b> (a must-do): Strömma's <i>Royal Canal Tour</i> (about 50–60 min) or <i>Under the Bridges of Stockholm</i> (about 2 h) from Strömkajen / Nybroplan, or the Slussen pier. You see Gamla Stan, the Royal Palace, City Hall and Djurgården from the water, with commentary. Timetables thin out in Nov–Apr, so check and pre-book.","★ <b>Nobel Museum</b> (Stortorget, Gamla Stan): the story of the Nobel Prizes and the laureates. Look for the Indian laureates: Rabindranath Tagore (Literature 1913), C. V. Raman (Physics 1930) and Amartya Sen (Economics 1998).","Late afternoon: <b>Monteliusvägen</b> on Södermalm for panoramic harbour views (about 10 min walk from T-bana Mariatorget). Sunset is the best time."],
  eat:["<b>First fika:</b> kanelbulle (cinnamon bun) or kardemummabulle at <b>Vete-Katten</b> (Kungsgatan 55, since 1928) or <b>Café Saturnus</b> (Östermalm, huge buns).","<b>Meatballs:</b> <b>Meatballs for the People</b> (Södermalm) or <b>Pelikan</b> (classic beer hall).","<b>Den Gyldene Freden</b> in Gamla Stan, open since 1722."],
  tip:"Buy an SL travel card in the app. Gamla Stan is compact and fully walkable."},
 {n:2,t:"Djurgården Island",loc:"Stockholm",how:"<b>Getting there:</b> Djurgården ferry from Slussen (included in SL ticket, about 10 min), or tram 7 from Norrmalmstorg.",
- see:["<b>Vasa Museum</b>: a nearly intact 1628 warship that sank on its maiden voyage. Allow 2–3 h.","<b>Skansen</b>: the world's oldest open-air museum (1891), with historic Swedish farmsteads and Nordic animals such as elk, bear, wolverine and lynx.","<b>ABBA The Museum</b> (optional) and <b>Rosendals Trädgård</b> (garden walk).","<b>Gröna Lund</b> funfair: mostly closed in shoulder season apart from event periods."],
+ see:["★ <b>Vasa Museum</b>: a nearly intact 1628 warship that sank on its maiden voyage. Allow 2–3 h.","★ <b>Skansen</b>: the world's oldest open-air museum (1891), with historic Swedish farmsteads and Nordic animals such as elk, bear, wolverine and lynx.","★ <b>ABBA The Museum</b> (optional) and <b>Rosendals Trädgård</b> (garden walk).","<b>Gröna Lund</b> funfair: mostly closed in shoulder season apart from event periods."],
  eat:["<b>Rosendals Trädgårdskafé</b>: garden lunch, bakery and apple cake.","<b>Skansen</b> has traditional kiosks and bakeries."],
  tip:"Go to Vasa first thing, at opening, before the crowds. Pair Skansen with the afternoon light."},
 {n:3,t:"Archipelago day trip, or Sigtuna",loc:"Vaxholm / Grinda, or Sigtuna",how:"<b>Archipelago:</b> Waxholmsbolaget ferry from Strandvägen to <b>Vaxholm</b> (about 50 min). <b>Grinda</b> takes about 1.5 h. Timetables are limited in Nov–Apr.",
- see:["<b>Vaxholm:</b> Vaxholm Fortress (Kastell), the wooden waterfront and harbour views.","<b>Grinda:</b> forest and coastal trails, rocky shores and seaside walks.","<b>Sigtuna</b> (fallback): Sweden's oldest town. Medieval church ruins (St Olof, St Per), runestones and lakeside cafés."],
+ see:["<b>Vaxholm:</b> Vaxholm Fortress (Kastell), the wooden waterfront and harbour views.","<b>Grinda:</b> forest and coastal trails, rocky shores and seaside walks.","<b>Sigtuna</b> (fallback): Sweden's oldest town. Medieval church ruins (St Olof, St Per), runestones and lakeside cafés.","★ <b>Back in the city, Nobel venues:</b> <b>Stockholm City Hall</b> (Stadshuset, Kungsholmen): the Nobel banquet is held in its Blue Hall every 10 Dec. Take the guided tour (Golden Hall mosaics) and the tower if open. Then see <b>Konserthuset</b> (Stockholm Concert Hall, Hötorget), where the Nobel Prizes are handed over by the King (except the Peace Prize, which is awarded in Oslo)."],
  eat:["<b>Vaxholm:</b> waterfront fish restaurants. Try Baltic herring or shrimp sandwiches.","<b>Sigtuna:</b> cafés on Stora Gatan, the main street."],
  alt:"<b>Winter or no ferries?</b> Sigtuna: commuter train Stockholm C → Märsta (about 40 min), then bus 570 (about 15 min).",
  tip:"Check the Waxholmsbolaget timetable the day before, especially in autumn."},
 {n:4,t:"Falun and Lake Siljan",loc:"Falun → Rättvik",how:"<b>Getting there:</b> SJ train Stockholm C → Falun (about 2–2.5 h). Then a local bus to Sundborn. Continue Falun → <b>Rättvik</b> or Mora by train/bus (about 45–60 min).",
- see:["<b>Falun Mine</b> (Great Copper Mountain), UNESCO. Underground tours show the source of Falu red paint.","<b>Carl Larsson-gården</b> in Sundborn (about 12 km from Falun), the artist's colourful family home. Check seasonal opening.","Evening settle-in at Rättvik or Mora on Lake Siljan."],
+ see:["★ <b>Falun Mine</b> (Great Copper Mountain), UNESCO. Underground tours show the source of Falu red paint.","★ <b>Carl Larsson-gården</b> in Sundborn (about 12 km from Falun), the artist's colourful family home. Check seasonal opening.","Evening settle-in at Rättvik or Mora on Lake Siljan."],
  eat:["<b>Falukorv</b> (Falun sausage) at a local lunch place.","Dalarna <b>tunnbröd</b> (thin bread), lingonberries and local cheeses at your Siljan stay."],
  tip:"Carl Larsson-gården is often closed late autumn to spring. Have the mine as your fallback."},
 {n:5,t:"Lakeside villages and Dala horses",loc:"Rättvik · Nusnäs · Mora",how:"<b>Getting around:</b> local trains Rättvik ↔ Mora (about 30 min). Nusnäs is about 10 km from Mora, so take a taxi or bus. Check bus times, as rural services thin out.",
@@ -152,28 +332,28 @@ se:[
 ],
 no:[
 {n:7,t:"Stockholm → Oslo, then the Opera House",loc:"Oslo · Norway Day 1",how:"<b>Getting there:</b> direct SJ train Stockholm C → Oslo S (about 6 h). Book early for cheaper fares. In Oslo, everything below is a walk from Oslo S.",
- see:["<b>Operahuset</b> (Opera House) in Bjørvika: climb the white marble sloping roof for the harbour and city view. It is free, and the roof is open to walk on.","<b>Akershus Fortress</b>: medieval fortress, with views from its walls.","<b>Karl Johans gate</b>: Oslo's main boulevard, leading to the Royal Palace.","<b>Munch Museum</b> (Bjørvika, nearby, if you have energy)."],
+ see:["★ <b>Operahuset</b> (Opera House) in Bjørvika: climb the white marble sloping roof for the harbour and city view. It is free, and the roof is open to walk on.","★ <b>Akershus Fortress</b>: medieval fortress, with views from its walls.","<b>Karl Johans gate</b>: Oslo's main boulevard, leading to the Royal Palace.","<b>Munch Museum</b> (Bjørvika, nearby, if you have energy)."],
  eat:["<b>Mathallen Oslo</b> food hall (Vulkan, Grünerløkka): Norwegian salmon, seafood, cheese and street food.","<b>Fuglen</b> (Tordenskiolds gate 8–10) for coffee.","Try <b>kjøttkaker</b> (meatballs in brown gravy) or <b>fiskesuppe</b>."],
  tip:"Stay near Oslo S for easy train connections on Day 9. An Oslo Pass can pay off only if you do many museums."},
 {n:8,t:"Oslo museums and Viking history",loc:"Oslo · Norway Day 2",how:"<b>Bygdøy peninsula:</b> bus 30 from Jernbanetorget year-round (about 20 min). A seasonal ferry runs from the City Hall pier.",
- see:["<b>Viking Ship Museum</b>: currently closed for rebuild. Verify before you go (see the checklist at the top).","<b>Viking fallback:</b> <b>Norsk Folkemuseum</b> (includes the 13th-century Gol stave church) and the <b>Historical Museum</b> collection if open.","<b>Fram Museum</b>: the polar ship that carried Nansen and Amundsen. <b>Kon-Tiki Museum</b> and the <b>Norwegian Maritime Museum</b> are next door.","<b>Vigeland Sculpture Park</b> (Frogner): 200+ granite sculptures, free, and open all day.","<b>Street walk:</b> Aker Brygge waterfront → City Hall (Nobel Peace Prize ceremony venue) → Nobel Peace Center."],
+ see:["<b>Viking Ship Museum</b>: currently closed for rebuild. Verify before you go (see the checklist at the top).","<b>Viking fallback:</b> <b>Norsk Folkemuseum</b> (includes the 13th-century Gol stave church) and the <b>Historical Museum</b> collection if open.","★ <b>Fram Museum</b>: the polar ship that carried Nansen and Amundsen. <b>Kon-Tiki Museum</b> and the <b>Norwegian Maritime Museum</b> are next door.","★ <b>Vigeland Sculpture Park</b> (Frogner): 200+ granite sculptures, free, and open all day.","<b>Street walk:</b> Aker Brygge waterfront → City Hall (Nobel Peace Prize ceremony venue) → Nobel Peace Center.","★ <b>Nobel Peace Center</b> (next to City Hall): exhibitions on Peace laureates. The Peace Prize ceremony is held in Oslo City Hall every 10 Dec. Indian links: Mother Teresa (1979) and Kailash Satyarthi (2014)."],
  eat:["<b>Fiskeriet Youngs</b> (Youngstorget) for fish and chips or fish soup.","<b>Pølse med lompe</b> (hot dog wrapped in potato flatbread) from a street kiosk.","Waffles with brunost at a café."],
  tip:"Group Bygdøy's museums together: Fram, Kon-Tiki and Maritime are a few minutes' walk apart."},
 {n:9,t:"Oslo → Flåm by the Flåmsbana",loc:"Oslo → Myrdal → Flåm · Norway Day 3",how:"<b>Getting there:</b> Vy train Oslo S → <b>Myrdal</b> (about 4.5 h), then the <b>Flåmsbana</b> (20 km, about 1 h) down to Flåm. Reserve a seat in advance. Reduced timetable in winter.",
- see:["<b>Flåmsbana:</b> one of the world's steepest standard-gauge railways. It drops 864 m through 20 tunnels, and the train stops at <b>Kjosfossen waterfall</b>.","<b>Flåm Railway Museum</b> (free) at the station.","Evening walk along the Aurlandsfjord quay and to the small <b>Flåm church</b> (1667)."],
+ see:["★ <b>Flåmsbana:</b> one of the world's steepest standard-gauge railways. It drops 864 m through 20 tunnels, and the train stops at <b>Kjosfossen waterfall</b>.","<b>Flåm Railway Museum</b> (free) at the station.","Evening walk along the Aurlandsfjord quay and to the small <b>Flåm church</b> (1667)."],
  eat:["<b>Ægir Brewpub</b> in Flåm: Viking-longhouse style building, local craft beer and fish dishes.","<b>Fjord trout</b> and local lamb at a Flåm restaurant."],
  tip:"Sit on the right-hand side going down for views. Sleep in Flåm to catch the morning cruise."},
 {n:10,t:"Nærøyfjord and Sognefjord, then Bergen",loc:"Flåm → Gudvangen → Voss → Bergen · Norway Day 4",how:"<b>Route:</b> Nærøyfjord cruise Flåm → Gudvangen (about 2 h) → bus to Voss (about 1 h) → train Voss → Bergen (about 1 h 20). A fully included combination ticket is sold as <b>Norway in a Nutshell</b>.",
- see:["<b>Nærøyfjord</b> (UNESCO): one of Europe's narrowest fjords, with waterfalls and steep walls.","You start on the <b>Aurlandsfjord</b>, an arm of <b>Sognefjord</b>, Norway's longest (205 km) and deepest (1,308 m) fjord.","<b>Gudvangen:</b> stop at the Viking village if open. Voss is a winter-sports town.","<b>Optional, before the boat:</b> Stegastein viewing platform near Aurland, a long platform jutting from a cliff about 650 m above the fjord (30 min each way from Flåm)."],
+ see:["★ <b>Nærøyfjord</b> (UNESCO): one of Europe's narrowest fjords, with waterfalls and steep walls.","You start on the <b>Aurlandsfjord</b>, an arm of <b>Sognefjord</b>, Norway's longest (205 km) and deepest (1,308 m) fjord.","<b>Gudvangen:</b> stop at the Viking village if open. Voss is a winter-sports town.","<b>Optional, before the boat:</b> Stegastein viewing platform near Aurland, a long platform jutting from a cliff about 650 m above the fjord (30 min each way from Flåm)."],
  eat:["Pack lunch from Flåm. Boat kiosks are limited.","In Bergen, <b>Bryggeloftet and Stuene</b> or <b>Enhjørningen</b> on Bryggen for fish soup."],
  alt:"<b>Direct to Bergen by boat:</b> the Fjord1 express boat Flåm → Balestrand → Bergen (about 5.5 h) runs seasonally, so check whether it operates when you travel.",
  tip:"Book the combo in advance. Cruise sailings are fewer in Nov–Apr, so confirm the day's schedule."},
 {n:11,t:"Bergen: Bryggen",loc:"Bergen · Norway Day 5",how:"<b>Getting around:</b> the city centre is walkable. Fly-in from Flesland airport is the Bybanen light rail (about 45 min). Bergen is very rainy, so pack waterproofs.",
- see:["<b>Bryggen</b> (UNESCO): the colourful Hanseatic wooden wharf buildings, plus the <b>Hanseatic Museum</b> and <b>Bryggens Museum</b>.","<b>Fisketorget</b> (Fish Market) on the harbour.","<b>Bergenhus Fortress</b> with <b>Håkonshallen</b> (13th-century royal hall).","Nordnes and Sandviken lanes for old white wooden houses."],
+ see:["★ <b>Bryggen</b> (UNESCO): the colourful Hanseatic wooden wharf buildings, plus the <b>Hanseatic Museum</b> and <b>Bryggens Museum</b>.","★ <b>Fisketorget</b> (Fish Market) on the harbour.","<b>Bergenhus Fortress</b> with <b>Håkonshallen</b> (13th-century royal hall).","Nordnes and Sandviken lanes for old white wooden houses."],
  eat:["<b>Fish soup</b> (fiskesuppe) at <b>Bryggeloftet and Stuene</b> or <b>Enhjørningen</b>.","<b>Fish Me</b> at the Fish Market for casual seafood and fish and chips.","<b>Skillingsbolle</b> (Bergen cinnamon bun): try one at a bakery and compare it with the Swedish version."],
  tip:"Visit Bryggen in the morning before groups arrive. Go back after dark for the lit-up wharf."},
 {n:12,t:"Fløibanen and fly to Oslo",loc:"Bergen → Oslo · Norway Day 6",how:"<b>Fløibanen funicular:</b> lower station at Vetrlidsallmenningen (5 min from the Fish Market), 8 min up to <b>Fløyen</b> (320 m). Evening: Bybanen to Bergen airport and a flight to Oslo Gardermoen (about 50 min).",
- see:["<b>Fløyen viewpoint:</b> Bergen's seven mountains, the harbour and the fjord.","<b>Trolls and forest trails:</b> the troll forest and the Skomakerdiket lake trail.","Optional: walk down from Fløyen to town (about 40 min) via Skansemyren."],
+ see:["★ <b>Fløyen viewpoint:</b> Bergen's seven mountains, the harbour and the fjord.","<b>Trolls and forest trails:</b> the troll forest and the Skomakerdiket lake trail.","Optional: walk down from Fløyen to town (about 40 min) via Skansemyren."],
  eat:["<b>Fløien Folkerestaurant</b> at the top for waffles and coffee.","Last Bergen lunch: seafood at the Fish Market."],
  tip:"Fly out Bergen → Oslo (late afternoon or evening). From Gardermoen the <b>Flytoget</b> reaches Oslo S in about 20 min. Sleep in Oslo.",
  alt:"<b>Sea option:</b> Fjord Line Bergen → Hirtshals takes about 18 h and then 4–5 h on to Copenhagen. It is long, so this plan doesn't use it."}
@@ -184,36 +364,89 @@ cr:[
  eat:["<b>Onboard buffet dinner:</b> Scandinavian seafood buffet is the typical offer.","Breakfast buffet is included or sold with some cabins. Check your ticket."],
  tip:"Stock up on snacks beforehand, as onboard prices are high. Duty-free is useful for Norwegian goods."},
 {n:14,t:"Arrive Copenhagen, Nyhavn and canals",loc:"Copenhagen · Denmark Day 1",how:"<b>Arrival:</b> the ship docks around 09:00–10:00 at the terminal in the Freeport area. Bus or taxi to the centre takes 10–15 min. Drop bags at your hotel.",
- see:["<b>Nyhavn:</b> bright 17th-century townhouses, historic wooden ships and outdoor cafés.","<b>Canal boat tour</b> from Nyhavn (about 1 h): historic spires and modern architecture.","<b>Strøget:</b> Copenhagen's long pedestrian street."],
+ see:["★ <b>Nyhavn:</b> bright 17th-century townhouses, historic wooden ships and outdoor cafés.","<b>Canal boat tour</b> from Nyhavn (about 1 h): historic spires and modern architecture.","<b>Strøget:</b> Copenhagen's long pedestrian street."],
  eat:["<b>Smørrebrød</b> (open sandwiches): <b>Restaurant Schønnemann</b> (Hauser Plads 16, since 1877) or <b>Told & Snaps</b> near Nyhavn.","<b>Wienerbrød</b> (Danish pastry) at a Lagkagehuset bakery."],
  tip:"Eat one street away from the Nyhavn waterfront for better value."},
 ],
 dk:[
 {n:14,t:"Arrive and Nyhavn",loc:"Copenhagen · Denmark Day 1",ref:"cr13"},
 {n:15,t:"Royal Palaces and Gardens",loc:"Copenhagen · Denmark Day 2",how:"<b>Getting around:</b> Metro M1/M2 to Kongens Nytorv, or walk. All stops are in a compact area. Day pass for DOT transport is optional.",
- see:["<b>Amalienborg Palace:</b> four identical rococo palaces around an octagonal courtyard. The Changing of the Guard is at noon.","<b>Rosenborg Castle</b> and its royal treasury, with the Danish crown jewels, in Kongens Have garden.","<b>The Little Mermaid</b> on the Langelinie promenade, from the Hans Christian Andersen tale.","<b>Kastellet</b> star-shaped fortress and harbour walk nearby."],
+ see:["★ <b>Amalienborg Palace:</b> four identical rococo palaces around an octagonal courtyard. The Changing of the Guard is at noon.","<b>Rosenborg Castle</b> and its royal treasury, with the Danish crown jewels, in Kongens Have garden.","★ <b>The Little Mermaid</b> on the Langelinie promenade, from the Hans Christian Andersen tale.","<b>Kastellet</b> star-shaped fortress and harbour walk nearby."],
  eat:["<b>Torvehallerne</b> food market (Israels Plads, near Nørreport) for lunch.","<b>Aamanns</b> (Øster Farimagsgade) for modern smørrebrød.","Pølser (hot dogs) from a pølsevogn cart."],
  tip:"Start at Rosenborg in the morning, then Amalienborg at noon, and walk to Langelinie in the afternoon."},
 {n:16,t:"Canals, Christiania and Tivoli",loc:"Copenhagen · Denmark Day 3",how:"<b>Getting around:</b> Slotsholmen and Christianshavn are walkable from the centre. Tivoli is next to Copenhagen Central station.",
- see:["<b>Christiansborg Palace:</b> Parliament, Supreme Court and Royal Reception Rooms. Climb the <b>tower</b> (free) for the best rooftop view.","<b>Christianshavn:</b> canals like Amsterdam's, houseboats, and the <b>Church of Our Saviour</b> with its outside spiral tower (about 400 steps).","<b>Freetown Christiania:</b> self-governing enclave with murals and a bohemian vibe. No photos on Pusher Street.","<b>Tivoli Gardens</b> (1843): gardens, a wooden roller coaster, stages and evening lights."],
+ see:["★ <b>Christiansborg Palace:</b> Parliament, Supreme Court and Royal Reception Rooms. Climb the <b>tower</b> (free) for the best rooftop view.","<b>Christianshavn:</b> canals like Amsterdam's, houseboats, and the <b>Church of Our Saviour</b> with its outside spiral tower (about 400 steps).","<b>Freetown Christiania:</b> self-governing enclave with murals and a bohemian vibe. No photos on Pusher Street.","★ <b>Tivoli Gardens</b> (1843): gardens, a wooden roller coaster, stages and evening lights."],
  eat:["<b>Barr</b> (Strandgade 4, Christianshavn) for Danish pub food.","<b>Tivoli restaurants</b> and food stalls for dinner."],
  tip:"Tivoli runs Halloween and Christmas editions in autumn. Check dates, as winter periods may close it."},
 {n:17,t:"North Zealand: castles and Louisiana",loc:"Hillerød · Helsingør · Humlebæk · Denmark Day 4",how:"<b>Getting there:</b> S-train line A, Copenhagen → Hillerød (about 40 min), then walk or take a bus to the castle. Hillerød → Helsingør by local train (about 25 min). Helsingør → Humlebæk (about 10 min), then walk 10–15 min to Louisiana. Return via the coast line to Copenhagen (about 35 min).",
- see:["<b>Frederiksborg Castle</b> (Hillerød): Renaissance palace on three islets, with the Museum of National History, the Knights' Hall and Baroque gardens.","<b>Kronborg Castle</b> (Helsingør): Shakespeare's <i>Hamlet</i> setting. See the underground casemates and Holger Danske. Sweden is visible across the strait.","<b>Louisiana Museum of Modern Art</b> (Humlebæk): world-class modern art, sculpture park and sea views."],
+ see:["<b>Frederiksborg Castle</b> (Hillerød): Renaissance palace on three islets, with the Museum of National History, the Knights' Hall and Baroque gardens.","★ <b>Kronborg Castle</b> (Helsingør): Shakespeare's <i>Hamlet</i> setting. See the underground casemates and Holger Danske. Sweden is visible across the strait.","<b>Louisiana Museum of Modern Art</b> (Humlebæk): world-class modern art, sculpture park and sea views."],
  eat:["<b>Louisiana Café</b> overlooking the water.","Grab a smørrebrød lunch in Helsingør's old town."],
  tip:"Days are short in Nov. If time is tight, drop one of the three, and note Louisiana stays open late on some evenings. This trip goes beyond central Copenhagen, so buy a multi-zone ticket in the DOT app."},
 {n:18,t:"Roskilde: Vikings and royal tombs",loc:"Roskilde · Denmark Day 5",how:"<b>Getting there:</b> regional train København H → Roskilde (about 25 min). The Viking Ship Museum is about 1.5 km (20 min) walk from the station.",
- see:["<b>Roskilde Cathedral</b> (UNESCO): 12th-century brick Gothic, burial place of Danish monarchs.","<b>Viking Ship Museum:</b> five original 11th-century Viking ships salvaged from Roskilde Fjord, and a boatyard where traditional builders work.","<b>Fjord walk</b> along the water between the cathedral and the museum."],
+ see:["★ <b>Roskilde Cathedral</b> (UNESCO): 12th-century brick Gothic, burial place of Danish monarchs.","★ <b>Viking Ship Museum:</b> five original 11th-century Viking ships salvaged from Roskilde Fjord, and a boatyard where traditional builders work.","<b>Fjord walk</b> along the water between the cathedral and the museum."],
  eat:["The museum's waterfront café and Roskilde old-town cafés.","Try <b>frikadeller</b> (Danish meatballs) for lunch."],
  tip:"Viking boat sailings are only in summer. Check the museum for winter activities."},
-{n:19,t:"Design, markets and departure",loc:"Copenhagen · Denmark Day 6",how:"<b>To the airport:</b> Metro M2 to Lufthavnen (about 15 min), or the Øresund train. Leave at least 3 h before an international flight to Mumbai.",
- see:["<b>Design:</b> Illums Bolighus (Amagertorv), HAY House (Østergade) and Designmuseum Danmark (Bredgade).","<b>Torvehallerne</b> food market for gifts and a final lunch.","Waterfront walk along Nyhavn, or Islands Brygge harbour baths if the weather is fine."],
+{n:19,t:"Design, markets and flight to Iceland",loc:"Copenhagen → Reykjavik · Denmark Day 6",how:"<b>To the airport:</b> Metro M2 to Lufthavnen (about 15 min), or the Øresund train. Leave at least 2–3 h before the flight. Copenhagen → Keflavik (KEF) takes about 3 h 15 min, and Iceland is 1–2 h behind Denmark. Book an afternoon or evening flight so you still get the Denmark morning.",
+ see:["<b>Design:</b> Illums Bolighus (Amagertorv), HAY House (Østergade) and Designmuseum Danmark (Bredgade).","★ <b>LEGO Store</b> on Strøget: the world-famous Danish toy brand, with Copenhagen-exclusive sets, huge display builds and a build-your-own wall. It is the easy alternative to LEGO House in Billund (3+ h each way).","<b>Torvehallerne</b> food market for gifts and a final lunch.","Waterfront walk along Nyhavn, or Islands Brygge harbour baths if the weather is fine."],
  eat:["<b>Torvehallerne:</b> smørrebrød, pastries and coffee.","Last <b>flødeboller</b> (chocolate-coated marshmallow treats) for the flight home."],
- tip:"Pack cabin bags early. Most Mumbai flights depart in the afternoon or evening via a Gulf, Istanbul or European hub."}
+ tip:"Land at KEF and pick up your rental car there (book it in advance). Reykjavik is about 45–50 min away. If you land late, the Flybus and a taxi are the backup."}
+],
+ic:[{n:20,t:"Reykjavik: church, harbour and hot pots",loc:"Reykjavik · Iceland Day 1",how:"<b>Getting around:</b> the centre is walkable. Park the car at a city car park and walk. Use the Flybus from KEF only if you are not picking up a car yet.",
+ see:["★ <b>Hallgrímskirkja</b>: the basalt-column-inspired church. Take the lift up the 73 m tower for the best city view, and see the Leif Erikson statue outside.","★ <b>Sun Voyager</b> (Sólfar) steel sculpture and <b>Harpa</b> concert hall on the waterfront, about a 15 min walk from the church.","<b>Laugavegur</b> shopping street and the rainbow-painted Skólavörðustígur leading to the church.","<b>Old Harbour:</b> boat trips for whales and (from about May) puffins.","★ <b>Perlan</b> (Wonders of Iceland): an indoor ice cave, glacier exhibits and a planetarium Northern Lights show on a hilltop. Good in bad weather.","<b>Evening:</b> soak in a local pool such as Laugardalslaug (hot pots). Remember the shower-first rule."],
+ eat:["★ <b>Bæjarins Beztu Pylsur</b> (harbour hot dog stand): order 'eina með öllu', one with everything.","<b>Café Loki</b> (opposite Hallgrímskirkja): plokkfiskur (fish stew), rye bread and rye bread ice cream.","<b>Skyr</b> and fresh bread at a bakery, or <b>Mokka Kaffi</b> for coffee.","<b>Austur-Indíafjelagið</b>, an Indian restaurant in Reykjavik, if you want a familiar dinner (check it is open)."],
+ tip:"Sleep in Reykjavik for all five nights and do each loop as a day trip. You only unpack once."},
+{n:21,t:"Golden Circle",loc:"Þingvellir · Geysir · Gullfoss · Iceland Day 2",how:"<b>Drive:</b> Reykjavik → Þingvellir (about 45 min) → Geysir (about 1 h) → Gullfoss (10 min) → back (about 1.5–2 h). About 230 km in total. Leave by 08:30.",
+ see:["★ <b>Þingvellir National Park</b> (UNESCO): a rift valley where the North American and Eurasian plates drift apart, and the site of the world's oldest parliament (930 AD). Walk the Almannagjá gorge to Öxarárfoss.","★ <b>Geysir geothermal area:</b> Strokkur erupts every 5–10 minutes, 20–30 m high. The original Geysir gave every 'geyser' its name.","★ <b>Gullfoss</b>: a two-tier waterfall in a deep canyon. Paths can be icy in April, and the spray is heavy.","<b>Kerið</b> crater lake on the way back (small entry fee).","<b>Optional bathing:</b> Fontana in Laugarvatn (steam baths and a geothermal rye bread demo)."],
+ eat:["<b>Friðheimar</b> (tomato greenhouse): all-you-can-eat tomato soup with fresh bread, vegetarian-friendly. Book ahead.","<b>Efstidalur II</b> farm for ice cream made on site.","<b>Geysir Centre</b> restaurant for kjötsúpa (lamb soup)."],
+ alt:"<b>Rainy day?</b> Swap Kerið for the Secret Lagoon in Flúðir.",
+ tip:"Do the loop clockwise from Reykjavik: Þingvellir first, before the tour buses arrive."},
+{n:22,t:"South Coast: waterfalls and the black beach",loc:"Seljalandsfoss · Skógafoss · Reynisfjara · Iceland Day 3",how:"<b>Drive:</b> Reykjavik → Seljalandsfoss (about 1.5 h) → Skógafoss (30 min) → Reynisfjara / Vík (about 40 min) → back (about 2.5 h). About 360 km in total. Leave by 08:00.",
+ see:["★ <b>Seljalandsfoss</b> (60 m): walk behind the waterfall. The path is wet and can be icy, so wear grips. Visit <b>Gljúfrabúi</b>, the hidden waterfall, next door.","★ <b>Skógafoss</b> (60 m): rainbows on sunny days. Climb the 500+ steps for the top view.","<b>Sólheimajökull glacier:</b> a guided glacier walk with crampons (book ahead, about 3 h). (Do not go on the ice without a guide.)","★ <b>Sólheimasandur plane wreck</b>: the abandoned US Navy DC-3 that crash-landed on the black sand plain in 1973 (all on board survived), now one of Iceland's most photographed sights. Park at the signed car park off Route 1 (about 5 min past the Sólheimajökull turn-off) and walk about 4 km each way on flat sand (about 1 h each way), or take the paid shuttle bus if it is running. Driving on the sand is illegal and heavily fined. Allow 2–2.5 h in total, and wear windproof layers because the plain is very exposed.","★ <b>Reynisfjara</b> black sand beach, basalt columns and the Hálsanefshellir cave, with the Reynisdrangar sea stacks offshore. <b>Danger:</b> deadly 'sneaker waves'. Stay well back from the water at all times.","<b>Vík í Mýrdal</b> village with its red-roofed church. <b>Dyrhólaey</b> arch and lighthouse may be closed for nesting from about May."],
+ eat:["<b>Smiðjan Brugghús</b> (Vík): craft beer and burgers or pizza.","<b>Suður-Vík</b> (Vík): lamb and fish.","Pack sandwiches from a Bónus supermarket for the waterfalls."],
+ alt:"<b>Time for a longer stay?</b> Jökulsárlón glacier lagoon and Diamond Beach are another 2.5 h beyond Vík. It needs an overnight (see Alternatives).",
+ tip:"Fuel up in Selfoss or Hvolsvöllur. Check vedur.is for wind and road.is for ice in the morning. This is a full day: if you want both the glacier walk and the plane wreck, start at 07:30 and skip Vík village, or pick one of the two."},
+{n:23,t:"Snæfellsnes peninsula",loc:"Kirkjufell · Arnarstapi · Djúpalónssandur · Iceland Day 4",how:"<b>Drive:</b> Reykjavik → Grundarfjörður (about 2 h, via the Hvalfjörður tunnel, which has a toll paid online) → Arnarstapi (about 1 h) → back (about 2.5 h). About 8–10 h with stops. Leave by 08:00.",
+ see:["★ <b>Kirkjufell</b> mountain and <b>Kirkjufellsfoss</b> waterfall at Grundarfjörður: Iceland's most photographed mountain and a Game of Thrones location.","<b>Arnarstapi–Hellnar</b> coastal path (about 2.5 km, 1 h): bird cliffs and the Gatklettur sea arch.","★ <b>Djúpalónssandur</b> black pebble beach with the old 'lifting stones' and rusted shipwreck remains.","<b>Snæfellsjökull National Park:</b> the glacier-capped volcano from Jules Verne's <i>Journey to the Center of the Earth</i>. See the <b>Lóndrangar</b> basalt pillars.","<b>Búðakirkja</b>, the lone black church on the lava field."],
+ eat:["<b>Fjöruhúsið</b> (Hellnar): seafood soup in a seaside café.","<b>Bjargarsteinn Mathús</b> (Grundarfjörður): seafood with a harbour view."],
+ alt:"<b>Rough weather?</b> Do <b>Hraunfossar</b> waterfalls and the Deildartunguhver hot spring in West Iceland, or the Reykjanes steam fields.",
+ tip:"This is the longest day. Start early and leave Arnarstapi by 17:00 to be back by 20:00."},
+{n:24,t:"Blue Lagoon and fly home",loc:"Reykjanes → Keflavik · Iceland Day 5",how:"<b>Getting there:</b> Reykjavik → Blue Lagoon (about 50 min), then Blue Lagoon → KEF (about 20 min). <b>Pre-book a time slot</b>, and use the lagoon's luggage storage. Return the rental car at KEF.",
+ see:["★ <b>Blue Lagoon</b>: milky-blue geothermal water at 37–39 °C, silica mud masks and an in-water bar. Allow 2–3 h and leave at least 3.5 h before your flight.","<b>Bridge Between Continents</b> (Miðlína) footbridge across the tectonic rift, and the <b>Gunnuhver</b> steam vents, if the area is open.","<b>Check status first:</b> eruptions near Grindavík have closed the lagoon and nearby roads before."],
+ eat:["<b>Lava Restaurant</b> at the Blue Lagoon: lamb and fish.","<b>Gifts:</b> Omnom chocolate, Icelandic lava salt, lopapeysa wool sweaters and Blue Lagoon skincare."],
+ alt:"<b>If the Blue Lagoon is closed:</b> Sky Lagoon in Kópavogur (about 20 min from Reykjavik, with a 7-step spa ritual), or a morning in Reykjavik before heading to KEF.",
+ tip:"Fly home from KEF via a European hub. Allow 3 h at the airport and keep the passport handy."}
 ]};
 
+var DA = {1:["fotografiska","metroart"],2:["abba"],3:["drottningholm","uppsala"],7:["munch"],8:["holmenkollen","nationalmuseet"],9:["borgund","undredal"],11:["ulriken","troldhaugen"],13:["holmenkollen"],14:["carlsberg","rundetaarn"],15:["marblechurch"],16:["glyptotek","radhus"],17:["bakken"],19:["carlsberg","glyptotek"],20:["skylagoon"],21:["kerid"],22:["jokulsarlon"],23:["hraunfossar"],24:["skylagoon"]};
+var ALTS = {
+1:["<b>Stockholm Metro art</b>: ride a few stations (Kungsträdgården, T-Centralen). Called the world's longest art gallery.","<b>Fotografiska</b> (open late) for an evening after the harbour walk and fika.","<b>Hötorget market and Drottninggatan</b>: Stockholm's main shopping street, if you want souvenirs on the first day."],
+2:["★ <b>ABBA The Museum</b> (Djurgården): book a timed ticket. World-famous, and a fun memory to carry home.","<b>Junibacken</b> (Astrid Lindgren's Pippi Longstocking world) if travelling with children.","<b>Nordic Museum</b> or <b>Gröna Lund</b> (seasonal) if you finish Vasa and Skansen early."],
+3:["★ <b>Drottningholm Palace</b> (UNESCO): 'Sweden's Versailles', about 45 min by metro and bus, or by boat from City Hall in summer.","<b>Uppsala</b> (40 min by train): Scandinavia's tallest cathedral, Linnaeus Garden and the Viking mounds of Gamla Uppsala.","<b>Fjäderholmarna</b>: the nearest archipelago island, a 25-min ferry from Slussen / Nybroplan, with craft workshops and a waterfront restaurant."],
+4:["<b>Falu red village walk</b> in Sundborn or Falun town centre if the mine tour is full.","<b>Dalarna alternative:</b> stay in Falun and Tällberg instead of Rättvik, with views over Siljan from the hill."],
+5:["<b>Zorn Museum</b> and <b>Zorngården</b> in Mora, if you skip the Dala horse village.","<b>Vasaloppet Museum</b> in Mora, for a look at Sweden's famous cross-country ski race.","<b>Tomteland</b> (Santa Claus village) near Mora is seasonal and mainly for families: check dates."],
+6:["<b>Uppsala stop</b> on the way back, if your train routing allows it: cathedral and Linnaeus Garden.","<b>Rättvik church boats</b> and <b>Siljan boat trip</b> (summer only) instead of the hike."],
+7:["★ <b>Munch Museum</b> (Bjørvika): home of Edvard Munch's The Scream.","<b>Oslo Fjord sightseeing cruise</b> (about 1.5–2 h, from Aker Brygge / Rådhusbrygge) if the weather is clear.","<b>Oslo harbour promenade</b> to Aker Brygge and Tjuvholmen, for the modern waterfront and the Astrup Fearnley museum."],
+8:["★ <b>Holmenkollen Ski Jump and ski museum</b>: metro line 1 from the centre (about 30 min). A symbol of Norway.","<b>National Museum</b> (central Oslo) for Munch's The Scream and Norwegian art, if you didn't visit the Munch Museum.","<b>Oslo Opera/Bjørvika to Mathallen</b> for an evening food walk."],
+9:["<b>Rallarvegen</b> bike ride (summer): Myrdal → Flåm downhill, about 20 km. Not in the shoulder season, but good in summer.","★ <b>Undredal</b>: a tiny fjord village with brown goat cheese and one of Norway's smallest stave churches. Short boat or bus ride from Flåm.","★ <b>Borgund Stave Church</b>: the best-preserved medieval stave church in Norway, as a half-day tour from Flåm."],
+10:["<b>Stegastein</b> before the boat departs, if the schedule allows.","<b>Vøringsfossen waterfall</b> (Eidfjord): a famous 182 m fall, usually done on a Hardangerfjord tour, so treat it as optional."],
+11:["★ <b>Mount Ulriken</b> cable car: Bergen's highest mountain, with city and fjord views.","<b>Troldhaugen</b>: the composer Edvard Grieg's home, 20–30 min by light rail.","<b>Bergen Aquarium</b> and <b>KODE art museums</b> if it rains (and it often does)."],
+12:["<b>Mount Ulriken</b> instead of Fløyen if the weather is clear.","<b>Fantoft Stave Church</b> (a reconstruction near Bergen) for a stave church without leaving the city.","<b>Bergen Fish Market lunch</b> before the flight to Oslo."],
+13:["★ <b>Holmenkollen Ski Jump</b> (metro line 1, about 30 min) if you have a free morning.","<b>Bygdøy museums</b> (Fram, Kon-Tiki) if you missed them on Day 8.","<b>Vigeland Park</b>: a calm morning stroll before the ferry."],
+14:["★ <b>Carlsberg (Visit Carlsberg)</b> in Valby: museum, brewery and tasting. S-train from Copenhagen H, about 5 min. A world-renowned brand, with a free afternoon after arrival.","<b>Strøget and the Round Tower</b> (Rundetårn): shopping street, spiral ramp and rooftop view.","<b>Copenhagen City Hall square</b> (Rådhuspladsen), with a classic hot-dog cart stop."],
+15:["<b>Marble Church</b> (Frederik's Church) next to Amalienborg: a huge copper dome, about 20 min.","<b>Kastellet and Gefion Fountain</b> on the way to the Little Mermaid.","<b>Black Diamond</b> (Royal Library) on the waterfront, for a modern architecture stop."],
+16:["<b>Ny Carlsberg Glyptotek</b>: palm-filled winter garden and art, next to Tivoli.","<b>Copenhagen City Hall tower</b> (Rådhuspladsen) for another rooftop view.","<b>National Museum of Denmark</b> (Nationalmuseet), including the Viking and prehistoric collections, if the weather is wet."],
+17:["★ <b>Dyrehavsbakken (Bakken)</b> and the Dyrehaven deer park (UNESCO): the world's oldest amusement park, 20 min by S-train. Open mainly spring to summer.","<b>Fredensborg Palace</b> (a royal spring/autumn residence) near Hillerød, if Frederiksborg is closed.","<b>LEGO House</b> in Billund is world-famous, but it's 3+ h each way, so skip it. Visit the LEGO Store on Strøget on Day 19 instead."],
+18:["<b>Ragnarock</b> (rock museum) beside the fjord in Roskilde, if you finish early.","<b>Lejre Land of Legends</b> (Iron Age and Viking reconstructions) is a short bus ride from Roskilde.","<b>Dragør</b>: a pretty yellow-house fishing village near Copenhagen airport, for a relaxed half-day."],
+19:["★ <b>Carlsberg (Visit Carlsberg)</b> if you didn't go on Day 14.","<b>Ny Carlsberg Glyptotek</b> or <b>Designmuseum Danmark</b> if you have a late flight.","<b>Torvehallerne and Strøget</b> for last-minute gifts: Royal Copenhagen porcelain, Georg Jensen silver, Danish chocolate and Royal Dansk cookies.","<b>Brand shopping on Strøget and Østergade:</b> Royal Copenhagen, Georg Jensen, Bang &amp; Olufsen, Pandora and Flying Tiger are all within a few minutes of each other."],
+20:["<b>Sky Lagoon</b> (Kópavogur): famous geothermal lagoon with a seven-step ritual, about 20 min from the centre.","<b>FlyOver Iceland</b>: a simulated flight over the country's landscapes, useful on a rainy day.","<b>Settlement Exhibition</b> (Viking longhouse ruins), <b>Whales of Iceland</b> and the quirky <b>Icelandic Phallological Museum</b> if you want something unusual.","<b>Viðey island</b> ferry from Harpa (about 10 min) for walks and the Imagine Peace Tower."],
+21:["<b>Secret Lagoon</b> (Flúðir): Iceland's oldest geothermal pool, quieter than the Blue Lagoon.","<b>Silfra snorkelling</b> at Þingvellir (guided, dry suit, book ahead).","<b>Reykjadalur</b> hot-spring river hike near Hveragerði (about 1 h each way).","<b>Langjökull ice tunnel</b> tour (book): inside a glacier, available most of the year."],
+22:["★ <b>Jökulsárlón glacier lagoon and Diamond Beach</b> plus <b>Skaftafell</b> (Svartifoss): too far for a day trip. Add 1–2 nights near Vík or Höfn to include them.","<b>Lava Centre</b> (Hvolsvöllur): an excellent volcano exhibition and a good wet-weather stop.","<b>Skógar Museum</b> beside Skógafoss for Icelandic folk heritage.","<b>Fjaðrárgljúfur canyon</b> beyond Vík: dramatic, but it is often closed during the spring thaw."],
+23:["<b>Hraunfossar and Barnafoss</b> waterfalls with <b>Deildartunguhver</b> hot spring (West Iceland): an easier day than Snæfellsnes.","<b>Stykkishólmur</b> harbour town and boat tour of Breiðafjörður.","<b>Hvalfjörður</b> and the <b>Glymur</b> waterfall hike (about 3 h) if you want something shorter.","<b>Whale watching</b> from Grundarfjörður or Reykjavik."],
+24:["<b>Reykjanes Geopark:</b> Krýsuvík–Seltún steam fields and Reykjanesviti lighthouse, if the roads are open.","<b>Keflavik town</b> and the Viking World museum, if you have extra time before the flight.","<b>Sky Lagoon</b> instead of the Blue Lagoon if conditions are poor."]
+};
 function card(d, cls){
-  var h='<article class="day '+cls+'"><header><span class="badge">'+(d.badge||'Day '+d.n)+'</span><h3>'+d.t+'</h3><span class="loc">'+d.loc+'</span></header>';
+  var key0=d.badge?'alm':d.n;
+  var h='<article class="day collapsed '+cls+'" id="day-'+key0+'"><header role="button" tabindex="0" aria-expanded="false"><span class="chev" aria-hidden="true">▸</span><span class="badge">'+(d.badge||'Day '+d.n)+'</span><h3>'+d.t+'</h3><span class="loc">'+d.loc+'</span></header><div class="dbody">';
   if(d.how) h+='<div class="how">'+d.how+'</div>';
   if(d.see||d.eat){
     h+='<div class="cols">';
@@ -221,9 +454,16 @@ function card(d, cls){
     if(d.eat) h+='<div><h4>Eat</h4><ul>'+d.eat.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul></div>';
     h+='</div>';
   }
-  if(d.alt) h+='<details><summary>Alternative</summary><p>'+d.alt+'</p></details>';
+  var ids=DS[d.badge?'alm':d.n];
+  if(ids) h+='<div class="sights"><h4>Tap a sight for photos &amp; details</h4>'+ids.map(function(i){return'<button class="chip" data-s="'+i+'">'+S[i].name+'</button>'}).join('')+'</div>';
+  var k=d.badge?'alm':d.n, A=(d.alt?[d.alt]:[]).concat(ALTS[k]||[]);
+  if(A.length){
+    h+='<details><summary>Alternatives &amp; popular add-ons</summary><ul>'+A.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>';
+    if(DA[k]) h+='<div class="sights">'+DA[k].map(function(i){return'<button class="chip" data-s="'+i+'">'+S[i].name+'</button>'}).join('')+'</div>';
+    h+='</details>';
+  }
   if(d.tip) h+='<div class="tip"><b>Tip:</b> '+d.tip+'</div>';
-  return h+'</article>';
+  return h+'</div></article>';
 }
 
 // Day 14 appears under both Cruise (arrival) and Denmark; Denmark entry reuses the cruise card
@@ -231,7 +471,7 @@ var cr14 = D.cr[1];
 D.dk[0] = Object.assign({}, cr14, {n:14});
 D.cr = [D.cr[0]];
 
-[['se','se'],['no','no'],['cr','tr travel'],['dk','dk']].forEach(function(p){
+[['se','se'],['no','no'],['cr','tr travel'],['dk','dk'],['ic','ic']].forEach(function(p){
   var el=document.getElementById(p[0]);
   el.innerHTML=D[p[0]].map(function(d){return card(d,p[1])}).join('');
 });
@@ -256,10 +496,158 @@ var rows=[
  ['16','Copenhagen','Christiansborg, Christiania, Tivoli'],
  ['17','North Zealand','Frederiksborg, Kronborg, Louisiana'],
  ['18','Roskilde','Cathedral, Viking ships'],
- ['19','Copenhagen → Mumbai','Design shopping, airport']
+ ['19','Copenhagen → Reykjavik','Design shopping, flight to Iceland (about 3 h 15)'],
+ ['20','Reykjavik','Hallgrímskirkja, Harpa, harbour, Perlan'],
+ ['21','Golden Circle','Þingvellir, Geysir, Gullfoss'],
+ ['22','South Coast','Seljalandsfoss, Skógafoss, plane wreck, Reynisfjara'],
+ ['23','Snæfellsnes','Kirkjufell, Arnarstapi, Djúpalónssandur'],
+ ['24','Blue Lagoon → Mumbai','Blue Lagoon, fly home from Keflavik'] 
 ];
 document.getElementById('glanceTable').innerHTML='<tr><th>Day</th><th>Where</th><th>Highlights</th></tr>'+
  rows.map(function(r){return'<tr><td class="d">'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>'}).join('');
+
+/* ---------- Collapsible days + left navigation ---------- */
+function setOpen(a,open){
+  a.classList.toggle('collapsed',!open);
+  var hd=a.querySelector(':scope>header'); if(hd)hd.setAttribute('aria-expanded',String(open));
+}
+function toggleDay(a){setOpen(a,a.classList.contains('collapsed'))}
+function allDays(){return Array.prototype.slice.call(document.querySelectorAll('article.day'))}
+function goDay(id,smooth){
+  var a=document.getElementById('day-'+id); if(!a)return;
+  setOpen(a,true);
+  a.scrollIntoView({behavior:smooth===false?'auto':'smooth',block:'start'});
+  history.replaceState(null,'','#day-'+id);
+}
+(function buildSide(){
+  var secs=[['Sweden','se','sweden'],['Norway','no','norway'],['Cruise','cr','cruise'],['Denmark','dk','denmark'],['Iceland','ic','iceland']];
+  var colors={se:'var(--se-l)',no:'var(--no-l)',cr:'var(--sea-l)',dk:'var(--dk-l)',ic:'var(--ic-l)'};
+  var h='<div class="brand">Scandinavia Trip</div><div class="tb"><button type="button" data-expand="all">Expand all</button><button type="button" data-expand="none">Collapse all</button></div>';
+  h+='<a href="#glance" class="cty">At a glance</a>';
+  secs.forEach(function(s){
+    h+='<h5 style="--c:'+colors[s[1]]+'">'+s[0]+'</h5><a class="cty" href="#'+s[2]+'">'+s[0]+' overview and map</a>';
+    D[s[1]].forEach(function(d){
+      var k=d.badge?'alm':d.n;
+      h+='<a title="'+d.t.replace(/"/g,'')+'" href="#day-'+k+'" data-day="'+k+'" style="--c:'+colors[s[1]]+'"><span class="n">'+(d.badge?'+1':d.n)+'</span>'+d.t+'</a>';
+    });
+  });
+  h+='<h5 style="--c:var(--sea-l)">More</h5><a class="cty" href="#essentials">Essentials</a>';
+  document.getElementById('side').innerHTML=h;
+})();
+document.addEventListener('click',function(e){
+  var hd=e.target.closest('article.day>header'); if(hd){toggleDay(hd.parentNode);return}
+  var ex=e.target.closest('[data-expand]'); if(ex){var o=ex.getAttribute('data-expand')==='all';allDays().forEach(function(a){setOpen(a,o)});return}
+  var l=e.target.closest('#side a[data-day]'); if(l){e.preventDefault();goDay(l.getAttribute('data-day'));return}
+});
+document.addEventListener('keydown',function(e){
+  var hd=e.target.closest&&e.target.closest('article.day>header');
+  if(hd&&(e.key==='Enter'||e.key===' ')){e.preventDefault();toggleDay(hd.parentNode)}
+});
+(function(){
+  var m=/^#day-(.+)$/.exec(location.hash); if(m)setTimeout(function(){goDay(m[1],false)},50);
+  if('IntersectionObserver' in window){
+    var links={};Array.prototype.forEach.call(document.querySelectorAll('#side a[data-day]'),function(a){links[a.getAttribute('data-day')]=a});
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        if(en.isIntersecting){
+          Object.keys(links).forEach(function(k){links[k].classList.remove('active')});
+          var l=links[en.target.id.replace('day-','')]; if(l){l.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-10% 0px -70% 0px'});
+    allDays().forEach(function(a){io.observe(a)});
+  }
+})();
+
+/* ---------- Google Maps: embedded route + full-route link ---------- */
+var enc=encodeURIComponent;
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function embedUrl(m){
+  var st=m.stops;
+  var u='https://maps.google.com/maps?f=d&saddr='+enc(st[0])+'&daddr='+st.slice(1).map(enc).join('+to:')+'&output=embed&hl=en';
+  return m.mode?u+'&dirflg='+m.mode:u;
+}
+function fullUrl(m){return 'https://www.google.com/maps/dir/'+m.stops.map(enc).join('/')+(m.mode==='w'?'/data=!4m2!4m1!3e2':'')}
+Object.keys(MAPS).forEach(function(k){
+  var html=MAPS[k].map(function(m){
+    return '<div class="mapbox"><h4>'+esc(m.label)+'</h4>'+
+      '<iframe loading="lazy" title="'+esc(m.label)+'" src="'+embedUrl(m)+'" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>'+
+      '<div class="stops"><b>Stops in order:</b> '+m.stops.map(function(s,i){return (i+1)+'. '+esc(s.split(',')[0])}).join(' &nbsp;→&nbsp; ')+'</div>'+
+      '<a class="btn" style="--c:var(--sea)" target="_blank" rel="noopener" href="'+fullUrl(m)+'">Open full route in Google Maps ↗</a></div>';
+  }).join('');
+  document.getElementById(k).insertAdjacentHTML('beforebegin',html);
+});
+
+/* ---------- Right-hand pane: live-embedded public photos (Wikipedia / Wikimedia Commons) ---------- */
+var pane=document.getElementById('pane'), cache={}, current=null;
+function getJSON(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})}
+function bestSrc(it){
+  var s=it.srcset||[]; if(!s.length)return null;
+  var u=s[s.length-1].src; return u.indexOf('//')===0?'https:'+u:u;
+}
+var SKIP=/\.svg|flag|logo|icon|coat_of|map|commons-|wikimedia|symbol|locator/i;
+function wikiFor(s){
+  if(cache[s.w+s.name])return Promise.resolve(cache[s.w+s.name]);
+  var title=s.w.replace(/ /g,'_');
+  var sum=!s.w?Promise.resolve({}):getJSON('https://en.wikipedia.org/api/rest_v1/page/summary/'+enc(title)).catch(function(){
+    return getJSON('https://en.wikipedia.org/w/rest.php/v1/search/title?q='+enc(s.name)+'&limit=1').then(function(r){
+      if(!r.pages||!r.pages.length)throw new Error('none');
+      return getJSON('https://en.wikipedia.org/api/rest_v1/page/summary/'+enc(r.pages[0].key));
+    });
+  });
+  return sum.then(function(sm){
+    if(!s.w)return {sum:sm,imgs:[]};
+    var canon=(sm.titles&&sm.titles.canonical)||title;
+    return getJSON('https://en.wikipedia.org/api/rest_v1/page/media-list/'+enc(canon)).then(function(ml){
+      var imgs=(ml.items||[]).filter(function(i){return i.type==='image'&&i.showInGallery!==false&&!SKIP.test(i.title||'')}).map(bestSrc).filter(Boolean);
+      if(sm.originalimage&&sm.thumbnail&&imgs.length===0)imgs.push(sm.thumbnail.source);
+      return {sum:sm,imgs:imgs};
+    },function(){return {sum:sm,imgs:sm.thumbnail?[sm.thumbnail.source]:[]}});
+  }).then(function(res){
+    if(res.imgs.length>=3)return res;
+    // top up from Wikimedia Commons search (public images, hot-linked not downloaded)
+    var u='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=8&gsrsearch='+enc(s.name+' '+s.q.split(',').slice(-1)[0])+'&prop=imageinfo&iiprop=url|mime&iiurlwidth=800&format=json&origin=*';
+    return getJSON(u).then(function(c){
+      var pages=c.query?Object.keys(c.query.pages).map(function(k){return c.query.pages[k]}):[];
+      pages.forEach(function(p){
+        var ii=p.imageinfo&&p.imageinfo[0];
+        if(ii&&/image\/(jpeg|png)/.test(ii.mime)&&ii.thumburl&&res.imgs.length<3&&res.imgs.indexOf(ii.thumburl)<0&&!SKIP.test(p.title))res.imgs.push(ii.thumburl);
+      });
+      return res;
+    }).catch(function(){return res});
+  }).then(function(res){cache[s.w+s.name]=res;return res});
+}
+function paneHead(s){
+  return '<div class="ph"><div><h3>'+esc(s.name)+'</h3></div><button class="x" aria-label="Close" data-close>×</button></div>';
+}
+function paneBase(s){
+  return '<h4>Why visit</h4><p>'+esc(s.why)+'</p><h4>How to enjoy it</h4><p>'+esc(s.how)+'</p>';
+}
+function openSight(id){
+  var s=S[id]; if(!s)return; current=id;
+  var maps='https://www.google.com/maps/search/?api=1&query='+enc(s.q);
+  var actions='<div class="actions"><a class="btn" target="_blank" rel="noopener" href="'+maps+'">Open in Google Maps ↗</a></div>';
+  pane.innerHTML=paneHead(s)+'<div class="gal" id="gal"><p class="loc">Loading photos…</p></div>'+paneBase(s)+'<div id="wiki"></div>'+actions;
+  pane.classList.add('open');pane.setAttribute('aria-hidden','false');pane.scrollTop=0;
+  wikiFor(s).then(function(r){
+    if(current!==id)return;
+    var g=document.getElementById('gal');
+    g.innerHTML=r.imgs.slice(0,3).map(function(u){return'<img loading="lazy" referrerpolicy="no-referrer" alt="'+esc(s.name)+'" src="'+esc(u)+'" onerror="this.remove()">'}).join('')||'<p class="loc">No public photo found. Use the Google Maps link.</p>';
+    var w=document.getElementById('wiki');
+    var page=r.sum.content_urls&&r.sum.content_urls.desktop&&r.sum.content_urls.desktop.page;
+    w.innerHTML=(r.sum.extract?'<h4>About</h4><p>'+esc(r.sum.extract)+'</p>':'')+
+      '<div class="src">Photos and summary: Wikipedia / Wikimedia Commons, embedded live (under their open licences)'+(page?' · <a target="_blank" rel="noopener" href="'+esc(page)+'">Read more</a>':'')+'</div>';
+  }).catch(function(){
+    if(current!==id)return;
+    document.getElementById('gal').innerHTML='<p class="loc">Photos could not load (offline?). Use the Google Maps link below.</p>';
+  });
+}
+function closePane(){pane.classList.remove('open');pane.setAttribute('aria-hidden','true');current=null}
+document.addEventListener('click',function(e){
+  var b=e.target.closest('[data-s]'); if(b){openSight(b.getAttribute('data-s'));return}
+  if(e.target.closest('[data-close]'))closePane();
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closePane()});
 </script>
 </body>
 </html>
