@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>England and Scotland Trip: London, Cotswolds, Edinburgh</title>
+<style>
+:root{
+  --bg:#f6f4ef; --card:#ffffff; --ink:#1d2430; --muted:#5d6675; --line:#e3dfd5;
+  --lo:#005b99; --se2:#f2b705; --cw:#b3262e; --sc:#c8102e; --sea:#0f766e; --ld:#6a4fc7;
+  --side-bg:#1e3a4c;--side-ink:#e8f0f5;--side-muted:#9fb6c4;--side-hover:rgba(255,255,255,.09);--lo-l:#7cc4f5;--cw-l:#ff8f94;--sc-l:#ff8f9c;--sea-l:#6fd9cc;--ld-l:#b9a8ff;--chip:#eef1f5; --warn:#fff6dc; --warnline:#e8c766;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#12161c; --card:#1a2029; --ink:#e8ebf0; --muted:#9aa4b3; --line:#2a323f;
+    --chip:#242c38;--side-bg:#0b1118;--side-ink:#e2e8ef;--side-muted:#8a97a6; --warn:#2c2616; --warnline:#6b5a1f; --lo:#5aa9e6; --cw:#ef6a70; --sc:#f2707f; --sea:#4fc3b8; --ld:#a794ff; }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:inherit}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+header.hero{padding:40px 0 24px;border-bottom:1px solid var(--line)}
+header.hero h1{margin:0 0 6px;font-size:clamp(1.8rem,5vw,2.8rem);letter-spacing:-.02em}
+header.hero p{margin:0;color:var(--muted)}
+.route{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:16px;font-weight:600;font-size:.92rem}
+.route span{background:var(--chip);padding:4px 10px;border-radius:999px}
+.route i{font-style:normal;color:var(--muted)}
+nav.top{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;gap:8px;overflow-x:auto;padding:8px 16px;scrollbar-width:thin}
+nav.top a{white-space:nowrap;text-decoration:none;font-size:.85rem;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--chip)}
+nav.top a:hover{background:var(--line)}
+section{padding:28px 0 4px}
+h2.country{display:flex;align-items:center;gap:10px;font-size:1.6rem;margin:0 0 4px}
+h2.country::before{content:"";width:6px;height:1.5em;border-radius:3px;background:var(--c)}
+.sub{color:var(--muted);margin:0 0 16px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0}
+.box h3{margin:0 0 8px;font-size:1.05rem}
+.box ul{margin:0;padding-left:20px}
+.warn{background:var(--warn);border-color:var(--warnline)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+td.d{font-weight:700;white-space:nowrap}
+.tblwrap{overflow-x:auto}
+.day{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:14px;padding:16px 18px;margin:14px 0}
+.day header{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline;margin-bottom:6px}
+.badge{background:var(--c);color:#fff;font-weight:700;font-size:.78rem;padding:3px 10px;border-radius:999px}
+.day h3{margin:0;font-size:1.2rem}
+.loc{color:var(--muted);font-size:.9rem}
+.how{background:var(--chip);border-radius:10px;padding:8px 12px;font-size:.92rem;margin:8px 0}
+.how b{color:var(--sea)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px}
+@media (max-width:700px){.cols{grid-template-columns:1fr}}
+.day h4{margin:12px 0 4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.day ul{margin:0;padding-left:20px}
+.day li{margin:2px 0}
+.tip{margin-top:10px;font-size:.92rem;border-top:1px dashed var(--line);padding-top:8px}
+details{margin-top:10px;background:var(--chip);border-radius:10px;padding:8px 12px;font-size:.92rem}
+summary{cursor:pointer;font-weight:600}
+.lo{--c:var(--lo)} .cw{--c:var(--cw)} .sc{--c:var(--sc)} .tr{--c:var(--sea)} .ld{--c:var(--ld)}
+.travel{border-style:dashed}
+.day{scroll-margin-top:70px}
+.day>header{cursor:pointer;margin-bottom:0;user-select:none}
+.day>header:hover h3{text-decoration:underline}
+.chev{display:inline-block;width:1em;transition:transform .15s;color:var(--c);font-weight:700}
+.day:not(.collapsed)>header{margin-bottom:6px}
+.day:not(.collapsed) .chev{transform:rotate(90deg)}
+.day.collapsed .dbody{display:none}
+.toolbar{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.toolbar button,#side .tb button{font:inherit;font-size:.82rem;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--chip);color:var(--ink);cursor:pointer}
+.toolbar button:hover{border-color:var(--sea)}
+#side .tb button{background:var(--side-hover);color:var(--side-ink);border-color:rgba(255,255,255,.18)}
+#side .tb button:hover{border-color:var(--sea-l)}
+#side{display:none}
+@media (min-width:1100px){
+  body{padding-left:360px}
+  nav.top{display:none}
+  #side{display:block;position:fixed;left:0;top:0;bottom:0;width:360px;overflow-y:auto;background:var(--side-bg);color:var(--side-ink);border-right:1px solid rgba(255,255,255,.08);padding:16px 14px 28px;z-index:20;font-size:.88rem}
+}
+#side .brand{color:#fff;font-weight:800;font-size:1rem;margin:0 0 10px}
+#side .tb{display:flex;gap:6px;margin-bottom:12px}
+#side h5{margin:14px 0 4px;font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--c)}
+#side a{display:block;text-decoration:none;padding:5px 8px;border-radius:8px;color:var(--side-ink);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#side a:hover{background:var(--side-hover)}
+#side a.active{background:var(--side-hover);font-weight:700;box-shadow:inset 3px 0 0 var(--c)}
+#side a .n{display:inline-block;min-width:2.1em;color:var(--side-muted);font-weight:600}
+#side a.cty{font-weight:700;padding-left:0}
+@media print{.day.collapsed .dbody{display:block}#side{display:none}body{padding-left:0}}
+.mapbox{margin:12px 0 18px}
+.mapbox h4{margin:0 0 6px;font-size:.9rem}
+.mapbox iframe{width:100%;height:380px;border:1px solid var(--line);border-radius:14px;background:var(--chip)}
+.mapbox .stops{font-size:.85rem;color:var(--muted);margin:6px 0}
+.btn{display:inline-block;text-decoration:none;font-weight:600;font-size:.85rem;padding:7px 12px;border-radius:999px;background:var(--c,var(--sea));color:#fff;border:0;cursor:pointer}
+.sights{margin-top:12px}
+.chip{font:inherit;font-size:.85rem;font-weight:600;color:var(--ink);background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:5px 12px;margin:0 6px 6px 0;cursor:pointer}
+.chip:hover{border-color:var(--c)}
+#pane{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--card);border-left:1px solid var(--line);box-shadow:-8px 0 30px rgba(0,0,0,.18);transform:translateX(105%);transition:transform .25s ease;z-index:30;overflow-y:auto;padding:16px 18px 32px}
+#pane.open{transform:none}
+#pane .ph{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+#pane h3{margin:0 0 4px;font-size:1.35rem}
+#pane .x{font-size:1.5rem;line-height:1;background:var(--chip);color:var(--ink);border:0;border-radius:50%;width:36px;height:36px;cursor:pointer;flex:none}
+#pane .gal{display:grid;gap:8px;margin:12px 0}
+#pane .gal img{width:100%;border-radius:10px;display:block;background:var(--chip);object-fit:cover;max-height:260px}
+#pane .gal img:not(:first-child){max-height:170px}
+#pane h4{margin:14px 0 4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+#pane p{margin:0 0 6px}
+#pane .src{font-size:.78rem;color:var(--muted);margin-top:12px}
+#pane .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+footer{padding:32px 0 48px;color:var(--muted);font-size:.85rem}
+@media print{nav.top{display:none}.day,.box{break-inside:avoid}body{background:#fff}}
+:root{--lo:#c8102e;--cw:#4f7a28;--sc:#005eb8;--ld:#8a1c3a;--lo-l:#ff8f9c;--cw-l:#a6d67a;--sc-l:#7cc4f5;--ld-l:#ffa8c0;--side-bg:#22304a}
+@media (prefers-color-scheme: dark){:root{--lo:#f2707f;--cw:#8cc152;--sc:#5aa9e6;--ld:#e56b8e;--side-bg:#0b1118}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <h1>England and Scotland: London · Cotswolds · Edinburgh · Highlands</h1>
+  <p>16 days, day by day. Mumbai → London → Cheltenham and the Cotswolds → Edinburgh and the Highlands → London → Mumbai. Spring (Apr–May).</p>
+  <div class="route"><span>Mumbai</span><i>✈</i><span>London</span><i>🚆</i><span>Cheltenham</span><i>🚌</i><span>Cotswolds</span><i>🚆</i><span>Edinburgh</span><i>🚌</i><span>Highlands</span><i>🚆</i><span>London</span><i>✈</i><span>Mumbai</span></div>
+<div class="toolbar"><button type="button" data-expand="all">Expand all days</button><button type="button" data-expand="none">Collapse all days</button></div>
+</div></header>
+
+<aside id="side" aria-label="Page navigation"></aside>
+<nav class="top"><div class="wrap">
+  <a href="#glance">At a glance</a><a href="#london">London</a><a href="#cotswolds">Cotswolds</a><a href="#scotland">Scotland</a><a href="#london2">London again</a><a href="#essentials">Essentials</a>
+</div></nav>
+
+<main class="wrap">
+  <section id="glance">
+    <div class="box"><h3>At a glance</h3><div class="tblwrap"><table id="glanceTable"></table></div></div>
+    <div class="box"><b>★ = world-famous.</b> These are the sights people back home will recognise. Look for the star in each day's See &amp; do list.</div>
+    <div class="box"><h3>🎬 Film and TV on this route</h3><ul>
+      <li><b>Harry Potter:</b> Leadenhall Market and Millennium Bridge (Day 3), Borough Market (Day 1), Gloucester Cathedral (Day 8), Victoria Street and Greyfriars (Days 9-10), Glencoe (Day 11), Glenfinnan (Day 12 alternative), Durham and Alnwick from the train, King's Cross Platform 9¾ (Day 13), and the Warner Bros. Studio Tour (Day 14 alternative).</li>
+      <li><b>Lord of the Rings:</b> the films were shot in New Zealand, not here. The UK links are Tolkien himself: Stow-on-the-Wold's church door (Day 6) and Oxford (Day 14 alternative).</li>
+      <li><b>James Bond:</b> <i>Skyfall</i> and Glencoe (Day 11), <i>The World Is Not Enough</i> and the Thames and Eilean Donan.</li>
+      <li><b>Outlander, Monty Python, Game of Thrones:</b> Doune Castle (Day 12). <b>Notting Hill, Bridget Jones, Mary Poppins, Love Actually:</b> London (Days 1, 3, 13, 16). <b>Downton Abbey:</b> Bampton (Day 7). <b>Trainspotting:</b> Princes Street (Day 10).</li>
+    </ul></div>
+    <div class="box"><h3>Famous, but left out (too far for this route)</h3><ul>
+      <li><b>Bath, Stonehenge, Oxford and Cambridge:</b> each needs a day trip. Bath and Stonehenge pair well with a car; Oxford is about 1 h from London by train and is a fine swap on Day 14.</li>
+      <li><b>Isle of Skye, Ben Nevis and the Jacobite steam train:</b> need a long day or an overnight in the west Highlands. Day 12 has them as alternatives.</li>
+      <li><b>Lake District, York and Edinburgh's Festival season (August):</b> not on this route. York is an easy stopover on Day 13.</li>
+      <li><b>World-famous brands, England.</b> <i>Too far:</i> <b>Rolls-Royce</b> (Goodwood), <b>Aston Martin</b> and <b>Jaguar Land Rover</b> (Midlands factory tours, advance booking), <b>Wedgwood</b> (Stoke). <i>Day trip:</i> <b>Cadbury World</b> (Bournville, Birmingham). <i>Easy shop stops:</i> <b>Burberry</b> and <b>Fortnum &amp; Mason</b> (Piccadilly), <b>Twinings</b> tea (The Strand), <b>Liberty</b>, <b>Hamleys</b> and <b>Harrods</b>. Take home <b>Marmite</b>, <b>Cadbury</b> and <b>Twinings</b>.</li>
+      <li><b>World-famous brands, Scotland.</b> <i>Easy shop stops in Edinburgh:</i> <b>Johnnie Walker</b> (Princes Street flagship), <b>Royal Mile Whiskies</b>, <b>Walker's Shortbread</b>, Scottish cashmere and tartan on the Royal Mile. <i>Day trip:</i> <b>Glenfiddich</b> and other Speyside distilleries are far north, and <b>Edradour</b> near Pitlochry may fit a Highlands tour stop on Day 11.</li>
+      <li><i>Already covered:</i> the Harry Potter sites (Leadenhall, Platform 9¾, Victoria Street, Glenfinnan, Gloucester Cathedral), the Koh-i-Noor, and Dr Ambedkar's London house.</li>
+    </ul></div>
+    <div class="box warn"><h3>Check these before booking</h3>
+      <ul>
+        <li><b>Day tours (Days 6, 7, 11, 12):</b> book 2–4 weeks ahead. The Cotswold buses (such as the 801) change timetable often, so check <b>traveline.info</b> and the operator pages.</li>
+        <li><b>Jacobite steam train / Glenfinnan:</b> sources conflict on the 2027 season. Treat the dates as unconfirmed until West Coast Railways announces them.</li>
+        <li><b>Cheltenham to Edinburgh direct train</b> is about 6 hours and runs only a few times a day. Confirm it on National Rail, and compare it with a change at Birmingham.</li>
+        <li><b>Seasonal openings:</b> Sudeley Castle, Hidcote and heritage railways vary by date. Buckingham Palace State Rooms open only in summer, and the Changing of the Guard is on selected days only.</li>
+        <li><b>Daylight and weather:</b> London has about 14 h of daylight in mid-April, and Scotland has 15–17 h by May. Highland weather is changeable, so pack layers and a waterproof. Midges (biting flies) usually arrive from late May or June.</li>
+        <li><b>Windsor and LEGOLAND (Day 15):</b> LEGOLAND is seasonal and does not open every day in spring, so check its calendar first. Windsor Castle can close for state events, and St George's Chapel is closed to visitors on Sundays.</li>
+        <li><b>Events:</b> Beltane Fire Festival (Edinburgh, 30 April), the Cheltenham Jazz Festival (usually early May) and the Chelsea Flower Show (late May) can raise hotel prices.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="london"><h2 class="country" style="--c:var(--lo)">London · Days 1–4</h2><p class="sub">Arrival, royal London, the City, museums and markets. Currency: GBP (£). Contactless cards work on the Tube and buses.</p><div id="lo"></div></section>
+  <section id="cotswolds"><h2 class="country" style="--c:var(--cw)">Cheltenham and the Cotswolds · Days 5–8</h2><p class="sub">A Regency spa town, honey-stone villages and real-ale pubs. Mixed transport: train, bus and taxi.</p><div id="cw"></div></section>
+  <section id="scotland"><h2 class="country" style="--c:var(--sc)">Edinburgh and Scotland · Days 9–12</h2><p class="sub">Edinburgh's Old Town, then two Highland day tours. Scotland is part of the UK, so no extra visa.</p><div id="sc"></div></section>
+  <section id="london2"><h2 class="country" style="--c:var(--ld)">Back to London · Days 13–16</h2><p class="sub">The train south, Notting Hill, Greenwich, a Windsor day trip with LEGOLAND, then the flight home.</p><div id="ld"></div></section>
+
+  <section id="essentials">
+    <h2 class="country" style="--c:var(--sea)">Essentials</h2>
+    <div class="box"><h3>Getting there and away (Mumbai)</h3><ul>
+      <li>Nonstop Mumbai ↔ London Heathrow flights run about 9–10 h (Air India, British Airways and Virgin Atlantic have operated this route, so check current schedules). Because the trip starts and ends in London, a simple return ticket works and no open-jaw is needed.</li>
+      <li><b>Visa:</b> Indian passport holders need a <b>UK Standard Visitor visa</b> (apply online on gov.uk and submit biometrics at the visa application centre). It covers England and Scotland. Apply 2–3 months ahead and check current fees and processing time. The UK is not in the Schengen area.</li>
+    </ul></div>
+    <div class="box"><h3>Money and getting around</h3><ul>
+      <li>Cards and Apple/Google Pay are accepted nearly everywhere, and contactless works on the Tube and buses. Carry very little cash.</li>
+      <li>Apps: <b>Trainline</b> (UK trains), <b>TfL Go</b> or Citymapper (London), <b>Lothian Buses</b> (Edinburgh), <b>traveline</b> (rural buses).</li>
+      <li>Book in advance: the Paddington to Cheltenham and Cheltenham to Edinburgh trains, the Edinburgh to King's Cross train (LNER), the Tower of London, Westminster Abbey, Edinburgh Castle, the Highland day tours and the Sky Garden.</li>
+      <li>Consider a <b>Railcard</b> only if you qualify. Advance train tickets are the cheapest option.</li>
+      <li>Tap water is safe everywhere. Bring a refillable bottle. Tipping is about 10–12.5% in restaurants if service is not included.</li>
+    </ul></div>
+    <div class="box"><h3>Must-try food, quick list</h3><ul>
+      <li><b>England:</b> fish and chips, Sunday roast with Yorkshire pudding, pie and mash, cream tea (scone, clotted cream and jam), ploughman's lunch, a full English breakfast, and a curry in Brick Lane or at Dishoom.</li>
+      <li><b>Gloucestershire:</b> Double Gloucester cheese, Gloucester Old Spot pork, local ales, cider and perry.</li>
+      <li><b>Scotland:</b> haggis, neeps and tatties, cullen skink, Scotch pie, shortbread, tablet, cranachan, Irn-Bru, and a whisky tasting. Vegetarian haggis is widely available.</li>
+    </ul></div>
+  </section>
+</main>
+
+<aside id="pane" aria-label="Sight details" aria-hidden="true"></aside>
+<footer><div class="wrap">Prices, opening hours and timetables change. Confirm anything you plan to book. Walking times and durations are approximate.</div></footer>
+
+<script>
+/* Sights: name, q = Google Maps query, w = Wikipedia title (photos and summary are embedded live), why, how */
+var S = {
+bigben:{name:"Big Ben and Parliament",q:"Big Ben, London",w:"Big Ben",why:"The clock tower (officially the Elizabeth Tower) of the Palace of Westminster. The bell, Big Ben, has chimed since 1859 and the tower is the single most recognised London image.",how:"Best at dusk from Westminster Bridge, when the tower and the river light up. Walk across to the South Bank for the classic photo with the London Eye."},
+londoneye:{name:"London Eye",q:"London Eye, London",w:"London Eye",why:"A 135 m observation wheel on the Thames that gives a slow 30-minute view over Parliament, Buckingham Palace and the City.",how:"Book a timed slot online (cheaper than at the gate). Go at sunset for the lights, or skip the ride and just enjoy the view from the riverside walk."},
+southbank:{name:"South Bank walk",q:"South Bank, London",w:"South Bank",why:"The riverside promenade from the London Eye to Tower Bridge, packed with buskers, book stalls, street food, theatres and views of the north bank.",how:"Walk east from the Eye past the Southbank Centre book market, the National Theatre, Tate Modern and Shakespeare's Globe to Borough Market. About 3 km, flat, and easy at any pace."},
+boroughmarket:{name:"Borough Market",q:"Borough Market, London",w:"Borough Market",why:"London's best-known food market, trading on this spot in some form for about 1,000 years. Stalls sell British cheese, hot salt beef, oysters, pies and street food from everywhere.",how:"Go hungry and graze rather than sit down. Weekdays are calmer than Saturday. Check opening days, as stalls vary and some days are limited."},
+westminsterabbey:{name:"Westminster Abbey",q:"Westminster Abbey, London",w:"Westminster Abbey",why:"The coronation church of English monarchs since 1066 and the burial place of Newton, Darwin and Dickens. Royal weddings (William and Kate 2011) were held here.",how:"Book a timed ticket online and take the audio guide. No photography inside. Allow about 90 minutes and visit Poets' Corner."},
+buckingham:{name:"Buckingham Palace",q:"Buckingham Palace, London",w:"Buckingham Palace",why:"The King's London residence, with 775 rooms and the famous balcony. The forecourt is where the Changing of the Guard takes place.",how:"The Changing of the Guard is usually at 11:00 on selected days, not daily, so check the schedule. Arrive 45 minutes early at the railings or watch from The Mall. State Rooms open to visitors only in summer."},
+stjamespark:{name:"St James's Park",q:"St James's Park, London",w:"St James's Park",why:"The oldest royal park in London, with a lake, pelicans (descended from a 1664 gift from a Russian ambassador) and the best view of Buckingham Palace.",how:"Cross the bridge over the lake for the postcard view back to Whitehall rooftops. Walk from Buckingham Palace towards Horse Guards Parade, about 15 minutes."},
+trafalgar:{name:"Trafalgar Square",q:"Trafalgar Square, London",w:"Trafalgar Square",why:"London's central meeting point, with Nelson's Column, the lions and the fountains. The Fourth Plinth carries a rotating contemporary sculpture.",how:"Step up to the north terrace for the view down Whitehall to Big Ben. The National Gallery is free and right behind you."},
+nationalgallery:{name:"National Gallery",q:"National Gallery, London",w:"National Gallery, London",why:"One of the great painting collections: Van Gogh's Sunflowers, Turner, Constable, Leonardo and Rembrandt, free to enter.",how:"Pick 5 or 6 rooms rather than everything. Look for Sunflowers, The Fighting Temeraire and the Wilton Diptych. Allow 90 minutes."},
+coventgarden:{name:"Covent Garden",q:"Covent Garden, London",w:"Covent Garden",why:"A former fruit and veg market, now a pedestrian piazza with street performers, the Apple Market craft stalls and the Royal Opera House.",how:"Watch the buskers in the piazza, then wander Neal's Yard (rainbow-painted courtyard) and Seven Dials. Evening is lively, with plenty of dinner options."},
+parliamentsq:{name:"Parliament Square and Gandhi statue",q:"Parliament Square, London",w:"Parliament Square",why:"The square between Parliament and the Abbey, with statues of Churchill, Mandela and Mahatma Gandhi (unveiled 2015). A natural stop for visitors from India.",how:"The Gandhi statue is on the grass on the Abbey side. Photograph it with the Parliament clock tower behind."},
+toweroflondon:{name:"Tower of London",q:"Tower of London",w:"Tower of London",why:"A 900-year-old fortress that has been a palace, prison and treasury. The Crown Jewels include the Cullinan diamonds and the Koh-i-Noor, set in the Queen Mother's crown.",how:"Arrive at opening and go straight to the Crown Jewels before queues build. Join a free Yeoman Warder (Beefeater) tour. Look for the resident ravens. Allow 3 hours and book online."},
+towerbridge:{name:"Tower Bridge",q:"Tower Bridge, London",w:"Tower Bridge",why:"The Victorian bascule bridge that most visitors mistake for London Bridge. The glass-floored high walkway has superb views.",how:"Walk across, then visit the Tower Bridge Exhibition. The bridge lifts a few times a day for ships, and the schedule is posted online."},
+stpauls:{name:"St Paul's Cathedral",q:"St Paul's Cathedral, London",w:"St Paul's Cathedral",why:"Christopher Wren's masterpiece, finished in 1710. The dome is one of the largest in the world, and Charles and Diana were married here.",how:"Climb the 528 steps to the Golden Gallery for the view, and try the Whispering Gallery. Book online and check service times."},
+millenniumbridge:{name:"Millennium Bridge",q:"Millennium Bridge, London",w:"Millennium Bridge, London",why:"A steel pedestrian bridge linking St Paul's with Tate Modern. It was used as a film location (Harry Potter and the Half-Blood Prince).",how:"Cross it for the straight-line view of St Paul's. Continue to Tate Modern (free) and its viewing level."},
+leadenhall:{name:"Leadenhall Market",q:"Leadenhall Market, London",w:"Leadenhall Market",why:"A Victorian covered market in the City with painted ironwork. It served as Diagon Alley's Leaky Cauldron entrance in the first Harry Potter film.",how:"Quiet on weekends, busy at weekday lunch. Photograph the roof and the Lloyd's Building nearby."},
+spitalfields:{name:"Spitalfields Market",q:"Old Spitalfields Market, London",w:"Spitalfields Market",why:"A restored Victorian market hall full of independent stalls, vintage clothing, crafts and street food, on the edge of the City.",how:"Browse the stalls, grab lunch and walk on to Brick Lane. Thursday has a good vintage market and weekends the biggest crowds."},
+bricklane:{name:"Brick Lane",q:"Brick Lane, London",w:"Brick Lane",why:"The heart of London's Bangladeshi community, known for curry houses, street art and the 24-hour Beigel Bake salt-beef bagel shop.",how:"Walk the street art side lanes, then eat. Weekends add the Sunday UpMarket and street food. Look up for the large murals."},
+britishmuseum:{name:"British Museum",q:"British Museum, London",w:"British Museum",why:"Two million years of human history, free to enter. Highlights are the Rosetta Stone, the Parthenon sculptures and the Egyptian mummies. The South Asia galleries have Amaravati sculptures and Gandhara art.",how:"Do the highlights tour in 2 hours: Rosetta Stone, Parthenon, Egypt, then the Indian galleries (Room 33). Entry is free, but timed booking is recommended."},
+chinatown:{name:"Chinatown and Soho",q:"Chinatown, London",w:"Chinatown, London",why:"A compact Gerrard Street district with pagodas, roast-duck windows and dim sum, next to the theatres and bars of Soho.",how:"Walk Gerrard Street, then north into Soho (Old Compton Street) and Berwick Street market. Easy to combine with Covent Garden."},
+carnaby:{name:"Carnaby Street",q:"Carnaby Street, London",w:"Carnaby Street",why:"The Swinging Sixties fashion street (The Who, Beatles-era boutiques), now pedestrianised with independent brands and cafés.",how:"Walk it as a loop with Regent Street and Liberty. Liberty's Tudor-style building is worth a look inside."},
+camdenmarket:{name:"Camden Market",q:"Camden Market, London",w:"Camden Market",why:"A sprawling maze of stalls, street food, punk and alternative fashion around Camden Lock, with a canal setting.",how:"Come for lunch, since the street food stalls cover every cuisine. Then take the Regent's Canal towpath to Primrose Hill."},
+regentscanal:{name:"Regent's Canal walk",q:"Camden Lock, London",w:"Regent's Canal",why:"A quiet towpath walk from Camden Lock past narrowboats, pastel houses and London Zoo to Primrose Hill.",how:"About 25 minutes on foot from Camden Lock. Look out for the Snowdon aviary and the narrowboat cafes."},
+primrosehill:{name:"Primrose Hill",q:"Primrose Hill, London",w:"Primrose Hill",why:"A small park hill with the best free skyline view of central London, and a pastel-painted village with cafés below.",how:"Time the climb for sunset. Bring a takeaway coffee from Regent's Park Road."},
+ambedkarhouse:{name:"Dr Ambedkar's London house",q:"10 King Henry's Road, London",w:"",why:"Dr B. R. Ambedkar lived here in 1921-22 while studying at the London School of Economics. The house is now a museum owned by the Maharashtra government.",how:"It is a short walk from Chalk Farm / Primrose Hill. Check opening days and book a visit in advance, as it can be appointment-only."},
+churchillwarrooms:{name:"Churchill War Rooms",q:"Churchill War Rooms, London",w:"Churchill War Rooms",why:"The underground bunker where Churchill's war cabinet met in WWII, preserved as it was.",how:"Book a timed ticket and use the audio guide. Plan 2 hours. It is a good wet-weather fallback."},
+hydepark:{name:"Hyde Park and Kensington Gardens",q:"Hyde Park, London",w:"Hyde Park, London",why:"Central London's largest green space with the Serpentine lake, Speakers' Corner, the Diana Memorial Fountain and the Albert Memorial.",how:"Walk from Marble Arch through the park to Kensington Palace, about 3 km. In spring, daffodils and blossom."},
+kensingtonpalace:{name:"Kensington Palace",q:"Kensington Palace, London",w:"Kensington Palace",why:"A royal home for centuries and the former residence of Princess Diana. The State Apartments and the Sunken Garden are open to visitors.",how:"Visit the palace and the garden, then walk to the Albert Memorial and Royal Albert Hall."},
+naturalhistory:{name:"Natural History Museum",q:"Natural History Museum, London",w:"Natural History Museum, London",why:"A Victorian cathedral of natural science with the blue whale skeleton 'Hope' in the main hall and a famous dinosaur gallery. Free entry.",how:"Arrive at opening. Great with children. The V&A and Science Museum are next door on Exhibition Road."},
+shakespearesglobe:{name:"Shakespeare's Globe",q:"Shakespeare's Globe, London",w:"Shakespeare's Globe",why:"A reconstruction of Shakespeare's open-air theatre, with a summer season of plays and guided tours year-round.",how:"Take a tour of the theatre, or stand as a 'groundling' for a cheap performance ticket in season (summer)."},
+skygarden:{name:"Sky Garden",q:"Sky Garden, London",w:"Sky Garden",why:"A free public garden on the 35th floor of the 'Walkie-Talkie' building, with 360-degree views over London.",how:"Book a free slot online, usually released weeks ahead. Bring ID. Go at sunset."},
+shard:{name:"The Shard",q:"The Shard, London",w:"The Shard",why:"The tallest building in the UK (310 m). The viewing gallery gives a view up to 40 miles on a clear day.",how:"Book online for a better price. Choose a clear-weather slot."},
+hmsbelfast:{name:"HMS Belfast",q:"HMS Belfast, London",w:"HMS Belfast",why:"A WWII Royal Navy cruiser moored on the Thames that you can explore from bridge to engine room.",how:"A good detour next to Tower Bridge. Allow 90 minutes."},
+columbiaroad:{name:"Columbia Road Flower Market",q:"Columbia Road Flower Market, London",w:"Columbia Road",why:"A Victorian street turned into a flower market every Sunday, lined with small shops and cafés.",how:"Sunday only, 8:00 to 15:00. Go early for the best choice. Combine with Brick Lane."},
+tatemodern:{name:"Tate Modern",q:"Tate Modern, London",w:"Tate Modern",why:"A free modern-art museum in a former power station, with a Turbine Hall and a viewing level over the Thames.",how:"Visit the Blavatnik Building viewing level (free) and the Turbine Hall. Allow 90 minutes."},
+nottinghill:{name:"Notting Hill",q:"Notting Hill, London",w:"Notting Hill",why:"A west London neighbourhood of pastel terraced houses, antiques shops and the Portobello Road market, made world-famous by the 1999 film starring Hugh Grant and Julia Roberts.",how:"Walk from Notting Hill Gate down Pembridge Road to Portobello Road, then detour to Lancaster Road and Colville Terrace for the colourful houses. Go in the morning or late afternoon for fewer crowds."},
+churchillarms:{name:"The Churchill Arms",q:"Churchill Arms, Kensington Church Street, London",w:"Churchill Arms",why:"A Kensington pub whose facade is covered in hanging flower baskets, with a quirky interior and a Thai kitchen at the back.",how:"Come for a drink or an early dinner. It is a 5-minute walk from Notting Hill Gate station and gets busy at weekends."},
+portobello:{name:"Portobello Road Market",q:"Portobello Road Market, London",w:"Portobello Road Market",why:"The world's largest antiques market, in colourful Notting Hill, famous from the film Notting Hill.",how:"Saturday is the main day for antiques, so check it before choosing your day. Start at the Notting Hill Gate end and walk down."},
+harrods:{name:"Harrods",q:"Harrods, London",w:"Harrods",why:"A luxury department store with a famous Food Halls, opulent Egyptian Hall and a 'souvenir' branded merchandise section.",how:"Visit the Food Halls and the Egyptian Escalator. Check the dress code, and the stock of London gifts on the ground floor."},
+kingscross:{name:"King's Cross and Platform 9¾",q:"Platform 9 3/4, King's Cross, London",w:"King's Cross railway station",why:"The station from which Harry Potter boards the Hogwarts Express. A trolley is half-embedded in the wall, with a Harry Potter shop beside it.",how:"There is often a queue for photos. Arrive early or late. Your train from Edinburgh arrives here on Day 13."},
+hamleys:{name:"Hamleys",q:"Hamleys, London",w:"Hamleys",why:"The world's oldest and, by many accounts, largest toy shop (since 1760), on Regent Street.",how:"Good for gifts. Spans seven floors with demonstrations. Combine with Regent Street and Carnaby."},
+swaminarayan:{name:"BAPS Shri Swaminarayan Mandir, Neasden",q:"BAPS Shri Swaminarayan Mandir, Neasden, London",w:"Shri Swaminarayan Mandir, London",why:"Europe's first traditional Hindu stone temple, carved in Indian marble and Italian stone. A good option for visitors from India.",how:"Check visiting hours and dress code. It is on the Jubilee line (Neasden)."},
+greenwich:{name:"Greenwich",q:"Greenwich, London",w:"Greenwich",why:"A UNESCO World Heritage maritime district with the Old Royal Naval College, the Royal Observatory, a market and a village feel.",how:"Take the Thames Clippers boat from central London for a river view. Allow a half day."},
+cuttysark:{name:"Cutty Sark",q:"Cutty Sark, Greenwich",w:"Cutty Sark",why:"The last surviving tea clipper (1869), lifted above the dock so you can walk beneath her gleaming copper hull.",how:"Walk the decks and below. Allow about an hour."},
+royalobservatory:{name:"Royal Observatory and Prime Meridian",q:"Royal Observatory, Greenwich",w:"Royal Observatory, Greenwich",why:"Home of Greenwich Mean Time. You can stand with one foot in each hemisphere on the Prime Meridian line.",how:"The courtyard line photo is free to see from the gates. Go in for the Meridian line (ticketed). The park view over Canary Wharf and the river is free."},
+greenwichmarket:{name:"Greenwich Market",q:"Greenwich Market, London",w:"Greenwich Market",why:"A covered market with crafts, vintage, and a strong street food court right next to the Cutty Sark.",how:"Lunch stop. Check which days the craft stalls are open."},
+stgeorges:{name:"St George's Chapel",q:"St George's Chapel, Windsor Castle",w:"St George's Chapel, Windsor Castle",why:"A 15th-century Gothic chapel inside Windsor Castle, the burial place of ten monarchs including Henry VIII and Queen Elizabeth II, and the venue for the 2018 Harry and Meghan wedding.",how:"Visit as part of the castle ticket. It is closed to visitors on Sundays, when it is used for worship, so check the day. No photography inside."},
+eton:{name:"Eton College",q:"Eton College, Eton",w:"Eton College",why:"One of the world's most famous schools, founded in 1440, whose former pupils include nineteen British prime ministers.",how:"Walk across the pedestrian bridge from Windsor, stroll the High Street and see the school from outside. Check whether any tours are open to visitors."},
+legolandwindsor:{name:"LEGOLAND Windsor",q:"LEGOLAND Windsor Resort",w:"Legoland Windsor Resort",why:"A LEGO theme park on a hillside above the Thames, with rides, shows and Miniland, where London landmarks and world monuments are built from millions of LEGO bricks.",how:"Buy tickets online ahead and check the park calendar for opening days. Arrive at opening, ride the popular rides first and see Miniland in the afternoon."},
+legostore:{name:"LEGO Store, Leicester Square",q:"LEGO Store, Leicester Square, London",w:"",why:"The LEGO flagship store in the West End, with giant brick models of London landmarks and a huge range of sets.",how:"A good quick stop for gifts if you skip LEGOLAND. Browse the pick-a-brick wall."},
+windsor:{name:"Windsor Castle",q:"Windsor Castle",w:"Windsor Castle",why:"The oldest and largest occupied castle in the world and a royal home for 900 years. St George's Chapel hosted royal weddings and burials.",how:"Trains from Paddington (change at Slough) or Waterloo take about 30-60 minutes. Check closing days when the King is in residence."},
+wbtour:{name:"Warner Bros. Studio Tour (Harry Potter)",q:"Warner Bros. Studio Tour London, Leavesden",w:"Warner Bros. Studio Tour London – The Making of Harry Potter",why:"The real sets, props and costumes from the Harry Potter films, including the Great Hall and Diagon Alley.",how:"Needs a booked timed ticket, usually weeks ahead. About 20 minutes by train from Euston to Watford Junction, then a shuttle bus."},
+kew:{name:"Kew Gardens",q:"Royal Botanic Gardens, Kew",w:"Royal Botanic Gardens, Kew",why:"A UNESCO-listed botanic garden with Victorian glasshouses, a treetop walkway and spring blossom.",how:"Take the Overground or District line to Kew Gardens. Spring bluebells and cherry blossom are the highlights."},
+hamptoncourt:{name:"Hampton Court Palace",q:"Hampton Court Palace",w:"Hampton Court Palace",why:"Henry VIII's Tudor palace with kitchens, a great hall and a famous hedge maze.",how:"Train from Waterloo, about 35 minutes. Allow a half day."},
+cheltenham:{name:"Cheltenham",q:"Cheltenham, Gloucestershire",w:"Cheltenham",why:"A Regency spa town at the foot of the Cotswolds, known for elegant terraces, festivals and horse racing.",how:"Walk the Promenade, Montpellier and Imperial Gardens. Everything central is walkable from the station."},
+montpellier:{name:"Montpellier Quarter",q:"Montpellier, Cheltenham",w:"Montpellier, Cheltenham",why:"Cheltenham's best-looking district, with Regency terraces and caryatid-fronted shops, and the nicest cafés and bars.",how:"Walk Montpellier Walk, look up at the carved figures on the shop fronts, and stop at a café."},
+pittville:{name:"Pittville Pump Room and Park",q:"Pittville Pump Room, Cheltenham",w:"Pittville Pump Room",why:"A neoclassical 1830 spa building overlooking a lake and park, built for the town's spa-water craze.",how:"Take a gentle 20-minute walk from town. Try the spa water, which tastes of minerals."},
+racecourse:{name:"Cheltenham Racecourse",q:"Cheltenham Racecourse",w:"Cheltenham Racecourse",why:"Home of the Cheltenham Festival (March), the heart of British National Hunt racing and the Gold Cup.",how:"Check the race calendar for spring meetings (April and May dates vary). Racedays are popular, so book hotels early."},
+holst:{name:"Holst Victorian House",q:"Holst Victorian House, Cheltenham",w:"",why:"The birthplace of composer Gustav Holst (The Planets), furnished as a Victorian home.",how:"Small museum, about 45 minutes. Check opening days."},
+wilson:{name:"The Wilson",q:"The Wilson, Cheltenham",w:"The Wilson (Cheltenham)",why:"Cheltenham's art gallery and museum, with Arts and Crafts furniture and a free entry.",how:"A good rainy-day stop. Allow an hour."},
+gloucestercathedral:{name:"Gloucester Cathedral",q:"Gloucester Cathedral",w:"Gloucester Cathedral",why:"A Norman and Gothic cathedral whose cloisters were used as Hogwarts corridors in the Harry Potter films. It holds Edward II's tomb.",how:"Gloucester is about 10-15 minutes by train from Cheltenham. Combine with Gloucester Docks."},
+tewkesbury:{name:"Tewkesbury Abbey",q:"Tewkesbury Abbey",w:"Tewkesbury Abbey",why:"One of England's finest Norman churches, with a massive tower and a medieval town around it.",how:"Reachable by bus from Cheltenham. Allow a half day with the riverside walk."},
+chedworth:{name:"Chedworth Roman Villa",q:"Chedworth Roman Villa",w:"Chedworth Roman Villa",why:"One of the best-preserved Roman villas in Britain, with mosaics and a bath suite in a wooded valley.",how:"Hard by public transport, so best by taxi or tour. National Trust."},
+cirencester:{name:"Cirencester",q:"Cirencester",w:"Cirencester",why:"The 'capital of the Cotswolds', a market town once the second-largest Roman city in Britain.",how:"Good for a market-town lunch. Browse the Corinium Museum."},
+castlecombe:{name:"Castle Combe",q:"Castle Combe",w:"Castle Combe",why:"Often called England's prettiest village, used as a film location (War Horse, Doctor Dolittle).",how:"A car or tour is needed. Combine with Bath if you are driving."},
+burford:{name:"Burford",q:"Burford, Oxfordshire",w:"Burford",why:"A honey-stone town with a steep High Street leading to the River Windrush.",how:"By bus from Cheltenham with a change or by tour. Antique shops and tea rooms."},
+cotswoldwildlife:{name:"Cotswold Wildlife Park",q:"Cotswold Wildlife Park, Burford",w:"Cotswold Wildlife Park",why:"A manor-house park with rhinos, lions and a walled garden.",how:"A good option for families. Needs a car or taxi."},
+hidcote:{name:"Hidcote Manor Garden",q:"Hidcote Manor Garden",w:"Hidcote Manor Garden",why:"An Arts and Crafts garden of garden 'rooms' that influenced English gardening. National Trust.",how:"Near Chipping Campden. Best in May and June."},
+gwr:{name:"Gloucestershire Warwickshire Railway",q:"Gloucestershire Warwickshire Railway, Toddington",w:"Gloucestershire Warwickshire Railway",why:"A heritage steam railway through the Cotswold edge from Cheltenham Racecourse to Broadway, with stops at Winchcombe.",how:"Runs on selected days (not every day), so check the timetable before planning."},
+bibury:{name:"Bibury",q:"Bibury, Gloucestershire",w:"Bibury",why:"A river village with weavers' cottages. William Morris called it the most beautiful village in England.",how:"Go early, as it is a small place that fills with day-trippers. Walk along the River Coln and visit the Trout Farm."},
+arlingtonrow:{name:"Arlington Row",q:"Arlington Row, Bibury",w:"Arlington Row",why:"A row of 14th-century cottages, later weavers' homes, on the front of many Cotswold postcards and on the UK passport design.",how:"View from the Rack Isle meadow across the stream. The cottages are lived in, so be respectful."},
+bourton:{name:"Bourton-on-the-Water",q:"Bourton-on-the-Water",w:"Bourton-on-the-Water",why:"The 'Venice of the Cotswolds', with low stone bridges across the River Windrush through the village centre.",how:"Busy by midday. Visit the Model Village and a riverside café. Coach tours stop here."},
+lowerslaughter:{name:"Lower and Upper Slaughter",q:"Lower Slaughter",w:"Lower Slaughter",why:"Two quiet villages (the name comes from an Old English word for muddy place) linked by a 1-mile riverside footpath.",how:"Walk the path from Lower to Upper Slaughter, about 20 minutes each way. Stop at the old mill."},
+stow:{name:"Stow-on-the-Wold",q:"Stow-on-the-Wold",w:"Stow-on-the-Wold",why:"A hilltop market town at a crossroads of Roman roads, with a big square and the church door framed by yew trees (said to inspire Tolkien).",how:"Look at the St Edward's Church north door. Antique shops and tea rooms nearby."},
+winchcombe:{name:"Winchcombe",q:"Winchcombe",w:"Winchcombe",why:"A small stone town that was once a Saxon capital, with gargoyles on its church and a heritage railway station.",how:"Visit the church and wander the main street."},
+sudeley:{name:"Sudeley Castle",q:"Sudeley Castle, Winchcombe",w:"Sudeley Castle",why:"A Tudor castle with gardens, the burial place of Catherine Parr, the last wife of Henry VIII.",how:"Allow 2-3 hours. Check opening days, as it is seasonal."},
+broadway:{name:"Broadway",q:"Broadway, Worcestershire",w:"Broadway, Worcestershire",why:"A showpiece Cotswold village with a wide green main street, galleries and tea rooms.",how:"Walk the High Street, then go up to the Tower. Buses link with Winchcombe and Cheltenham."},
+broadwaytower:{name:"Broadway Tower",q:"Broadway Tower",w:"Broadway Tower",why:"A Gothic folly on the Cotswold escarpment with a view over 16 counties.",how:"Walk up from Broadway on a clear day, about 1.5 miles."},
+campden:{name:"Chipping Campden",q:"Chipping Campden",w:"Chipping Campden",why:"A honey-stone market town with a curved High Street and the Cotswold Way's northern start.",how:"See the Market Hall and walk the High Street."},
+edinburghcastle:{name:"Edinburgh Castle",q:"Edinburgh Castle",w:"Edinburgh Castle",why:"The fortress on a volcanic rock that dominates the skyline. It holds the Scottish Crown Jewels and the Stone of Destiny, and fires the One O'Clock Gun daily (except Sunday).",how:"Book online and go at opening. Be inside by 13:00 for the gun. Allow 2-3 hours."},
+royalmile:{name:"The Royal Mile",q:"Royal Mile, Edinburgh",w:"Royal Mile",why:"The cobbled street running from the Castle to Holyrood, lined with closes, shops, pubs and museums.",how:"Walk downhill from the Castle. Look into the narrow closes and stop at a shortbread or whisky shop."},
+stgiles:{name:"St Giles' Cathedral",q:"St Giles' Cathedral, Edinburgh",w:"St Giles' Cathedral",why:"The High Kirk of Edinburgh with a crown-shaped spire and the Thistle Chapel.",how:"Free to enter, with a small donation requested for photography."},
+greyfriars:{name:"Greyfriars Kirkyard and Bobby",q:"Greyfriars Kirkyard, Edinburgh",w:"Greyfriars Kirkyard",why:"An atmospheric graveyard with the statue of Greyfriars Bobby, the dog who guarded his master's grave. J. K. Rowling used names from its stones.",how:"Combine with the National Museum of Scotland next door."},
+nms:{name:"National Museum of Scotland",q:"National Museum of Scotland, Edinburgh",w:"National Museum of Scotland",why:"A free museum with Dolly the sheep, the Lewis Chessmen and a rooftop view over the Old Town.",how:"Take the rooftop terrace for a skyline view. Allow 2 hours."},
+scottmonument:{name:"Scott Monument",q:"Scott Monument, Edinburgh",w:"Scott Monument",why:"A Gothic spire in memory of novelist Sir Walter Scott, the largest monument to a writer in the world.",how:"Climb the 287 steps for the view. Book online."},
+calton:{name:"Calton Hill",q:"Calton Hill, Edinburgh",w:"Calton Hill",why:"A small hill with an unfinished Greek-style national monument and the best view over the city.",how:"A 10-minute climb from Princes Street. Go at sunset. On 30 April the Beltane Fire Festival is held here."},
+holyrood:{name:"Palace of Holyroodhouse",q:"Palace of Holyroodhouse, Edinburgh",w:"Palace of Holyroodhouse",why:"The King's official Scottish residence, with Mary, Queen of Scots' apartments at the end of the Royal Mile.",how:"Closed when royals are in residence, so check dates. Visit the abbey ruins."},
+arthursseat:{name:"Arthur's Seat",q:"Arthur's Seat, Edinburgh",w:"Arthur's Seat",why:"An extinct volcano in the city centre with a short hike and a 360-degree view.",how:"About 45 minutes up from Holyrood on a clear day. Wear grippy shoes and expect wind."},
+deanvillage:{name:"Dean Village",q:"Dean Village, Edinburgh",w:"Dean Village",why:"A former milling village in a gorge on the Water of Leith, 10 minutes from the city centre.",how:"Walk the Water of Leith path to Stockbridge market (Sundays)."},
+victoriast:{name:"Victoria Street and Grassmarket",q:"Victoria Street, Edinburgh",w:"Grassmarket",why:"A curved, colourful terraced street, said to have inspired Diagon Alley, above the old Grassmarket square with its pubs.",how:"Browse the shops, then have a pint in a Grassmarket pub. A good evening walk."},
+edinburghvaults:{name:"Edinburgh Vaults (South Bridge)",q:"Edinburgh Vaults, South Bridge, Edinburgh",w:"South Bridge, Edinburgh",why:"A set of arched chambers beneath South Bridge, built around 1788, which became slums, then were sealed and forgotten. They are now among the city's most haunted-feeling places and are shown on candle-lit ghost tours.",how:"Book a guided tour in advance (evening slots sell out). Wear flat shoes, as the floors are uneven, and expect it to be cold and dark."},
+edinburghdungeon:{name:"The Edinburgh Dungeon",q:"The Edinburgh Dungeon, Market Street, Edinburgh",w:"",why:"A scripted, actor-led attraction near Waverley station that tells Edinburgh's darkest stories (Sweeney Todd, Burke and Hare, witch trials) with live actors, special effects and two short rides.",how:"Allow about 90 minutes and book online. It is theatrical and designed to be spooky and funny rather than historical, so it suits families with older children."},
+marykings:{name:"The Real Mary King's Close",q:"The Real Mary King's Close, Edinburgh",w:"Mary King's Close",why:"A preserved 17th-century street buried beneath the City Chambers, shown on guided tours.",how:"Book a guided tour in advance."},
+britannia:{name:"Royal Yacht Britannia",q:"Royal Yacht Britannia, Leith",w:"Royal Yacht Britannia",why:"The Queen's former floating residence, now moored at Leith and open to visit.",how:"Take a bus to Ocean Terminal. Allow 2 hours."},
+rosslyn:{name:"Rosslyn Chapel",q:"Rosslyn Chapel, Roslin",w:"Rosslyn Chapel",why:"A 15th-century chapel with intricate carving, featured in The Da Vinci Code.",how:"A bus from Edinburgh takes about 40 minutes. Allow 1 hour."},
+standrews:{name:"St Andrews",q:"St Andrews, Fife",w:"St Andrews",why:"The home of golf and Scotland's oldest university, with a ruined cathedral and a famous beach used in Chariots of Fire.",how:"A full-day trip by train and bus, or by tour."},
+glencoe:{name:"Glencoe",q:"Glencoe, Scotland",w:"Glen Coe",why:"A dramatic glen of steep mountains, a site of the 1692 massacre, and used in Skyfall and Harry Potter.",how:"Stop at the Three Sisters viewpoint. Bring a rain jacket, and be careful of the weather."},
+lochness:{name:"Loch Ness",q:"Loch Ness, Scotland",w:"Loch Ness",why:"Scotland's famous deep lake, home of the legendary Loch Ness Monster, holding more fresh water than all the lakes of England and Wales combined.",how:"Most tours include a boat cruise. Spring light can be very good. Do not expect to see Nessie."},
+urquhart:{name:"Urquhart Castle",q:"Urquhart Castle, Loch Ness",w:"Urquhart Castle",why:"A ruined medieval castle on the shore of Loch Ness, the best viewpoint over the loch.",how:"Visit with a timed ticket on tours. A good photo at the water."},
+fortaugustus:{name:"Fort Augustus",q:"Fort Augustus, Scotland",w:"Fort Augustus",why:"A village at the southern tip of Loch Ness with a lock flight on the Caledonian Canal.",how:"A common lunch stop on tours. Watch boats go through the locks."},
+pitlochry:{name:"Pitlochry",q:"Pitlochry",w:"Pitlochry",why:"A pretty Highland town with a famous fish ladder and whisky distilleries nearby.",how:"A common stop on the way back to Edinburgh. Try Edradour, Scotland's smallest distillery."},
+stirlingcastle:{name:"Stirling Castle",q:"Stirling Castle",w:"Stirling Castle",why:"A Renaissance palace on a volcanic crag, one of Scotland's most important castles and where Mary, Queen of Scots was crowned.",how:"Trains from Edinburgh take about 50 minutes. Allow 2-3 hours."},
+wallacemonument:{name:"National Wallace Monument",q:"National Wallace Monument, Stirling",w:"National Wallace Monument",why:"A 67 m Victorian tower honouring William Wallace (Braveheart), above the site of the Battle of Stirling Bridge.",how:"Climb 246 steps for the view. A shuttle bus runs from the base. Allow 1 hour."},
+lochlomond:{name:"Loch Lomond",q:"Loch Lomond",w:"Loch Lomond",why:"Scotland's largest lake (by surface area), ringed by hills in the Loch Lomond and The Trossachs National Park.",how:"Visit Balloch or Luss village. Take a boat cruise."},
+kelpies:{name:"The Kelpies",q:"The Kelpies, Falkirk",w:"The Kelpies",why:"Two 30 m steel horse-head sculptures, the largest equine sculptures in the world.",how:"A short stop by car or tour. Free to view."},
+doune:{name:"Doune Castle",q:"Doune Castle",w:"Doune Castle",why:"A 14th-century castle used in Monty Python and the Holy Grail and as Castle Leoch in Outlander.",how:"Small castle with an audio guide narrated by Monty Python's Terry Jones."},
+trossachs:{name:"The Trossachs",q:"The Trossachs, Scotland",w:"The Trossachs",why:"Often called the 'Highlands in miniature', with lochs, woods and small peaks near Stirling.",how:"A good option by tour. Walk at Loch Katrine."},
+skye:{name:"Isle of Skye",q:"Isle of Skye",w:"Skye",why:"Scotland's best-known island, with the Old Man of Storr, Fairy Pools and Quiraing.",how:"A very long day from Edinburgh (12-14 hours by tour), so staying overnight is better."},
+glenfinnan:{name:"Glenfinnan Viaduct",q:"Glenfinnan Viaduct",w:"Glenfinnan Viaduct",why:"The 21-arch viaduct seen in the Harry Potter films, crossed by the Jacobite steam train.",how:"The steam train runs on selected seasonal dates, so check it before planning. Take a viewpoint walk."},
+eileandonan:{name:"Eilean Donan Castle",q:"Eilean Donan Castle",w:"Eilean Donan",why:"A restored castle on a small island where three sea lochs meet, one of Scotland's most photographed sights.",how:"A stop on Skye tours. Allow 45 minutes."},
+bennevis:{name:"Ben Nevis and Fort William",q:"Ben Nevis, Fort William",w:"Ben Nevis",why:"The highest mountain in the British Isles (1,345 m), above the town of Fort William.",how:"Take the Nevis Range gondola for a mountain view without climbing."}
+};
+</script>
+<script>
+var DS = {1:["bigben","londoneye","southbank","boroughmarket"],2:["parliamentsq","westminsterabbey","buckingham","stjamespark","trafalgar","nationalgallery","coventgarden"],3:["toweroflondon","towerbridge","stpauls","millenniumbridge","leadenhall","spitalfields","bricklane"],4:["britishmuseum","chinatown","carnaby","camdenmarket","regentscanal","primrosehill","ambedkarhouse"],
+5:["cheltenham","montpellier","pittville"],6:["bibury","arlingtonrow","bourton","lowerslaughter","stow"],7:["winchcombe","sudeley","broadwaytower","broadway","campden"],8:["racecourse","holst","wilson","gloucestercathedral"],
+9:["edinburghcastle","victoriast","royalmile"],10:["edinburghcastle","royalmile","stgiles","greyfriars","nms","calton","holyrood","arthursseat","edinburghvaults","marykings","edinburghdungeon"],11:["glencoe","lochness","urquhart","fortaugustus","pitlochry"],12:["stirlingcastle","wallacemonument","lochlomond","trossachs","kelpies","doune"],
+13:["kingscross","nottinghill","portobello","churchillarms","hydepark","kensingtonpalace","harrods"],14:["greenwich","cuttysark","royalobservatory","greenwichmarket"],15:["windsor","stgeorges","eton","legolandwindsor"]};
+var DA = {1:["tatemodern","skygarden"],2:["churchillwarrooms","hydepark","naturalhistory"],3:["shakespearesglobe","skygarden","shard","hmsbelfast","columbiaroad","tatemodern"],4:["hamleys","swaminarayan"],
+5:["racecourse"],6:["cirencester","castlecombe","burford","chedworth"],7:["hidcote","gwr","cotswoldwildlife"],8:["tewkesbury","chedworth","gwr"],
+10:["deanvillage","britannia","rosslyn","scottmonument","standrews"],11:["bennevis","glenfinnan"],12:["skye","glenfinnan","eileandonan","standrews"],
+13:["hamleys"],14:["wbtour","kew","hamptoncourt","legostore"]};
+var ALTS = {
+1:["<b>Tate Modern viewing level</b> (free) or the <b>Sky Garden</b> (free, book ahead) for a first panorama if you still have energy.","<b>Jet lag:</b> keep it light, eat early, and get to bed by 21:00 local time. A long walk in daylight helps.","If you land very early, you can check in late. Ask the hotel to hold your bags."],
+2:["<b>Churchill War Rooms</b> (book ahead) if the weather is bad.","<b>Natural History Museum</b> or <b>V&amp;A</b> (free) in South Kensington, if you want a museum day instead of the Abbey.","<b>Hyde Park</b> and <b>Kensington Palace</b>: leave these for Day 13."],
+3:["<b>Shakespeare's Globe</b> tour and <b>Tate Modern</b> on the South Bank, if you prefer museums.","<b>Sky Garden</b> (free, book a slot weeks ahead) and <b>The Shard</b> for views.","<b>Columbia Road Flower Market</b> is Sunday only (8:00 to 15:00). Swap Day 3 to a Sunday if you can.","<b>HMS Belfast</b>: a WWII cruiser beside Tower Bridge."],
+4:["<b>Notting Hill and Portobello Road</b> are on Day 13. If Day 13 does not fall on a Saturday (the big antiques day), swap them with this day.","<b>Hamleys</b> on Regent Street for toys and gifts.","<b>BAPS Swaminarayan Mandir, Neasden</b>: Europe's first traditional Hindu stone temple (Jubilee line). Check hours and dress code.","<b>Other markets:</b> Broadway Market (Saturday), Maltby Street, Exmouth Market."],
+5:["<b>Spa-town walk:</b> the Promenade is lined with Regency terraces and shops. Imperial Gardens is a good stop.","<b>Cheltenham Racecourse</b>: check whether a race meeting falls on your dates. April and May meetings are common."],
+6:["<b>Cirencester</b> (market town), <b>Burford</b> (steep High Street) or <b>Castle Combe</b> (needs a car or tour) are all worth a stop if you have a driver.","<b>Chedworth Roman Villa</b>: Roman mosaics in a wooded valley.","<b>Low-effort option:</b> take the 801 bus to Bourton and Stow only, and skip Bibury."],
+7:["<b>Hidcote Manor Garden</b> near Chipping Campden is best in May and June.","<b>Gloucestershire Warwickshire Railway</b>: heritage steam on selected days. Check the timetable.","<b>Cotswold Wildlife Park</b> if you are travelling with children.","<b>Walk:</b> a section of the Cotswold Way from Winchcombe to Belas Knap, about 2 h."],
+8:["<b>Gloucester Cathedral</b> (Hogwarts cloisters) and Gloucester Docks: about 15 minutes by train.","<b>Tewkesbury Abbey</b>: a half-day trip by bus.","<b>Cheese rolling at Cooper's Hill</b> (late May bank holiday Monday): see it only if your dates match.","<b>Cotswold Distillery</b> (Stourton, near Shipston): whisky and gin tours, but needs a taxi."],
+9:["<b>Ghost and dungeons tour</b> is planned for tomorrow evening (Day 10). Book it ahead online.","<b>Beltane Fire Festival</b> on Calton Hill on 30 April: only if you are there on that night."],
+10:["<b>Dean Village and Water of Leith:</b> a quiet walk with Stockbridge market (Sunday).","<b>Royal Yacht Britannia</b> at Leith, <b>Rosslyn Chapel</b> (about 40 min by bus) and <b>Scott Monument</b> climb.","<b>St Andrews</b> (home of golf) is a full-day trip, so it is better for Day 12.","<b>Whisky:</b> Scotch Whisky Experience on the Royal Mile, or a tasting at a Grassmarket bar."],
+11:["<b>Ben Nevis / Nevis Range gondola</b> and <b>Fort William</b>: a longer stop on some tours.","<b>Glenfinnan Viaduct:</b> the Harry Potter bridge. The Jacobite steam train season is unconfirmed for 2027, so check before planning.","<b>Long-day warning:</b> this tour is about 11-13 hours. Pack snacks, layers and motion-sickness tablets for winding roads."],
+12:["<b>Isle of Skye</b> and <b>Eilean Donan</b>: a very long 12-14 hour day tour, or better as an overnight stay.","<b>Glenfinnan Viaduct and Jacobite steam train</b>: seasonal, with limited dates. Book early.","<b>St Andrews</b>: golf's home, with a ruined cathedral and a beach, about 1.5 h from Edinburgh.","<b>Self-paced option:</b> train to Stirling, then use the castle and monument on foot."],
+13:["<b>Portobello Road Market</b> in Notting Hill if it is a Saturday.","<b>Hamleys</b> and Regent Street if you want gifts.","<b>Stopover:</b> break the journey in York (about 1 h 45 min from Edinburgh, then 1 h 50 min to London) for the Minster and the Shambles."],
+15:["<b>Pick one if short on time:</b> the castle plus Eton is a relaxed half-day, and LEGOLAND needs most of a day if you want the rides. If your group has no children, spend the whole day on Windsor and skip LEGOLAND.","<b>Windsor Great Park</b> and the <b>Long Walk</b> (a 4 km tree-lined avenue from the castle gates to the Copper Horse statue): a good walk on a clear day.","<b>Thames boat trip</b> from Windsor town centre (Windsor and Eton Riverside), about 40 min, with castle views from the water.","<b>If LEGOLAND is closed:</b> check the park calendar before you go, because it does not open every day in spring.","<b>LEGO Store, Leicester Square</b> in London, as a back-up."],
+14:["<b>Warner Bros. Studio Tour</b> (Harry Potter), by train from Euston to Watford Junction plus shuttle. Book weeks ahead.","<b>Kew Gardens</b> or <b>Hampton Court Palace</b> for a garden or Tudor day.","<b>Oxford</b> (about 1 h from Paddington): Christ Church hall and the Bodleian Library's Divinity School are <i>Harry Potter</i> locations, and Oxford is where Tolkien and C. S. Lewis met as the Inklings (the Eagle and Child pub, check whether it has reopened). <i>The Lord of the Rings</i> itself was filmed in New Zealand.","<b>LEGO Store, Leicester Square</b> (a big flagship store) if you skip LEGOLAND on Day 15.","<b>West End:</b> a musical or play in the evening, with same-day tickets at the TKTS booth in Leicester Square."]
+};
+var MAPS = {
+lo:[{label:"Central London sights (walkable)",mode:"w",stops:["Big Ben, London","Westminster Abbey, London","Buckingham Palace, London","Trafalgar Square, London","Covent Garden, London","Borough Market, London"]},
+    {label:"City and East London (walkable)",mode:"w",stops:["Tower of London","Tower Bridge, London","Leadenhall Market, London","St Paul's Cathedral, London","Spitalfields Market, London","Brick Lane, London"]},
+    {label:"Museums, Soho and Camden",mode:"",stops:["British Museum, London","Chinatown, London","Carnaby Street, London","Camden Market, London","Primrose Hill, London"]}],
+cw:[{label:"Cheltenham and the Cotswolds",mode:"",stops:["Cheltenham Spa station","Bibury, Gloucestershire","Bourton-on-the-Water","Lower Slaughter","Stow-on-the-Wold","Winchcombe","Broadway, Worcestershire","Chipping Campden"]},
+    {label:"Cheltenham town (walkable)",mode:"w",stops:["Cheltenham Spa station","Montpellier, Cheltenham","Imperial Gardens, Cheltenham","Pittville Pump Room, Cheltenham"]}],
+sc:[{label:"Edinburgh sights (walkable)",mode:"w",stops:["Edinburgh Castle","St Giles' Cathedral, Edinburgh","Greyfriars Kirkyard, Edinburgh","National Museum of Scotland","Calton Hill, Edinburgh","Palace of Holyroodhouse"]},
+    {label:"Loch Ness and Glencoe tour route",mode:"",stops:["Edinburgh","Glencoe, Scotland","Fort William, Scotland","Fort Augustus, Scotland","Urquhart Castle, Loch Ness","Pitlochry","Edinburgh"]},
+    {label:"Stirling, Loch Lomond and the Trossachs",mode:"",stops:["Edinburgh","The Kelpies, Falkirk","Stirling Castle","Doune Castle","Loch Lomond","Edinburgh"]}],
+ld:[{label:"Day 13: King's Cross, Notting Hill and Kensington",mode:"",stops:["King's Cross Station, London","Notting Hill, London","Portobello Road Market, London","Churchill Arms, Kensington Church Street, London","Kensington Palace, London"]},
+    {label:"Day 15: Windsor day trip",mode:"",stops:["Windsor and Eton Central railway station","Windsor Castle","Eton College","LEGOLAND Windsor Resort"]},
+    {label:"Day 14: Greenwich",mode:"",stops:["Westminster Pier, London","Greenwich Pier, London","Cutty Sark, Greenwich","Royal Observatory, Greenwich"]}]
+};
+var D = {
+lo:[
+{n:1,t:"Arrive London: Westminster and South Bank",loc:"London",how:"<b>Flight:</b> Mumbai to London Heathrow is about 9.5 h nonstop (Air India, British Airways, Virgin Atlantic). <b>Airport to city:</b> Elizabeth line to central London (about 30-40 min), or Heathrow Express to Paddington (15 min, more expensive), or the Piccadilly line (cheapest, about 50-60 min). Most flights land in the morning, so use the afternoon for a gentle walk.",
+ see:["★ <b>Big Ben</b> and the <b>Houses of Parliament</b> from Westminster Bridge.","★ <b>London Eye</b> from the South Bank (book a timed slot, or just enjoy the view).","<b>South Bank walk</b> towards Borough Market: buskers, book stalls, the National Theatre and Tate Modern.","Early evening at <b>Borough Market</b> for dinner.","🎬 <b>On screen:</b> Westminster Bridge and Big Ben appear in films such as <i>28 Days Later</i> and <i>V for Vendetta</i>. <b>Borough Market</b> (Stoney Street) doubles as the Leaky Cauldron entrance in <i>Harry Potter and the Prisoner of Azkaban</i>, and it is where <i>Bridget Jones's Diary</i> is set (Bridget's flat is above the Globe Tavern, next to the market)."],
+ eat:["<b>Fish and chips</b> from a proper chippy, such as <b>Poppies</b> (Spitalfields, retro style) or a pub with fried cod and mushy peas.","<b>Borough Market</b> stalls: salt beef, cheese toasties, oysters and street food.","<b>Dishoom</b> (Covent Garden and others): Bombay-style café with bacon naan roll and house black daal. A taste of Mumbai on day one."],
+ tip:"Get a contactless card or phone for the Tube. No Oyster card needed, and daily fares cap automatically. Go to bed early to beat jet lag."},
+{n:2,t:"Royal London and Covent Garden",loc:"London",how:"<b>Getting around:</b> Underground and buses with contactless pay. Today is mostly walkable between Westminster and Covent Garden.",
+ see:["★ <b>Parliament Square</b> and the <b>Gandhi statue</b>, then <b>Westminster Abbey</b> (book a timed ticket).","★ <b>Buckingham Palace</b>: the Changing of the Guard is usually at 11:00 on selected days, so check the schedule. Walk via <b>St James's Park</b> and see the pelicans.","<b>Horse Guards Parade</b> and <b>Whitehall</b>, with the view of Downing Street's gate.","★ <b>Trafalgar Square</b> and the free <b>National Gallery</b> (Van Gogh's Sunflowers).","Evening in <b>Covent Garden</b> and <b>Neal's Yard</b>, with street performers.","🎬 <b>On screen:</b> <b>Covent Garden</b> piazza is where Eliza Doolittle sells flowers in <i>My Fair Lady</i>. The Abbey and Parliament are part of countless royal and political dramas, such as <i>The Crown</i>, <i>The King's Speech</i> and <i>Darkest Hour</i>."],
+ eat:["<b>Afternoon tea</b> at a classic hotel (for example the Ritz, expensive and needs booking) or a cheaper tea room.","<b>Sunday roast</b> in a pub, if on a Sunday, or <b>pie and mash</b> in a traditional shop.","<b>Rules</b> (Maiden Lane, Covent Garden): London's oldest restaurant (1798) for classic British food.","Vegetarian and Indian: <b>Dishoom</b> or <b>Masala Zone</b> near Soho."],
+ tip:"Book Westminster Abbey and the National Gallery's special exhibitions in advance. Wear comfortable shoes, as this is about 8 km of walking."},
+{n:3,t:"The City and East London",loc:"London",how:"<b>Route:</b> Tube to Tower Hill, then walk west along the river to St Paul's, then Leadenhall, Spitalfields and Brick Lane.",
+ see:["★ <b>Tower of London</b>: the Crown Jewels (including the <b>Koh-i-Noor</b> in the Queen Mother's crown), the White Tower and a free Yeoman Warder tour. Go at opening.","★ <b>Tower Bridge</b>: walk across, or take the glass-floored high walkway.","★ <b>St Paul's Cathedral</b> and the <b>Millennium Bridge</b> view.","<b>Leadenhall Market</b>: the Victorian arcade used in Harry Potter.","<b>Spitalfields Market</b> and <b>Brick Lane</b>: vintage stalls, street art and curry houses.","🎬 <b>On screen:</b> <b>Leadenhall Market</b> is the Leaky Cauldron entrance in <i>Harry Potter and the Philosopher's Stone</i> (the optician's door). The <b>Millennium Bridge</b> is wrecked by Death Eaters in <i>Half-Blood Prince</i>. The 'Feed the Birds' song in <i>Mary Poppins</i> is set on the steps of <b>St Paul's</b>."],
+ eat:["<b>Beigel Bake</b> (Brick Lane, open 24 hours): salt-beef bagel, a London institution.","<b>Brick Lane curry</b>: try <b>Aladin</b> or <b>Tayyabs</b> (Whitechapel, Punjabi grill, long a favourite with visitors from India).","<b>Pie and a pint</b> in a City pub such as <b>The Ye Olde Cheshire Cheese</b> (rebuilt 1667) or <b>The George Inn</b> (Borough, the last galleried coaching inn)."],
+ tip:"Book the Tower of London online. Beigel Bake is open all night, so it is good for a late snack."},
+{n:4,t:"Museums, Soho and Camden",loc:"London",how:"<b>Route:</b> Tube to Russell Square or Tottenham Court Road, then walk through Soho to Regent Street, and take the Northern line to Camden Town.",
+ see:["★ <b>British Museum</b> (free): Rosetta Stone, Parthenon sculptures, Egyptian mummies, and the South Asia gallery (Amaravati sculptures, Gandhara art).","<b>Soho</b> and <b>Chinatown</b> (Gerrard Street) for lunch and street life.","<b>Carnaby Street</b> and <b>Regent Street</b> for shopping, with <b>Liberty</b> as a Tudor-style department store.","★ <b>Camden Market</b> and the <b>Regent's Canal</b> towpath walk.","<b>Primrose Hill</b> for a sunset view, and <b>Dr Ambedkar's London house</b> (10 King Henry's Road) nearby, which is a museum with limited opening days.","🎬 <b>On screen:</b> <b>Primrose Hill</b> is where the 'Twilight Bark' happens in Disney's <i>101 Dalmatians</i>. The <b>British Museum</b> is part of the story in <i>Night at the Museum: Secret of the Tomb</i>. <b>Camden</b> is the heart of 1990s Britpop and the Amy Winehouse story."],
+ eat:["<b>Veeraswamy</b> (Regent Street): the UK's oldest Indian restaurant, open since 1926. Book ahead.","<b>Camden Market</b> street food: Ethiopian, Thai, Indian and dumplings.","<b>Dim sum</b> in Chinatown, such as <b>Dumplings' Legend</b>.","<b>Gelato</b> or <b>Bubble tea</b> in Soho."],
+ tip:"The British Museum is free but crowded. Book a timed slot, go in the morning and skip the rest of the rooms. Camden is busiest on weekends."}
+],
+cw:[
+{n:5,t:"London to Cheltenham",loc:"London → Cheltenham",how:"<b>Train:</b> GWR from London Paddington to Cheltenham Spa, about 2 h 10 min to 2 h 40 min (some are direct, others change at Swindon or Gloucester). Book an Advance ticket on <b>Trainline</b> or GWR, and reserve a seat. Leave mid-morning so you arrive for lunch.",
+ see:["Check in and walk the <b>Promenade</b>, Cheltenham's tree-lined Regency boulevard.","★ <b>Montpellier Quarter</b>: Regency terraces with caryatid-fronted shops, plus the best cafés and bars.","<b>Imperial Gardens</b> and the <b>Pittville Pump Room</b> and park (a 20-minute walk).","Pick up a bus map or ticket for the Cotswold days.","🎬 <b>On screen:</b> Cheltenham itself has few film locations. The Cotswold villages ahead (Days 6-8) have many, and are listed there."],
+ eat:["<b>Afternoon tea</b> or lunch in Montpellier.","<b>Gloucestershire specials:</b> Double Gloucester cheese, Gloucester Old Spot pork, and a local cider or perry.","Indian food: Cheltenham has several well-reviewed curry houses, so check current reviews on the day."],
+ tip:"Stay near the Promenade or Montpellier, so you can walk everywhere. The Cotswold buses leave from Royal Well bus station."},
+{n:6,t:"Cotswold villages: Bibury, Bourton and the Slaughters",loc:"Cheltenham → Cotswolds",how:"<b>Mixed transport:</b> Stagecoach/Pulhams <b>bus 801</b> runs Cheltenham to Bourton-on-the-Water and Stow-on-the-Wold (check the current timetable, as it changes). Bibury is hard by public transport, so use a taxi, a driver or a small-group tour for it. Today's long day: about 8-10 hours.",
+ see:["★ <b>Bibury</b> and <b>Arlington Row</b>: the cottages from postcards and the UK passport design. Go early.","★ <b>Bourton-on-the-Water</b>: the 'Venice of the Cotswolds', with low bridges over the River Windrush.","<b>Lower Slaughter</b> and <b>Upper Slaughter</b>: walk the 1-mile riverside footpath.","<b>Stow-on-the-Wold</b>: the market square and the Tolkien-style door at St Edward's Church.","🎬 <b>On screen:</b> The Cotswolds stand in for the English countryside in many films and TV shows, such as <i>Bridget Jones: The Edge of Reason</i> and <i>Stardust</i> (Bibury is reported to appear in both, so check before you go). <b>Tolkien:</b> <i>The Lord of the Rings</i> films were shot in New Zealand, not the UK, but the yew-framed north door of St Edward's Church in <b>Stow-on-the-Wold</b> is often said to have inspired the Doors of Durin, and Tolkien's Shire was inspired by the English countryside."],
+ eat:["<b>Cream tea</b> (scone, clotted cream and jam) at a village tearoom: cream first (Devon way) or jam first (Cornish way), a friendly debate.","<b>Ploughman's lunch</b>: cheese, pickle and bread in a village pub.","<b>The Old Mill</b> at Lower Slaughter has a riverside café."],
+ tip:"Hire a taxi or driver for Bibury and the Slaughters if you want to see more than the bus allows. Go early to beat the coach crowds."},
+{n:7,t:"Cotswold villages: Winchcombe, Broadway and Chipping Campden",loc:"Cheltenham → Cotswolds",how:"<b>Mixed transport:</b> a bus to Winchcombe (about 25 min) and onward buses or a taxi to Broadway and Chipping Campden. Check the service numbers and timetable at <b>traveline.info</b>, as the routes change often. Or book a one-day taxi.",
+ see:["★ <b>Winchcombe</b>: a Saxon capital turned stone town, with a good church and station.","<b>Sudeley Castle</b>: Tudor castle and gardens, with the tomb of Catherine Parr, the last wife of Henry VIII (check seasonal opening).","★ <b>Broadway</b>: showpiece village with a wide main street and tearooms.","<b>Broadway Tower</b>: a Gothic folly with a view over 16 counties, a walk of 1.5 miles up from Broadway.","<b>Chipping Campden</b>: a curved honey-stone High Street and Market Hall.","🎬 <b>On screen:</b> <b>Bampton</b> (Oxfordshire, about 1 h by car) is the 'Downton' village in <i>Downton Abbey</i>, and the Cotswold-stone villages of <b>Broadway</b> and <b>Chipping Campden</b> are the classic look of English period dramas."],
+ eat:["<b>Sunday roast</b> or lunch in a village pub.","<b>Cotswold lamb</b> and local ale.","<b>The Lygon Arms</b> (Broadway): historic coaching inn for a meal (pricey)."],
+ tip:"Spring bluebells fill the Cotswold woods in late April and May. Carry rain gear, as weather changes quickly."},
+{n:8,t:"Cheltenham: pubs, beers and town sights",loc:"Cheltenham",how:"<b>Rest day in town.</b> Everything is walkable, so you can do pubs without driving. Real ale is sold in nearly every pub.",
+ see:["★ <b>Cheltenham Racecourse</b> (home of the Cheltenham Festival): check for a race meeting or take a look from outside.","<b>Holst Victorian House</b> (birthplace of composer Gustav Holst) and <b>The Wilson</b> art gallery and museum.","Morning stroll in <b>Pittville Park</b> if you skipped it on Day 5.","Afternoon: <b>real-ale pub crawl</b> (see Eat).","🎬 <b>On screen:</b> <b>Gloucester Cathedral</b> (15 min by train) is the Hogwarts corridors and cloisters in the first two <i>Harry Potter</i> films and <i>Half-Blood Prince</i>."],
+ eat:["<b>The Plough Inn, Prestbury</b>: a thatched pub with a good range of real ales and twice-yearly beer and cider festivals. Reportedly one of England's most haunted pubs.","<b>Local beers to try:</b> Goff's (Winchcombe), Hook Norton, Wye Valley, Stroud Brewery and Uley. Ask for a half-pint tasting.","<b>Cider and perry:</b> Gloucestershire has a long tradition of both.","Check <b>CAMRA</b>'s WhatPub site for current pub choices and beer ranges."],
+ tip:"Stay safe: do not drink and drive. Pubs usually stop serving food at 21:00. Check the opening hours, which vary in the afternoon."}
+],
+sc:[
+{n:9,t:"Cheltenham to Edinburgh by train",loc:"Cheltenham → Edinburgh",how:"<b>Train:</b> <b>CrossCountry</b> direct from Cheltenham Spa to Edinburgh Waverley, about 6 hours (the service has run on a limited schedule, so check it on <b>nationalrail.co.uk</b>; a change at Birmingham can be faster). Book Advance tickets with a seat reservation. Take lunch with you.",
+ see:["Window views from the train: the Midlands, Yorkshire and the Scottish Borders.","On arrival, walk <b>Victoria Street</b> and <b>Grassmarket</b>, the colourful street said to have inspired Diagon Alley.","Evening on the <b>Royal Mile</b>, with the Castle floodlit.","🎬 <b>On screen:</b> <b>Victoria Street</b> is said to have inspired Diagon Alley in <i>Harry Potter</i>. J. K. Rowling wrote much of the early books in Edinburgh cafés and finished <i>Deathly Hallows</i> in the <b>Balmoral Hotel</b>. The Elephant House café, a Harry Potter landmark, was damaged by fire, so check whether it has reopened."],
+ eat:["<b>Haggis, neeps and tatties</b>: try it at a pub such as <b>Deacon Brodie's Tavern</b> or <b>The Last Drop</b> (Grassmarket).","<b>Dishoom</b> (St Andrew Square) or <b>Mother India's Cafe</b> for Indian food.","<b>Cranachan</b> dessert and a first <b>whisky</b> tasting."],
+ tip:"A long travel day. Keep the evening light. Edinburgh's Old Town is steep and cobbled, so wear good shoes."},
+{n:10,t:"Edinburgh: Castle, Royal Mile and a ghost tour",loc:"Edinburgh",how:"<b>Getting around:</b> The Old Town is walkable, and Lothian buses cover everything else. Book the Castle online.",
+ see:["★ <b>Edinburgh Castle</b>: the Crown Jewels of Scotland, the Stone of Destiny and the One O'Clock Gun (not Sundays). Be inside by 13:00.","★ <b>Royal Mile</b> down to <b>St Giles' Cathedral</b> and <b>Holyroodhouse</b>.","<b>Greyfriars Kirkyard</b> and the Bobby statue, then the free <b>National Museum of Scotland</b> (rooftop view).","<b>Calton Hill</b> at sunset, or <b>Arthur's Seat</b> if the weather is clear.","🎬 <b>On screen:</b> <b>Greyfriars Kirkyard</b> has gravestones, including a Thomas Riddell, that fans link to Harry Potter names, and <b>George Heriot's School</b> (next door) is said to have inspired Hogwarts. <b>Princes Street</b> is the opening chase in <i>Trainspotting</i>, and <b>Arthur's Seat</b> features in the film <i>One Day</i>.","👻 <b>Evening: ghosts and dungeons tour</b> (about 1-2 h, book ahead). Edinburgh's Old Town is famously haunted. Pick one: <b>the Edinburgh Vaults</b> (candle-lit chambers under South Bridge, run by operators such as <i>Auld Reekie Tours</i> and <i>Mercat Tours</i>); <b>City of the Dead</b> (a Greyfriars Kirkyard tour that visits the Black Mausoleum, reportedly home to the 'Mackenzie Poltergeist'); <b>The Real Mary King's Close</b> (a buried 17th-century street, a daytime tour with costumed guides); or the <b>Edinburgh Dungeon</b> (a scripted, actor-led attraction with rides and jump scares, more theatre than history). Some are scary and have age limits, so check before booking children."],
+ eat:["<b>Full Scottish breakfast</b> with black pudding, tattie scone and haggis.","<b>Shortbread</b> and <b>Tablet</b> (a Scottish fudge-like sweet).","<b>Scotch whisky tasting</b> at the Scotch Whisky Experience or a Royal Mile bar. For non-drinkers, try <b>Irn-Bru</b>.","<b>Cullen skink</b> (smoked haddock soup).","<b>Before the tour:</b> an early pub dinner in the Old Town, such as <b>The Last Drop</b> or <b>Deacon Brodie's Tavern</b>, or <b>The Banshee Labyrinth</b> (Niddry Street, a bar built into the vaults that claims to be haunted)."],
+ tip:"Edinburgh weather changes fast. Dress in layers and bring a waterproof. Tours run after dark even in spring (sunset is about 20:00 in April and 21:15 in May), so book the evening slot early, as it sells out. 30 April is Beltane on Calton Hill, in case your dates match."},
+{n:11,t:"Loch Ness, Glencoe and the Highlands",loc:"Edinburgh day tour",how:"<b>Guided coach tour</b> (for example Rabbie's or Highland Explorer) from Edinburgh, about 11-13 hours. Exact stops vary by operator, but typically include Glencoe, Fort Augustus, Loch Ness, Urquhart Castle and Pitlochry. Book 2-4 weeks ahead. <b>Long-day warning.</b>",
+ see:["★ <b>Glencoe</b>: dramatic mountains, with the Three Sisters viewpoint (Skyfall, Harry Potter).","★ <b>Loch Ness</b> and <b>Urquhart Castle</b>: look for Nessie, and take a loch cruise if offered.","<b>Fort Augustus</b>: the lock flight at the south end of the loch.","<b>Pitlochry</b> or the Cairngorms on the return leg, depending on the tour.","🎬 <b>On screen:</b> <b>Glencoe</b> is the Scottish home of Bond's family in <i>Skyfall</i> and the location of Hagrid's hut in <i>Harry Potter and the Prisoner of Azkaban</i>. <b>Loch Ness</b> is the home of the Loch Ness Monster. <b>Eilean Donan Castle</b> (if your tour goes to the west coast) appears in <i>Highlander</i> and the Bond film <i>The World Is Not Enough</i>."],
+ eat:["Pack a <b>lunch</b> or buy at a stop. Tour stops usually include a café.","<b>Scotch pie</b> or <b>soup and a roll</b> at a roadside café.","<b>Dinner in Edinburgh:</b> try a Scottish steak or a Leith seafood spot."],
+ tip:"Bring layers, a rain jacket and snacks. In spring, Highland weather is mixed and snow can sit on the high tops."},
+{n:12,t:"Stirling, Loch Lomond and the Trossachs",loc:"Edinburgh day tour",how:"<b>Option A:</b> small-group tour (for example Rabbie's 'Loch Lomond, Kelpies and Stirling Castle'), about 10 hours. <b>Option B:</b> train to Stirling (about 50 min) plus the castle and monument on foot. Either gives a lighter day after Day 11.",
+ see:["★ <b>Stirling Castle</b>: a Renaissance palace on a crag.","<b>National Wallace Monument</b> (Braveheart tower) and the Stirling Bridge battle site.","★ <b>Loch Lomond</b> and <b>the Trossachs</b>: lochs and forests, the 'Highlands in miniature'.","<b>The Kelpies</b> (Falkirk) and <b>Doune Castle</b> (Monty Python and Outlander) if included.","🎬 <b>On screen:</b> <b>Doune Castle</b> is in <i>Monty Python and the Holy Grail</i>, is Castle Leoch in <i>Outlander</i>, and is Winterfell in the original <i>Game of Thrones</i> pilot. The <b>National Wallace Monument</b> is the Braveheart tower (the 1995 film was shot mostly in Ireland and Glen Nevis, not at Stirling). <b>Glenfinnan Viaduct</b> (alternative) is the Hogwarts Express bridge in <i>Harry Potter</i>."],
+ eat:["<b>Pub lunch</b> in Luss or Stirling.","<b>Fish supper</b> (fish and chips) in Edinburgh at <b>The Fishmarket</b> in Newhaven, or similar.","<b>Last whisky:</b> buy a bottle at a specialist like <b>Royal Mile Whiskies</b>."],
+ tip:"Pack bottles of whisky in checked baggage (hand luggage limits liquids to 100 ml), or buy them at the airport."}
+],
+ld:[
+{n:13,t:"Edinburgh to London and Notting Hill",loc:"Edinburgh → London",how:"<b>Train:</b> LNER from Edinburgh Waverley to London King's Cross, about 4 h 20 min to 4 h 40 min. Book Advance tickets weeks ahead for the best fares. Sit on the left-hand side heading south for the Northumberland coast views. Leave mid-morning to arrive mid-afternoon.",
+ see:["Views of <b>Berwick</b>, <b>Holy Island</b> area and the North Sea coast, then <b>Durham Cathedral</b> and <b>York Minster</b> from the train.","★ <b>King's Cross</b> and <b>Platform 9¾</b> (Harry Potter) on arrival.","★ <b>Notting Hill</b> (Tube to Notting Hill Gate): pastel terraces on Lancaster Road and Colville Terrace, <b>Portobello Road</b> market and the film locations from the 1999 movie Notting Hill. Antiques stalls are biggest on Saturday, but the street is lively every day.","Walk the film route: the Travel Bookshop on Portobello Road (check which shop it is today), the Electric Cinema, and the blue-door house on Westbourne Park Road (the original door was replaced, so it is photo-only).","If light remains: <b>Hyde Park</b> and <b>Kensington Palace</b>, a short walk east of Notting Hill Gate, or Harrods.","🎬 <b>On screen:</b> From the train: <b>Durham Cathedral</b> (the Hogwarts corridors in the first two <i>Harry Potter</i> films, seen from the train) and, near Alnmouth station, <b>Alnwick Castle</b> (the Hogwarts exterior and the flying lessons)."],
+ eat:["<b>Hummingbird Bakery</b> (Portobello Road): the famous cupcake shop that started in Notting Hill.","<b>The Churchill Arms</b> (Kensington Church Street, near Notting Hill Gate): a pub covered in flowers, with Thai food in the back. A Kensington classic.","<b>Dinner:</b> <b>Dishoom Kensington</b> or <b>King's Cross</b>, or the canalside restaurants at Coal Drops Yard.","<b>Sandwich meal-deal</b> at Waitrose or M&amp;S for the train."],
+ tip:"Check your hotel is near King's Cross or the Tube. If you want Portobello at full buzz, plan Day 13 for a Saturday. Otherwise, the street and the pastel houses are still worth seeing on any day."},
+{n:14,t:"Greenwich and leftover sights",loc:"London",how:"<b>Getting there:</b> Thames Clippers boat from Westminster or Embankment (about 30-45 min), or the DLR to Cutty Sark. Use the boat for the best view of the river.",
+ see:["★ <b>Greenwich</b>: the Old Royal Naval College, <b>Cutty Sark</b> and the <b>Royal Observatory</b> (Prime Meridian).","<b>Greenwich Market</b> for lunch and crafts.","Afternoon: any leftover sights from earlier, such as the Sky Garden, Tate Modern or shopping at Harrods and Hamleys.","Evening: a <b>West End show</b> (same-day tickets at the TKTS booth in Leicester Square).","🎬 <b>On screen:</b> The <b>Old Royal Naval College</b> in Greenwich is a location for <i>Pirates of the Caribbean: On Stranger Tides</i>, <i>Les Misérables</i>, <i>The King's Speech</i> and <i>Thor: The Dark World</i>."],
+ eat:["<b>Greenwich Market</b> street food.","<b>The Trafalgar Tavern</b> (Greenwich) for a riverside pub meal.","<b>Last proper curry</b> at <b>Dishoom</b> or in Southall (Punjabi food), or <b>fish and chips</b> one more time."],
+ tip:"This is your buffer day. Use it for anything you missed, and keep a little energy for the Windsor day tomorrow."},
+{
+ "n": 15,
+ "t": "Windsor Castle and LEGOLAND Windsor",
+ "loc": "Windsor (day trip from London)",
+ "how": "<b>Train:</b> Paddington to Windsor & Eton Central (change at Slough, about 30-40 min), or Waterloo to Windsor & Eton Riverside (about 55 min, direct). <b>To LEGOLAND:</b> bus 8 from Windsor town centre (about 10-15 min), or the LEGOLAND shuttle when running. Check the current timetable. <b>Tight day:</b> the castle takes 2-3 h and LEGOLAND needs most of a day for the rides, so decide your priority.",
+ "see": [
+  "★ <b>Windsor Castle</b>: the oldest and largest occupied castle in the world and a royal home for about 900 years. See the State Apartments, Queen Mary's Dolls' House and the Changing of the Guard (usually on selected days only). Go at opening, and book online.",
+  "★ <b>St George's Chapel</b> (inside the castle grounds): the 2018 wedding of Prince Harry and Meghan Markle, the funeral of Queen Elizabeth II in 2022, and the burial place of ten monarchs. It is closed to visitors on Sundays (worship only), so check.",
+  "<b>Eton</b>: a 10-minute walk over the Thames footbridge to <b>Eton College</b>, the school of princes and prime ministers. The High Street has antique shops and tearooms.",
+  "<b>LEGOLAND Windsor</b> (about 2 km from town): rides, the Ninjago World area and <b>Miniland</b>, which builds London landmarks from LEGO bricks. Open from about late March, but not every day, so check the calendar. Tickets are cheaper online."
+ ],
+ "eat": [
+  "<b>Afternoon tea</b> in Windsor town, such as in a tearoom on Peascod Street.",
+  "<b>Pub lunch</b> by the river in Eton or Windsor. The <b>Two Brewers</b> in Windsor, near the Long Walk, is a traditional pub (check it is open).",
+  "<b>LEGOLAND:</b> pack snacks, as the park food is pricey. Vegetarian options are available at counters."
+ ],
+ "tip": "Do the castle first (timed entry at about 10:00), then LEGOLAND from about 13:30. You will get a half-day of rides, so prioritise the ones you care about most (such as The Dragon coaster and the Ninjago area) and check whether a paid fast-track option is on sale. Skip LEGOLAND if you have no children with you."
+},
+{n:16,t:"Fly home: London to Mumbai",loc:"London → Mumbai",how:"<b>Flight:</b> London Heathrow to Mumbai, about 9 h nonstop. Arrive 3 hours before departure. <b>To Heathrow:</b> Elizabeth line or Piccadilly line (cheap), or Heathrow Express from Paddington. Most flights leave in the afternoon or evening, so you may have a free morning.",
+ see:["Morning: a last walk in <b>Hyde Park</b>, or shopping at Oxford Street, Regent Street or Harrods.","Note: the UK no longer offers VAT-free shopping for tourists, so do not plan a refund.","🎬 <b>On screen:</b> The arrivals hall at <b>Heathrow</b> is the setting for the opening and ending of <i>Love Actually</i>, a fitting last scene."],
+ eat:["<b>Last English breakfast</b> or a tea and scone.","Take home <b>shortbread</b>, <b>Marmite</b>, <b>Cadbury</b> chocolate, <b>tea</b> from Twinings or Fortnum &amp; Mason."],
+ tip:"Check the liquid and whisky rules for hand luggage, and carry your passport and visa copy."}
+]
+};
+var rows=[
+ ['1','London','Arrive from Mumbai, Westminster, Big Ben, South Bank, Borough Market'],
+ ['2','London','Abbey, Buckingham Palace, Trafalgar Square, Covent Garden'],
+ ['3','London','Tower of London, Tower Bridge, St Paul\'s, Spitalfields, Brick Lane'],
+ ['4','London','British Museum, Soho, Camden Market, Primrose Hill'],
+ ['5','London → Cheltenham','Train, Montpellier, Promenade'],
+ ['6','Cotswolds','Bibury, Bourton-on-the-Water, the Slaughters'],
+ ['7','Cotswolds','Winchcombe, Broadway, Chipping Campden'],
+ ['8','Cheltenham','Pubs, real ales, Racecourse, town sights'],
+ ['9','Cheltenham → Edinburgh','Train (about 6 h), Grassmarket'],
+ ['10','Edinburgh','Castle, Royal Mile, Holyrood, evening ghosts and dungeons tour'],
+ ['11','Highlands tour','Glencoe, Loch Ness, Urquhart Castle'],
+ ['12','Stirling and Trossachs','Stirling Castle, Loch Lomond, Kelpies'],
+ ['13','Edinburgh → London','Train (about 4.5 h), Platform 9¾, Notting Hill and Portobello Road'],
+ ['14','London','Greenwich, leftover sights, West End'],
+ ['15','Windsor day trip','Windsor Castle, Eton, LEGOLAND Windsor'],
+ ['16','London → Mumbai','Fly home']
+];
+function card(d, cls){
+  var key0=d.badge?'alm':d.n;
+  var h='<article class="day collapsed '+cls+'" id="day-'+key0+'"><header role="button" tabindex="0" aria-expanded="false"><span class="chev" aria-hidden="true">▸</span><span class="badge">'+(d.badge||'Day '+d.n)+'</span><h3>'+d.t+'</h3><span class="loc">'+d.loc+'</span></header><div class="dbody">';
+  if(d.how) h+='<div class="how">'+d.how+'</div>';
+  if(d.see||d.eat){
+    h+='<div class="cols">';
+    if(d.see) h+='<div><h4>See &amp; do</h4><ul>'+d.see.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul></div>';
+    if(d.eat) h+='<div><h4>Eat</h4><ul>'+d.eat.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul></div>';
+    h+='</div>';
+  }
+  var ids=DS[d.badge?'alm':d.n];
+  if(ids) h+='<div class="sights"><h4>Tap a sight for photos &amp; details</h4>'+ids.map(function(i){return'<button class="chip" data-s="'+i+'">'+S[i].name+'</button>'}).join('')+'</div>';
+  var k=d.badge?'alm':d.n, A=(d.alt?[d.alt]:[]).concat(ALTS[k]||[]);
+  if(A.length){
+    h+='<details><summary>Alternatives &amp; popular add-ons</summary><ul>'+A.map(function(x){return'<li>'+x+'</li>'}).join('')+'</ul>';
+    if(DA[k]) h+='<div class="sights">'+DA[k].map(function(i){return'<button class="chip" data-s="'+i+'">'+S[i].name+'</button>'}).join('')+'</div>';
+    h+='</details>';
+  }
+  if(d.tip) h+='<div class="tip"><b>Tip:</b> '+d.tip+'</div>';
+  return h+'</div></article>';
+}
+
+[['lo','lo'],['cw','cw'],['sc','sc'],['ld','ld']].forEach(function(p){
+  var el=document.getElementById(p[0]);
+  el.innerHTML=D[p[0]].map(function(d){return card(d,p[1])}).join('');
+});
+document.getElementById('glanceTable').innerHTML='<tr><th>Day</th><th>Where</th><th>Highlights</th></tr>'+
+ rows.map(function(r){return'<tr><td class="d">'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>'}).join('');
+/* ---------- Collapsible days + left navigation ---------- */
+function setOpen(a,open){
+  a.classList.toggle('collapsed',!open);
+  var hd=a.querySelector(':scope>header'); if(hd)hd.setAttribute('aria-expanded',String(open));
+}
+function toggleDay(a){setOpen(a,a.classList.contains('collapsed'))}
+function allDays(){return Array.prototype.slice.call(document.querySelectorAll('article.day'))}
+function goDay(id,smooth){
+  var a=document.getElementById('day-'+id); if(!a)return;
+  setOpen(a,true);
+  a.scrollIntoView({behavior:smooth===false?'auto':'smooth',block:'start'});
+  history.replaceState(null,'','#day-'+id);
+}
+(function buildSide(){
+  var secs=[['London','lo','london'],['Cheltenham and Cotswolds','cw','cotswolds'],['Edinburgh and Scotland','sc','scotland'],['London again','ld','london2']];
+  var colors={lo:'var(--lo-l)',cw:'var(--cw-l)',sc:'var(--sc-l)',ld:'var(--ld-l)'};
+  var h='<div class="brand">England and Scotland Trip</div><div class="tb"><button type="button" data-expand="all">Expand all</button><button type="button" data-expand="none">Collapse all</button></div>';
+  h+='<a href="#glance" class="cty">At a glance</a>';
+  secs.forEach(function(s){
+    h+='<h5 style="--c:'+colors[s[1]]+'">'+s[0]+'</h5><a class="cty" href="#'+s[2]+'">'+s[0]+' overview and map</a>';
+    D[s[1]].forEach(function(d){
+      var k=d.badge?'alm':d.n;
+      h+='<a title="'+d.t.replace(/"/g,'')+'" href="#day-'+k+'" data-day="'+k+'" style="--c:'+colors[s[1]]+'"><span class="n">'+(d.badge?'+1':d.n)+'</span>'+d.t+'</a>';
+    });
+  });
+  h+='<h5 style="--c:var(--sea-l)">More</h5><a class="cty" href="#essentials">Essentials</a>';
+  document.getElementById('side').innerHTML=h;
+})();
+document.addEventListener('click',function(e){
+  var hd=e.target.closest('article.day>header'); if(hd){toggleDay(hd.parentNode);return}
+  var ex=e.target.closest('[data-expand]'); if(ex){var o=ex.getAttribute('data-expand')==='all';allDays().forEach(function(a){setOpen(a,o)});return}
+  var l=e.target.closest('#side a[data-day]'); if(l){e.preventDefault();goDay(l.getAttribute('data-day'));return}
+});
+document.addEventListener('keydown',function(e){
+  var hd=e.target.closest&&e.target.closest('article.day>header');
+  if(hd&&(e.key==='Enter'||e.key===' ')){e.preventDefault();toggleDay(hd.parentNode)}
+});
+(function(){
+  var m=/^#day-(.+)$/.exec(location.hash); if(m)setTimeout(function(){goDay(m[1],false)},50);
+  if('IntersectionObserver' in window){
+    var links={};Array.prototype.forEach.call(document.querySelectorAll('#side a[data-day]'),function(a){links[a.getAttribute('data-day')]=a});
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        if(en.isIntersecting){
+          Object.keys(links).forEach(function(k){links[k].classList.remove('active')});
+          var l=links[en.target.id.replace('day-','')]; if(l){l.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-10% 0px -70% 0px'});
+    allDays().forEach(function(a){io.observe(a)});
+  }
+})();
+
+/* ---------- Google Maps: embedded route + full-route link ---------- */
+var enc=encodeURIComponent;
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function embedUrl(m){
+  var st=m.stops;
+  var u='https://maps.google.com/maps?f=d&saddr='+enc(st[0])+'&daddr='+st.slice(1).map(enc).join('+to:')+'&output=embed&hl=en';
+  return m.mode?u+'&dirflg='+m.mode:u;
+}
+function fullUrl(m){return 'https://www.google.com/maps/dir/'+m.stops.map(enc).join('/')+(m.mode==='w'?'/data=!4m2!4m1!3e2':'')}
+Object.keys(MAPS).forEach(function(k){
+  var html=MAPS[k].map(function(m){
+    return '<div class="mapbox"><h4>'+esc(m.label)+'</h4>'+
+      '<iframe loading="lazy" title="'+esc(m.label)+'" src="'+embedUrl(m)+'" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>'+
+      '<div class="stops"><b>Stops in order:</b> '+m.stops.map(function(s,i){return (i+1)+'. '+esc(s.split(',')[0])}).join(' &nbsp;→&nbsp; ')+'</div>'+
+      '<a class="btn" style="--c:var(--sea)" target="_blank" rel="noopener" href="'+fullUrl(m)+'">Open full route in Google Maps ↗</a></div>';
+  }).join('');
+  document.getElementById(k).insertAdjacentHTML('beforebegin',html);
+});
+
+/* ---------- Right-hand pane: live-embedded public photos (Wikipedia / Wikimedia Commons) ---------- */
+var pane=document.getElementById('pane'), cache={}, current=null;
+function getJSON(u){return fetch(u).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})}
+function bestSrc(it){
+  var s=it.srcset||[]; if(!s.length)return null;
+  var u=s[s.length-1].src; return u.indexOf('//')===0?'https:'+u:u;
+}
+var SKIP=/\.svg|flag|logo|icon|coat_of|map|commons-|wikimedia|symbol|locator/i;
+function wikiFor(s){
+  if(cache[s.w+s.name])return Promise.resolve(cache[s.w+s.name]);
+  var title=s.w.replace(/ /g,'_');
+  var sum=!s.w?Promise.resolve({}):getJSON('https://en.wikipedia.org/api/rest_v1/page/summary/'+enc(title)).catch(function(){
+    return getJSON('https://en.wikipedia.org/w/rest.php/v1/search/title?q='+enc(s.name)+'&limit=1').then(function(r){
+      if(!r.pages||!r.pages.length)throw new Error('none');
+      return getJSON('https://en.wikipedia.org/api/rest_v1/page/summary/'+enc(r.pages[0].key));
+    });
+  });
+  return sum.then(function(sm){
+    if(!s.w)return {sum:sm,imgs:[]};
+    var canon=(sm.titles&&sm.titles.canonical)||title;
+    return getJSON('https://en.wikipedia.org/api/rest_v1/page/media-list/'+enc(canon)).then(function(ml){
+      var imgs=(ml.items||[]).filter(function(i){return i.type==='image'&&i.showInGallery!==false&&!SKIP.test(i.title||'')}).map(bestSrc).filter(Boolean);
+      if(sm.originalimage&&sm.thumbnail&&imgs.length===0)imgs.push(sm.thumbnail.source);
+      return {sum:sm,imgs:imgs};
+    },function(){return {sum:sm,imgs:sm.thumbnail?[sm.thumbnail.source]:[]}});
+  }).then(function(res){
+    if(res.imgs.length>=3)return res;
+    // top up from Wikimedia Commons search (public images, hot-linked not downloaded)
+    var u='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=8&gsrsearch='+enc(s.name+' '+s.q.split(',').slice(-1)[0])+'&prop=imageinfo&iiprop=url|mime&iiurlwidth=800&format=json&origin=*';
+    return getJSON(u).then(function(c){
+      var pages=c.query?Object.keys(c.query.pages).map(function(k){return c.query.pages[k]}):[];
+      pages.forEach(function(p){
+        var ii=p.imageinfo&&p.imageinfo[0];
+        if(ii&&/image\/(jpeg|png)/.test(ii.mime)&&ii.thumburl&&res.imgs.length<3&&res.imgs.indexOf(ii.thumburl)<0&&!SKIP.test(p.title))res.imgs.push(ii.thumburl);
+      });
+      return res;
+    }).catch(function(){return res});
+  }).then(function(res){cache[s.w+s.name]=res;return res});
+}
+function paneHead(s){
+  return '<div class="ph"><div><h3>'+esc(s.name)+'</h3></div><button class="x" aria-label="Close" data-close>×</button></div>';
+}
+function paneBase(s){
+  return '<h4>Why visit</h4><p>'+esc(s.why)+'</p><h4>How to enjoy it</h4><p>'+esc(s.how)+'</p>';
+}
+function openSight(id){
+  var s=S[id]; if(!s)return; current=id;
+  var maps='https://www.google.com/maps/search/?api=1&query='+enc(s.q);
+  var actions='<div class="actions"><a class="btn" target="_blank" rel="noopener" href="'+maps+'">Open in Google Maps ↗</a></div>';
+  pane.innerHTML=paneHead(s)+'<div class="gal" id="gal"><p class="loc">Loading photos…</p></div>'+paneBase(s)+'<div id="wiki"></div>'+actions;
+  pane.classList.add('open');pane.setAttribute('aria-hidden','false');pane.scrollTop=0;
+  wikiFor(s).then(function(r){
+    if(current!==id)return;
+    var g=document.getElementById('gal');
+    g.innerHTML=r.imgs.slice(0,3).map(function(u){return'<img loading="lazy" referrerpolicy="no-referrer" alt="'+esc(s.name)+'" src="'+esc(u)+'" onerror="this.remove()">'}).join('')||'<p class="loc">No public photo found. Use the Google Maps link.</p>';
+    var w=document.getElementById('wiki');
+    var page=r.sum.content_urls&&r.sum.content_urls.desktop&&r.sum.content_urls.desktop.page;
+    w.innerHTML=(r.sum.extract?'<h4>About</h4><p>'+esc(r.sum.extract)+'</p>':'')+
+      '<div class="src">Photos and summary: Wikipedia / Wikimedia Commons, embedded live (under their open licences)'+(page?' · <a target="_blank" rel="noopener" href="'+esc(page)+'">Read more</a>':'')+'</div>';
+  }).catch(function(){
+    if(current!==id)return;
+    document.getElementById('gal').innerHTML='<p class="loc">Photos could not load (offline?). Use the Google Maps link below.</p>';
+  });
+}
+function closePane(){pane.classList.remove('open');pane.setAttribute('aria-hidden','true');current=null}
+document.addEventListener('click',function(e){
+  var b=e.target.closest('[data-s]'); if(b){openSight(b.getAttribute('data-s'));return}
+  if(e.target.closest('[data-close]'))closePane();
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closePane()});
+</script>
+</body>
+</html>
